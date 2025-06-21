@@ -1,4 +1,4 @@
-Welcome to your new TanStack app! 
+Welcome to your new TanStack app!
 
 # Getting Started
 
@@ -6,7 +6,7 @@ To run this application:
 
 ```bash
 pnpm install
-pnpm start  
+pnpm start
 ```
 
 # Building For Production
@@ -29,8 +29,6 @@ pnpm test
 
 This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.
 
-
-
 ## Shadcn
 
 Add components using the latest version of [Shadcn](https://ui.shadcn.com/).
@@ -39,14 +37,13 @@ Add components using the latest version of [Shadcn](https://ui.shadcn.com/).
 pnpx shadcn@latest add button
 ```
 
-
-
 ## Routing
-This project uses [TanStack Router](https://tanstack.com/router). The initial setup is a file based router. Which means that the routes are managed as files in `src/routes`.
+
+This project uses [TanStack Router](https://tanstack.com/router). The initial setup is a file based router. Which means that the routes are managed as files in `@/routes`.
 
 ### Adding A Route
 
-To add a new route to your application just add another a new file in the `./src/routes` directory.
+To add a new route to your application just add another a new file in the `./@/routes` directory.
 
 TanStack will automatically generate the content of the route file for you.
 
@@ -57,7 +54,7 @@ Now that you have two routes you can use a `Link` component to navigate between 
 To use SPA (Single Page Application) navigation you will need to import the `Link` component from `@tanstack/react-router`.
 
 ```tsx
-import { Link } from "@tanstack/react-router";
+import { Link } from '@tanstack/react-router';
 ```
 
 Then anywhere in your JSX you can use it like so:
@@ -72,15 +69,15 @@ More information on the `Link` component can be found in the [Link documentation
 
 ### Using A Layout
 
-In the File Based Routing setup the layout is located in `src/routes/__root.tsx`. Anything you add to the root route will appear in all the routes. The route content will appear in the JSX where you use the `<Outlet />` component.
+In the File Based Routing setup the layout is located in `@/routes/__root.tsx`. Anything you add to the root route will appear in all the routes. The route content will appear in the JSX where you use the `<Outlet />` component.
 
 Here is an example layout that includes a header:
 
 ```tsx
-import { Outlet, createRootRoute } from '@tanstack/react-router'
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
+import { Outlet, createRootRoute } from '@tanstack/react-router';
+import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 
-import { Link } from "@tanstack/react-router";
+import { Link } from '@tanstack/react-router';
 
 export const Route = createRootRoute({
   component: () => (
@@ -95,13 +92,12 @@ export const Route = createRootRoute({
       <TanStackRouterDevtools />
     </>
   ),
-})
+});
 ```
 
 The `<TanStackRouterDevtools />` component is not required so you can remove it if you don't want it in your layout.
 
 More information on layouts can be found in the [Layouts documentation](https://tanstack.com/router/latest/docs/framework/react/guide/routing-concepts#layouts).
-
 
 ## Data Fetching
 
@@ -112,9 +108,9 @@ For example:
 ```tsx
 const peopleRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: "/people",
+  path: '/people',
   loader: async () => {
-    const response = await fetch("https://swapi.dev/api/people");
+    const response = await fetch('https://swapi.dev/api/people');
     return response.json() as Promise<{
       results: {
         name: string;
@@ -149,7 +145,7 @@ pnpm add @tanstack/react-query @tanstack/react-query-devtools
 Next we'll need to create a query client and provider. We recommend putting those in `main.tsx`.
 
 ```tsx
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 // ...
 
@@ -171,7 +167,7 @@ if (!rootElement.innerHTML) {
 You can also add TanStack Query Devtools to the root route (optional).
 
 ```tsx
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 const rootRoute = createRootRoute({
   component: () => (
@@ -187,15 +183,15 @@ const rootRoute = createRootRoute({
 Now you can use `useQuery` to fetch your data.
 
 ```tsx
-import { useQuery } from "@tanstack/react-query";
+import { useQuery } from '@tanstack/react-query';
 
-import "./App.css";
+import './App.css';
 
 function App() {
   const { data } = useQuery({
-    queryKey: ["people"],
+    queryKey: ['people'],
     queryFn: () =>
-      fetch("https://swapi.dev/api/people")
+      fetch('https://swapi.dev/api/people')
         .then((res) => res.json())
         .then((data) => data.results as { name: string }[]),
     initialData: [],
@@ -227,12 +223,12 @@ First you need to add TanStack Store as a dependency:
 pnpm add @tanstack/store
 ```
 
-Now let's create a simple counter in the `src/App.tsx` file as a demonstration.
+Now let's create a simple counter in the `@/App.tsx` file as a demonstration.
 
 ```tsx
-import { useStore } from "@tanstack/react-store";
-import { Store } from "@tanstack/store";
-import "./App.css";
+import { useStore } from '@tanstack/react-store';
+import { Store } from '@tanstack/store';
+import './App.css';
 
 const countStore = new Store(0);
 
@@ -240,9 +236,7 @@ function App() {
   const count = useStore(countStore);
   return (
     <div>
-      <button onClick={() => countStore.setState((n) => n + 1)}>
-        Increment - {count}
-      </button>
+      <button onClick={() => countStore.setState((n) => n + 1)}>Increment - {count}</button>
     </div>
   );
 }
@@ -255,9 +249,9 @@ One of the many nice features of TanStack Store is the ability to derive state f
 Let's check this out by doubling the count using derived state.
 
 ```tsx
-import { useStore } from "@tanstack/react-store";
-import { Store, Derived } from "@tanstack/store";
-import "./App.css";
+import { useStore } from '@tanstack/react-store';
+import { Store, Derived } from '@tanstack/store';
+import './App.css';
 
 const countStore = new Store(0);
 
@@ -273,9 +267,7 @@ function App() {
 
   return (
     <div>
-      <button onClick={() => countStore.setState((n) => n + 1)}>
-        Increment - {count}
-      </button>
+      <button onClick={() => countStore.setState((n) => n + 1)}>Increment - {count}</button>
       <div>Doubled - {doubledCount}</div>
     </div>
   );
