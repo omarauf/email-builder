@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React from 'react';
 import type { CSSProperties } from 'react';
+import React from 'react';
 
 declare module 'react' {
   // Extend CustomTypeOptions

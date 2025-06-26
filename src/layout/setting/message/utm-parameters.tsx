@@ -1,8 +1,7 @@
 import { useShallow } from 'zustand/react/shallow';
-import { XField } from '@/components/input';
-import { Typography } from '@mui/material';
-import { useBuilderStore } from '@/hooks/use-builder-store';
+import { Switch } from '@/components/ui/switch';
 import { Block } from '@/components/styles/block';
+import { useBuilderStore } from '@/hooks/use-builder-store';
 
 export function UTMParameters() {
   const [meta, setMetaByKey] = useBuilderStore(useShallow((s) => [s.meta, s.setMetaByKey]));
@@ -15,11 +14,11 @@ export function UTMParameters() {
   return (
     <Block
       title="UTM Parameters"
-      control={<XField.Switch value={meta.utmParameters.enable} onChange={onChangeHandler} />}>
-      <Typography variant="caption" color="textSecondary">
+      control={<Switch checked={meta.utmParameters.enable} onCheckedChange={onChangeHandler} />}>
+      <p className="text-muted-foreground text-sm">
         This option will add campaign parameters (UTM tags) to all URLs in the email, allowing you
         to track your campaign’s results in Google Analytics.
-      </Typography>
+      </p>
     </Block>
   );
 }

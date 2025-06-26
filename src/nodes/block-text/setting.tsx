@@ -1,13 +1,14 @@
-import { Box, Button, Divider, rgbToHex } from '@mui/material';
-import { XField } from '@/components/input';
 import { useShallow } from 'zustand/react/shallow';
-import { StyleComponent } from '@/components/styles';
-import { XTabs } from '@/components/tabs';
 import type { TextAlignment } from '@/types';
+import { XField } from '@/components/input';
+import { colorConverter } from '@/utils/color';
+import { XTabs } from '@/components/x-common/tabs';
+import { StyleComponent } from '@/components/styles';
+import { Separator } from '@/components/ui/separator';
 import { useBuilderStore } from '@/hooks/use-builder-store';
-import { StyleEditor } from './components';
-import type { TextType, BlockText, HeadingType } from './type';
 import type { BlockIndex } from '../block/type';
+import type { TextType, BlockText, HeadingType } from './type';
+import { StyleEditor } from './components';
 
 interface Props {
   selectedBlock: BlockText & { idx: BlockIndex };
@@ -63,7 +64,7 @@ export function TextSetting({ selectedBlock }: Props) {
     const defaultFontFamily = styles.heading.fontFamily;
     const defaultLineHeight = styles.heading[textType].lineHeight[screen];
 
-    fontColor = fc ? rgbToHex(fc) : defaultFontColor;
+    fontColor = fc ? colorConverter.rgb.hex(fc) : defaultFontColor;
     fontFamily = ff || defaultFontFamily;
     fontSize = parseInt(fz || `${defaultHeadingFontSize}px`, 10);
     lineHeight = lh || defaultLineHeight;
@@ -81,7 +82,7 @@ export function TextSetting({ selectedBlock }: Props) {
     const defaultFontFamily = styles.stripe.fontFamily;
     const defaultLineHeight = styles.stripe.lineHeight[screen];
 
-    fontColor = fc ? rgbToHex(fc) : defaultFontColor;
+    fontColor = fc ? colorConverter.rgb.hex(fc) : defaultFontColor;
     fontFamily = ff || defaultFontFamily;
     fontSize = parseInt(fz || `${defaultStripeFontSize}px`, 10);
     lineHeight = lh || defaultLineHeight;
@@ -95,7 +96,7 @@ export function TextSetting({ selectedBlock }: Props) {
 
     if (fz) fontSize = parseInt(fz, 10);
 
-    if (fc) fontColor = rgbToHex(fc);
+    if (fc) fontColor = colorConverter.rgb.hex(fc);
 
     if (fF) fontFamily = fF;
 
@@ -130,10 +131,9 @@ export function TextSetting({ selectedBlock }: Props) {
 
           <StyleEditor.TextStyle editor={editor} />
 
-          <Divider />
+          <Separator />
 
-          <StyleEditor.TextAlignment
-            badge
+          <StyleComponent.TextAlignment
             title={`Alignment (${screen})`}
             value={textAlignment}
             onChange={(v) => {
@@ -142,27 +142,27 @@ export function TextSetting({ selectedBlock }: Props) {
             }}
           />
 
-          <Divider />
+          <Separator />
 
           <StyleEditor.TextIndent editor={editor} />
 
-          <Divider />
+          <Separator />
 
           <StyleEditor.ExternalLink editor={editor} />
 
-          <Divider />
+          <Separator />
 
           <StyleEditor.ListItem editor={editor} />
 
-          {/* <Divider />
+          {/* <Separator />
 
           <UnicodePicker editor={editor} />
 
-          <Divider />
+          <Separator />
 
           <EmojiPicker editor={editor} /> */}
 
-          <Divider />
+          <Separator />
 
           <StyleComponent.LineHeight
             title="Line Height"
@@ -170,9 +170,9 @@ export function TextSetting({ selectedBlock }: Props) {
             onChange={(v) => editor.chain().focus().setLineHeight(v).run()}
           />
 
-          <Divider />
+          <Separator />
 
-          <Divider />
+          <Separator />
 
           <StyleComponent.MarginPadding
             badge
@@ -181,7 +181,7 @@ export function TextSetting({ selectedBlock }: Props) {
             onChange={(value) => setBlockByKey(idx, `style.padding.${screen}`, value)}
           />
 
-          <Divider />
+          <Separator />
 
           <StyleComponent.Hide
             value={data.hide}
@@ -201,44 +201,25 @@ export function TextSetting({ selectedBlock }: Props) {
             onChange={(v) => setBlockByKey(idx, 'style.blockBackgroundColor', v)}
           />
 
-          <Divider />
+          <Separator />
 
           <StyleComponent.FontFamily
             value={fontFamily}
             onChange={(c) => editor.commands.setFontFamily(c)}
           />
 
-          <Divider />
-
-          <Box sx={{ p: 2 }}>
-            <Button
-              variant="outlined"
-              onClick={() => {
-                // editor.commands.setMark("textStyle", { color: "#125236" });
-                // TODO: check this part
-                editor.chain().focus().setColor('#125236').run();
-              }}>
-              Unset
-            </Button>
-          </Box>
-
-          <Divider />
+          <Separator />
 
           <StyleComponent.Block badge title={`Font Size (${screen})`}>
-            {/* // TODO: check this part */}
-            <Button variant="outlined" onClick={() => editor.commands.unsetFontSize()}>
-              Unset
-            </Button>
             <XField.Number
-              size="small"
               value={fontSize}
+              className="w-[120px]"
               onChange={(value) => editor.commands.setFontSize(`${value}px`, lineHeight, screen)}
               steps={1}
-              sx={{ width: 120 }}
             />
           </StyleComponent.Block>
 
-          <Divider />
+          <Separator />
 
           <StyleComponent.Color
             title={`Font Color (${screen})`}
@@ -246,7 +227,7 @@ export function TextSetting({ selectedBlock }: Props) {
             onChange={(e) => editor.commands.setColor(e)}
           />
 
-          <Divider />
+          <Separator />
 
           <StyleComponent.Color
             title={`Background Color (${screen})`}
@@ -258,5 +239,5 @@ export function TextSetting({ selectedBlock }: Props) {
     },
   ];
 
-  return <XTabs tabs={tabs} styleType="custom" variant="fullWidth" />;
+  return <XTabs tabs={tabs} defaultTab="Settings" />;
 }

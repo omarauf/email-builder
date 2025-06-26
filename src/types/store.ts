@@ -1,3 +1,5 @@
+import type { RefObject } from 'react';
+import type { Editor } from '@tiptap/react';
 import type { FieldPath, PathValue } from 'react-hook-form';
 import type {
   DragEndEvent,
@@ -5,27 +7,20 @@ import type {
   UniqueIdentifier,
   CollisionDetection,
 } from '@dnd-kit/core';
-import type { Editor } from '@tiptap/react';
-import type { RefObject } from 'react';
 import type { Meta } from './meta';
 import type { Index } from './idx';
-import type { DragData, OverData } from '../utils/node-utils';
 import type { Node } from './node';
-import type { Tree } from '../nodes/tree/type';
 import type { Styles } from '../styles/type';
+import type { Tree } from '../nodes/tree/type';
+import type { DragData, OverData } from '../utils/node-utils';
 import type { BlockTree, BlockType, BlockIndex } from '../nodes/block/type';
 import type { ContainerTree, ContainerIndex } from '../nodes/container/type';
 import type { StripeTree, StripeType, StripeIndex } from '../nodes/stripe/type';
 import type { Layout, StructureTree, StructureIndex } from '../nodes/structure/type';
-import type { DraftEmailTemplate } from './template';
 
 type ChangeCommand = 'init' | 'move' | 'delete' | 'clone' | 'add' | 'update';
 
 export interface BuilderState {
-  // Internal id if it's edit then it will be the template id
-  // otherwise it will be a generated uuid
-  id: string;
-
   // Email Data
   tree: Tree;
   styles: Styles;
@@ -46,7 +41,6 @@ export interface BuilderState {
   hasChanges: boolean;
 
   // Loader
-  templateId: string | undefined;
   wasmLoading: boolean;
 
   reset: VoidFunction;
@@ -80,17 +74,8 @@ export interface BuilderState {
     value: PathValue<BlockTree, T>
   ) => void;
 
-  // Draft
-  saveDraft: VoidFunction;
-  getDrafts: () => (DraftEmailTemplate & { html: string })[];
-  deleteDraft: (id: string) => void;
-
   // Loader
-  init(obj: {
-    template: { tree: Tree; styles: Styles; meta: Meta };
-    templateId?: string;
-    id?: string;
-  }): void;
+  init(obj: { tree: Tree; styles: Styles; meta: Meta }): void;
   fetchImages: VoidFunction;
 
   // Node Adder

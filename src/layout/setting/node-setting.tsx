@@ -1,16 +1,16 @@
 import { useShallow } from 'zustand/react/shallow';
-import { SettingCard } from '@/components/card/setting-card';
 import type { Node } from '@/types';
 import { StripeSetting } from '@/nodes/stripe/setting';
+import { TextSetting } from '@/nodes/block-text/setting';
+import { CodeSetting } from '@/nodes/block-code/setting';
+import { MenuSetting } from '@/nodes/block-menus/setting';
+import { ImageSetting } from '@/nodes/block-image/setting';
+import { useBuilderStore } from '@/hooks/use-builder-store';
+import { SettingCard } from '@/components/card/setting-card';
 import { StructureSetting } from '@/nodes/structure/setting';
 import { ContainerSetting } from '@/nodes/container/setting';
-import { TextSetting } from '@/nodes/block-text/setting';
-import { ImageSetting } from '@/nodes/block-image/setting';
 import { ButtonSetting } from '@/nodes/block-button/setting';
 import { SpacerSetting } from '@/nodes/block-spacer/setting';
-import { MenuSetting } from '@/nodes/block-menus/setting';
-import { useBuilderStore } from '@/hooks/use-builder-store';
-import { CodeSetting } from '@/nodes/block-code/setting';
 import { DividerSetting } from '@/nodes/block-divider/setting';
 
 interface Props {
@@ -78,7 +78,6 @@ export function NodeSetting({ selectedNode }: Props) {
   return (
     <SettingCard
       title={title}
-      sx={{ maxHeight: 1 }}
       actionButton={{
         left: {
           icon: 'solar:close-circle-linear',
@@ -89,7 +88,7 @@ export function NodeSetting({ selectedNode }: Props) {
             ? {
                 icon: 'lets-icons:up',
                 onClick: () => selectParent(),
-                sx: { transform: 'scaleX(-1)' },
+                style: { transform: 'scaleX(-1)' },
               }
             : undefined,
       }}>

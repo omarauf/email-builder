@@ -1,6 +1,6 @@
 import type { BlockIndex } from '../nodes/block/type';
-import type { ContainerIndex } from '../nodes/container/type';
 import type { StripeIndex } from '../nodes/stripe/type';
+import type { ContainerIndex } from '../nodes/container/type';
 import type { StructureIndex } from '../nodes/structure/type';
 
 export interface Index {

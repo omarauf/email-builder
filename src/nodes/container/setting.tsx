@@ -1,9 +1,9 @@
-import { Divider } from '@mui/material';
-import { useShallow } from 'zustand/react/shallow';
 import { toast } from 'sonner';
-import { StyleComponent } from '@/components/styles';
-import { useBuilderStore } from '@/hooks/use-builder-store';
+import { useShallow } from 'zustand/react/shallow';
 import { getImageMetaData } from '@/utils/image';
+import { StyleComponent } from '@/components/styles';
+import { Separator } from '@/components/ui/separator';
+import { useBuilderStore } from '@/hooks/use-builder-store';
 import type { ContainerTree, ContainerIndex } from './type';
 
 interface Props {
@@ -26,7 +26,7 @@ export function ContainerSetting({ selectedContainer }: Props) {
         onChange={(value) => setContainerByKey(idx, `style.padding.${screen}`, value)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.Color
         title={`Background Color (${screen})`}
@@ -34,7 +34,7 @@ export function ContainerSetting({ selectedContainer }: Props) {
         onChange={(c) => setContainerByKey(idx, 'style.backgroundColor', c)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.ImageBackground
         title={`Background Image (${screen})`}
@@ -53,21 +53,21 @@ export function ContainerSetting({ selectedContainer }: Props) {
         onChange={(v) => setContainerByKey(idx, `style.backgroundImage`, v)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.Border
         value={style.border}
         onChange={(v) => setContainerByKey(idx, 'style.border', v)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.BorderRadius
         value={style.borderRadius}
         onChange={(v) => setContainerByKey(idx, 'style.borderRadius', v)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.Hide
         value={data.hide}

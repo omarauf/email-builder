@@ -1,11 +1,11 @@
 import type { UniqueIdentifier } from '@dnd-kit/core';
 import type { BlockTree, BlockType } from './type';
-import { defaultBlockButton } from '../block-button/blueprint';
-import { defaultBlockImage } from '../block-image/blueprint';
 import { defaultBlockCode } from '../block-code/blueprint';
 import { defaultBlockText } from '../block-text/blueprint';
-import { defaultBlockSpacer } from '../block-spacer/blueprint';
 import { defaultBlockMenu } from '../block-menus/blueprint';
+import { defaultBlockImage } from '../block-image/blueprint';
+import { defaultBlockButton } from '../block-button/blueprint';
+import { defaultBlockSpacer } from '../block-spacer/blueprint';
 import { defaultBlockDivider } from '../block-divider/blueprint';
 
 export const defaultBlock = (id: UniqueIdentifier, type: BlockType): BlockTree => {

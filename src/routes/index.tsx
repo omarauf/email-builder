@@ -6,5 +6,5 @@ export const Route = createFileRoute('/')({
 });
 
 function App() {
-  return <EmailBuilder name="default" onSubmit={(v) => console.log(v)} />;
+  return <EmailBuilder name="default" />;
 }

@@ -1,5 +1,5 @@
-import { ColorPicker } from '../color-picker';
 import { Block } from './block';
+import { ColorPicker } from '../color-picker';
 
 interface Props {
   title: string;

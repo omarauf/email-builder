@@ -1,10 +1,10 @@
-import { v4 as uuidv4 } from 'uuid';
 import type { Over, Active, UniqueIdentifier, DroppableContainer } from '@dnd-kit/core';
+import { v4 as uuidv4 } from 'uuid';
 import type { Index, NodeType } from '../types';
-import type { BlockType, BlockIndex } from '../nodes/block/type';
-import type { ContainerTree, ContainerIndex } from '../nodes/container/type';
 import type { StripeIndex } from '../nodes/stripe/type';
+import type { BlockType, BlockIndex } from '../nodes/block/type';
 import type { Layout, StructureIndex } from '../nodes/structure/type';
+import type { ContainerTree, ContainerIndex } from '../nodes/container/type';
 
 /* ------------------------------------------------- Index ------------------------------------------------ */
 

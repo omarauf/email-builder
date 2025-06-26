@@ -1,10 +1,10 @@
 import { cssObjectToString, mediaQueryToString } from '@/utils/converter';
+import type { Css } from '../types';
 import type { Styles } from './type';
 import { globalStripeStyleConverter } from './stripe/converter';
+import { globalButtonStyleConverter } from './button/converter';
 import { globalHeadingStyleConverter } from './heading/converter';
 import { globalGeneralStyleConverter } from './general/converter';
-import { globalButtonStyleConverter } from './button/converter';
-import type { Css } from '../types';
 
 export function globalStyleConverter(styles: Styles, css: Css[]) {
   const { general, heading, button, stripe } = styles;

@@ -1,7 +1,6 @@
-import { Stack, Typography } from '@mui/material';
 import type { ButtonHover } from '@/types';
-import { ColorPicker } from '../color-picker';
 import { Block } from './block';
+import { ColorPicker } from '../color-picker';
 
 interface Props {
   value: ButtonHover;
@@ -11,22 +10,20 @@ interface Props {
 export function ButtonHoverSetting({ value, onChange }: Props) {
   return (
     <Block title="Button Hover Style" control>
-      <Stack pt={1} spacing={2}>
-        <Stack direction="row" justifyContent="space-between" alignItems="center">
-          <Typography variant="body2">Button Color</Typography>
+      <div className="flex flex-col gap-4 pt-1">
+        <div className="flex flex-row items-center justify-between">
+          <span className="text-muted-foreground text-sm">Button Color</span>
           <ColorPicker value={value.buttonColor} onChange={(c) => onChange('buttonColor', c)} />
-        </Stack>
-
-        <Stack direction="row" justifyContent="space-between" alignItems="center">
-          <Typography variant="body2">Font Color</Typography>
+        </div>
+        <div className="flex flex-row items-center justify-between">
+          <span className="text-muted-foreground text-sm">Font Color</span>
           <ColorPicker value={value.fontColor} onChange={(c) => onChange('fontColor', c)} />
-        </Stack>
-
-        <Stack direction="row" justifyContent="space-between" alignItems="center">
-          <Typography variant="body2">Border Color</Typography>
+        </div>
+        <div className="flex flex-row items-center justify-between">
+          <span className="text-muted-foreground text-sm">Border Color</span>
           <ColorPicker value={value.borderColor} onChange={(c) => onChange('borderColor', c)} />
-        </Stack>
-      </Stack>
+        </div>
+      </div>
     </Block>
   );
 }

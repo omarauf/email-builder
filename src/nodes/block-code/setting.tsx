@@ -1,8 +1,12 @@
-import { Box, Button, Divider } from '@mui/material';
-import { useShallow } from 'zustand/react/shallow';
-import { XField } from '@/components/input';
 import { useState } from 'react';
+import { useShallow } from 'zustand/react/shallow';
+import { html as htmlExt } from '@codemirror/lang-html';
+import ReactCodeMirror, { EditorView } from '@uiw/react-codemirror';
+import { useTheme } from '@/components/theme';
+import { Button } from '@/components/ui/button';
+import { Scrollbar } from '@/components/scrollbar';
 import { StyleComponent } from '@/components/styles';
+import { Separator } from '@/components/ui/separator';
 import { useBuilderStore } from '@/hooks/use-builder-store';
 import type { BlockCode } from './type';
 import type { BlockIndex } from '../block/type';
@@ -14,6 +18,7 @@ interface Props {
 export function CodeSetting({ selectedBlock }: Props) {
   const [screen, setBlockByKey] = useBuilderStore(useShallow((s) => [s.screen, s.setBlockByKey]));
   const [html, setHtml] = useState(selectedBlock.data.code);
+  const { resolvedTheme } = useTheme();
 
   const { idx, data, style } = selectedBlock;
 
@@ -21,26 +26,33 @@ export function CodeSetting({ selectedBlock }: Props) {
 
   return (
     <>
-      <Box position="relative">
-        <XField.Code value={html} onChange={setHtml} />
+      <div className="relative">
+        <Scrollbar style={{ height: 500 }}>
+          <ReactCodeMirror
+            value={html}
+            height="100%"
+            extensions={[htmlExt(), EditorView.lineWrapping]}
+            onChange={setHtml}
+            style={{
+              borderRadius: '8px',
+              cursor: 'text',
+              height: '100%',
+              minHeight: '100%',
+            }}
+            theme={resolvedTheme}
+          />
+        </Scrollbar>
+
         <Button
-          variant="outlined"
-          size="small"
-          color="primary"
+          variant="outline"
           disabled={!showButton}
-          sx={{
-            position: 'absolute',
-            right: 12,
-            bottom: 12,
-            borderRadius: 99,
-            px: 2,
-          }}
+          className="absolute right-3 bottom-3 px-4"
           onClick={() => setBlockByKey(idx, 'data.code', html)}>
           Apply Code
         </Button>
-      </Box>
+      </div>
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.Color
         title="Block Background Color"
@@ -48,7 +60,7 @@ export function CodeSetting({ selectedBlock }: Props) {
         onChange={(v) => setBlockByKey(idx, 'style.blockBackgroundColor', v)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.MarginPadding
         badge
@@ -57,7 +69,7 @@ export function CodeSetting({ selectedBlock }: Props) {
         onChange={(value) => setBlockByKey(idx, `style.padding.${screen}`, value)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.Hide value={data.hide} onChange={(v) => setBlockByKey(idx, `data.hide`, v)} />
     </>

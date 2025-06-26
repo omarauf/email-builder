@@ -1,7 +1,7 @@
-import { XField } from '@/components/input';
 import type { FontFamily } from '@/types';
 import { fontFamilyOptions } from '@/constant/font';
 import { Block } from './block';
+import { XSelect } from '../x-common';
 
 interface Props {
   value: FontFamily;
@@ -11,14 +11,11 @@ interface Props {
 export function FontFamilySetting({ value, onChange }: Props) {
   return (
     <Block title="Font Family">
-      <XField.Select
-        options={[...fontFamilyOptions]}
+      <XSelect
         value={value}
-        size="small"
-        onChange={(v) => {
-          if (v) onChange(v);
-        }}
-        sx={{ width: 250 }}
+        options={fontFamilyOptions.map((o) => ({ id: o.id, name: o.name }))}
+        onChange={onChange}
+        className="w-64"
       />
     </Block>
   );

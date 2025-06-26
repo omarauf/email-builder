@@ -1,8 +1,8 @@
-import { Stack, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import type { Editor } from '@tiptap/react';
+import { Input } from '@/components/ui/input';
 import { Iconify } from '@/components/iconify';
-import { XField } from '@/components/input';
 import { Block } from '@/components/styles/block';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 export function ExternalLink({ editor }: { editor: Editor }) {
   const link: string | undefined = editor.getAttributes('link').href;
@@ -25,28 +25,25 @@ export function ExternalLink({ editor }: { editor: Editor }) {
     <Block
       title="External Link"
       control={
-        <ToggleButtonGroup
+        <ToggleGroup
+          type="single"
+          className="gap-0"
           disabled={disabled && !link}
-          exclusive
-          size="small"
-          onClick={handleClick}
+          onValueChange={handleClick}
           value={link ? 'link' : ''}>
-          <ToggleButton key="link" value="link">
+          <ToggleGroupItem key="link" value="link">
             <Iconify icon="ph:link" />
-          </ToggleButton>
-        </ToggleButtonGroup>
+          </ToggleGroupItem>
+        </ToggleGroup>
       }>
       {show && (
-        <Stack spacing={2}>
-          <XField.Text
+        <div className="flex flex-col gap-4">
+          <Input
             value={link || ''}
-            size="small"
-            label="Link"
             placeholder="Enter external link"
-            onChange={handleChange}
-            sx={{ p: 0 }}
+            onChange={(e) => handleChange(e.target.value)}
           />
-        </Stack>
+        </div>
       )}
     </Block>
   );

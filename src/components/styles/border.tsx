@@ -1,10 +1,12 @@
-import { Stack, Typography, ToggleButton, ToggleButtonGroup } from '@mui/material';
-import { Iconify } from '@/components/iconify';
-import { XField } from '@/components/input';
 import { useState } from 'react';
 import type { Border } from '@/types';
-import { ColorPicker } from '../color-picker';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Iconify } from '@/components/iconify';
+import { Button } from '@/components/ui/button';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { Block } from './block';
+import { ColorPicker } from '../color-picker';
 
 interface Props {
   value?: Border;
@@ -39,63 +41,65 @@ export function BorderSetting({ value, onChange }: Props) {
     <Block
       title="Border"
       control={
-        <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
-          <ToggleButtonGroup
-            size="small"
-            exclusive
+        <div className="flex flex-row items-center justify-between gap-2">
+          <ToggleGroup
+            type="single"
+            variant="outline"
             value={value.style}
-            onChange={(_, v) => onChange({ ...value, style: v })}>
-            <ToggleButton key="solid" value="solid">
+            onValueChange={(v) => onChange({ ...value, style: v as Border['style'] })}>
+            <ToggleGroupItem value="solid">
               <Iconify icon="gg:border-style-solid" />
-            </ToggleButton>
-            <ToggleButton key="dashed" value="dashed">
+            </ToggleGroupItem>
+            <ToggleGroupItem value="dashed">
               <Iconify icon="gg:border-style-dashed" />
-            </ToggleButton>
-            <ToggleButton key="dotted" value="dotted">
+            </ToggleGroupItem>
+            <ToggleGroupItem value="dotted">
               <Iconify icon="gg:border-style-dotted" />
-            </ToggleButton>
-          </ToggleButtonGroup>
-
+            </ToggleGroupItem>
+          </ToggleGroup>
           <ColorPicker value={value.color} onChange={(c) => onChange({ ...value, color: c })} />
-        </Stack>
+        </div>
       }>
-      <Stack direction="column" spacing={2} width={1} mt={1}>
-        <Stack
-          direction="row"
-          display="grid"
-          gridTemplateColumns="1fr 1fr 1fr 1fr 1fr"
-          columnGap={1}
-          rowGap={1}>
-          <Typography variant="body2">Top</Typography>
-          <Typography variant="body2">Right</Typography>
-          <Typography variant="body2">Bottom</Typography>
-          <Typography variant="body2">Left</Typography>
-          <Typography variant="body2">Sync</Typography>
-          <XField.Number2
-            size="small"
+      <div className="mt-2 flex w-full flex-col gap-2">
+        <div className="grid grid-cols-5 items-center gap-1">
+          <Label className="text-xs">Top</Label>
+          <Label className="text-xs">Right</Label>
+          <Label className="text-xs">Bottom</Label>
+          <Label className="text-xs">Left</Label>
+          <Label className="text-xs">Sync</Label>
+          <Input
+            type="number"
+            min={0}
             value={value.width[0]}
-            onChange={(v) => onWidthChangeHandler(0, v)}
+            onChange={(e) => onWidthChangeHandler(0, Number(e.target.value))}
+            className="w-full"
           />
-          <XField.Number2
-            size="small"
+          <Input
+            type="number"
+            min={0}
             value={value.width[1]}
-            onChange={(v) => onWidthChangeHandler(1, v)}
+            onChange={(e) => onWidthChangeHandler(1, Number(e.target.value))}
+            className="w-full"
           />
-          <XField.Number2
-            size="small"
+          <Input
+            type="number"
+            min={0}
             value={value.width[2]}
-            onChange={(v) => onWidthChangeHandler(2, v)}
+            onChange={(e) => onWidthChangeHandler(2, Number(e.target.value))}
+            className="w-full"
           />
-          <XField.Number2
-            size="small"
+          <Input
+            type="number"
+            min={0}
             value={value.width[3]}
-            onChange={(v) => onWidthChangeHandler(3, v)}
+            onChange={(e) => onWidthChangeHandler(3, Number(e.target.value))}
+            className="w-full"
           />
-          <ToggleButton
-            value={sync}
-            size="small"
-            selected={sync}
-            onChange={() => setSync((prv) => !prv)}>
+          <Button
+            variant={sync ? 'default' : 'outline'}
+            size="icon"
+            aria-pressed={sync}
+            onClick={() => setSync((prv) => !prv)}>
             <Iconify
               icon={
                 sync
@@ -103,9 +107,9 @@ export function BorderSetting({ value, onChange }: Props) {
                   : 'solar:lock-keyhole-minimalistic-unlocked-bold-duotone'
               }
             />
-          </ToggleButton>
-        </Stack>
-      </Stack>
+          </Button>
+        </div>
+      </div>
     </Block>
   );
 }

@@ -1,4 +1,3 @@
-import { Stack } from '@mui/material';
 import { useState, useCallback } from 'react';
 import { SettingCard } from './setting-card';
 
@@ -29,7 +28,7 @@ export function StackingCards({ cards }: Props) {
   const gridTemplateRows = `${'auto '.repeat(selected)}minmax(0, auto)`;
 
   return (
-    <Stack display="grid" gridTemplateRows={gridTemplateRows} maxHeight={1} gridAutoRows="auto">
+    <div className="grid max-h-full" style={{ gridTemplateRows }}>
       {cards.map((card, index) => {
         const isDown = index > selected;
         const isUp = index < selected;
@@ -46,7 +45,15 @@ export function StackingCards({ cards }: Props) {
             key={card.title}
             title={card.title}
             onClick={() => onSelectHandler(index)}
-            sx={{ mx, mb, mt, zIndex, height, borderRadius: br }}
+            style={{
+              marginLeft: mx,
+              marginRight: mx,
+              marginBottom: mb,
+              marginTop: mt,
+              zIndex,
+              height,
+              borderRadius: br,
+            }}
             {...(isDown && {
               onMouseEnter: downHoverHandler,
               onMouseLeave: reset,
@@ -59,6 +66,6 @@ export function StackingCards({ cards }: Props) {
           </SettingCard>
         );
       })}
-    </Stack>
+    </div>
   );
 }

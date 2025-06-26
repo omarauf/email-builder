@@ -5,4 +5,6 @@ export const classname = {
   stripeWrapper: 'stripe',
   stripeWrapperType: (type: StripeType) => `stripe-${type}`,
   stripeBody: (type: StripeType) => `stripe-${type}-body`,
+  container: 'container',
+  block: 'block',
 };

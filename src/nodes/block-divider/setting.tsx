@@ -1,10 +1,11 @@
-import { Stack, Divider, Typography } from '@mui/material';
-import { XField } from '@/components/input';
 import { useShallow } from 'zustand/react/shallow';
-import { blockStyle, StyleComponent } from '@/components/styles';
+import { cn } from '@/lib/utils';
+import { XField } from '@/components/input';
+import { Separator } from '@/components/ui/separator';
 import { ColorPicker } from '@/components/color-picker';
-import { XToggleButtonGroup } from '@/components/buttons';
+import { XToggleButtonGroup } from '@/components/x-common';
 import { useBuilderStore } from '@/hooks/use-builder-store';
+import { blockStyle, StyleComponent } from '@/components/styles';
 import type { BlockDivider } from './type';
 import type { BlockIndex } from '../block/type';
 
@@ -25,17 +26,17 @@ export function DividerSetting({ selectedBlock }: Props) {
         onChange={(v) => setBlockByKey(idx, 'style.blockBackgroundColor', v)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.Block badge title={`Width (${screen})`}>
         <XField.Number
-          size="small"
           value={style.width?.[screen] || 100}
           onChange={(v) => setBlockByKey(idx, `style.width.${screen}`, v)}
           steps={1}
-          sx={{ width: 120 }}
+          className="w-[120px]"
         />
         <XToggleButtonGroup
+          type="single"
           value={style.widthUnit?.[screen] || '%'}
           onChange={(v) => setBlockByKey(idx, `style.widthUnit.${screen}`, v)}
           buttons={[
@@ -45,33 +46,27 @@ export function DividerSetting({ selectedBlock }: Props) {
         />
       </StyleComponent.Block>
 
-      <Divider />
+      <Separator />
 
-      <Stack sx={blockStyle}>
-        <Stack direction="row" justifyContent="space-between">
-          <Typography sx={{ width: 0.3 }} variant="body2">
-            Border
-          </Typography>
-          <Typography sx={{ width: 0.3 }} variant="body2">
-            Style
-          </Typography>
-          <Typography sx={{ width: 0.3 }} variant="body2">
-            Color
-          </Typography>
-        </Stack>
-        <Stack direction="row" justifyContent="space-between">
+      <div className={cn('flex flex-col', blockStyle.px, blockStyle.py)}>
+        <div className="flex justify-between gap-4">
+          <p className="w-1/3">Border</p>
+          <p className="w-1/3">Style</p>
+          <p className="w-1/3">Color</p>
+        </div>
+        <div className="my-0.5 flex justify-between gap-4">
           <XField.Number
-            size="small"
             value={style.border || 0}
             onChange={(v) => setBlockByKey(idx, 'style.border', v)}
             steps={1}
             min={1}
-            sx={{ width: 0.3 }}
+            className="w-1/3"
           />
           <XToggleButtonGroup
+            type="single"
             value={style.borderStyle || 'solid'}
             onChange={(v) => setBlockByKey(idx, 'style.borderStyle', v)}
-            sx={{ width: 0.3 }}
+            className="w-1/3"
             buttons={[
               { value: 'solid', icon: 'gg:border-style-solid' },
               { value: 'dashed', icon: 'gg:border-style-dashed' },
@@ -81,12 +76,12 @@ export function DividerSetting({ selectedBlock }: Props) {
           <ColorPicker
             value={style.borderColor || '#000000'}
             onChange={(v) => setBlockByKey(idx, 'style.borderColor', v)}
-            sx={{ width: 0.3 }}
+            className="w-1/3"
           />
-        </Stack>
-      </Stack>
+        </div>
+      </div>
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.Alignment
         title={`Alignment (${screen})`}
@@ -95,7 +90,7 @@ export function DividerSetting({ selectedBlock }: Props) {
         onChange={(v) => setBlockByKey(idx, `style.alignment.${screen}`, v)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.MarginPadding
         badge
@@ -104,7 +99,7 @@ export function DividerSetting({ selectedBlock }: Props) {
         onChange={(value) => setBlockByKey(idx, `style.padding.${screen}`, value)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.Hide value={data.hide} onChange={(v) => setBlockByKey(idx, `data.hide`, v)} />
     </>

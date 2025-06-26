@@ -1,6 +1,6 @@
+import type { Css } from '@/types';
 import { converter } from '@/utils/converter';
 import { HeadingOptions } from '@/constant/heading';
-import type { Css } from '@/types';
 import type { GlobalHeadingStyle } from './type';
 
 export function globalHeadingStyleConverter(heading: GlobalHeadingStyle) {

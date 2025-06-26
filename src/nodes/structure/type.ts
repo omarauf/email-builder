@@ -1,7 +1,7 @@
 import type { UniqueIdentifier } from '@dnd-kit/core';
 import type { Inset, Responsive, Visibility, ImageBackground } from '@/types';
-import type { ContainerTree } from '../container/type';
 import type { StripeIndex } from '../stripe/type';
+import type { ContainerTree } from '../container/type';
 
 export interface StructureTree {
   id: UniqueIdentifier;

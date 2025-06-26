@@ -1,8 +1,10 @@
-import { XField } from '@/components/input';
-import { Box, Alert } from '@mui/material';
+import { Terminal } from 'lucide-react';
 import type { Visibility } from '@/types';
+import { cn } from '@/lib/utils';
+import { Switch } from '@/components/ui/switch';
 import { useBuilderStore } from '@/hooks/use-builder-store';
 import { Block, blockStyle } from './block';
+import { Alert, AlertTitle, AlertDescription } from '../ui/alert';
 
 interface Props {
   value?: Visibility;
@@ -37,15 +39,18 @@ export function Hide({ value, onChange }: Props) {
   return (
     <>
       {isOtherHidden && (
-        <Box sx={blockStyle}>
-          <Alert variant="outlined" severity="info">
-            The element already hidden on {otherScreen}. Activating this option you turning off
-            hidden state for {otherScreen}.
+        <div className={cn(blockStyle.px, blockStyle.py)}>
+          <Alert variant="default">
+            <Terminal />
+            <AlertTitle>Heads up!</AlertTitle>
+            <AlertDescription>
+              You can add components and dependencies to your app using the cli.
+            </AlertDescription>
           </Alert>
-        </Box>
+        </div>
       )}
-      <Block badge title={`Hide ${screen}`} sx={{ pt: isOtherHidden ? 0 : blockStyle.py }}>
-        <XField.Switch value={value?.[screen] || false} onChange={handleChange} />
+      <Block badge title={`Hide ${screen}`} className={cn(isOtherHidden && 'pt-0')}>
+        <Switch checked={value?.[screen] || false} onCheckedChange={handleChange} />
       </Block>
     </>
   );

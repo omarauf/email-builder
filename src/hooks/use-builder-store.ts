@@ -1,33 +1,33 @@
-import ReactDOMServer from 'react-dom/server';
-import { create } from 'zustand';
-import { inline } from '@css-inline/css-inline-wasm';
-import { produce } from 'immer';
-import { createRef, type RefObject } from 'react';
-import { isEqual, cloneDeep, set as _Set } from 'lodash';
-import { closestCenter, rectIntersection } from '@dnd-kit/core';
-import { subscribeWithSelector } from 'zustand/middleware';
-import { v4 as uuidv4 } from 'uuid';
-import { toast } from 'sonner';
 import type { StateCreator } from 'zustand';
+import { toast } from 'sonner';
+import { produce } from 'immer';
+import { create } from 'zustand';
+import { v4 as uuidv4 } from 'uuid';
+import ReactDOMServer from 'react-dom/server';
+import { createRef, type RefObject } from 'react';
+import { inline } from '@css-inline/css-inline-wasm';
+import { isEqual, cloneDeep, set as _Set } from 'lodash';
+import { subscribeWithSelector } from 'zustand/middleware';
+import { closestCenter, rectIntersection } from '@dnd-kit/core';
 import { distributeValue } from '@/utils/distribute-value';
 import { emailTemplateThumbnail } from '@/utils/thumbnail';
-import * as nodeUtils from '../utils/node-utils';
-import { isMouseInFrame, myClosestCorners } from '../utils/collision-detection';
-import type { BuilderState, DraftEmailTemplate } from '../types';
-import { DEFAULT_MOBILE_WIDTH } from '../styles/general/blueprint';
-import { getImageMetaData, getImageDimension } from '../utils/image';
-import * as defaultTemplate from '../templates/default';
-import { parseLayouts } from '../utils/layout';
-import { adjustContainerWidth } from '../utils/container-width';
+import type { BuilderState } from '../types';
 import type { BlockImage } from '../nodes/block-image/type';
+import type { StructureTree } from '../nodes/structure/type';
+import type { BlockTree, BlockIndex } from '../nodes/block/type';
+import { parseLayouts } from '../utils/layout';
+import * as nodeUtils from '../utils/node-utils';
+import * as defaultTemplate from '../templates/default';
+import { defaultBlock } from '../nodes/block/blueprint';
 import { defaultStripe } from '../nodes/stripe/blueprint';
+import { jsonToStringWithUndefined } from '../utils/parser';
+import { adjustContainerWidth } from '../utils/container-width';
 import { defaultStructure } from '../nodes/structure/blueprint';
 import { defaultContainer } from '../nodes/container/blueprint';
-import type { BlockTree, BlockIndex } from '../nodes/block/type';
-import { defaultBlock } from '../nodes/block/blueprint';
-import type { StructureTree } from '../nodes/structure/type';
+import { DEFAULT_MOBILE_WIDTH } from '../styles/general/blueprint';
+import { getImageMetaData, getImageDimension } from '../utils/image';
 import { BodyTreeConverter, HTMLTreeConverter } from '../nodes/tree/converter';
-import { jsonToStringWithUndefined } from '../utils/parser';
+import { isMouseInFrame, myClosestCorners } from '../utils/collision-detection';
 
 const clonedStyles = cloneDeep(defaultTemplate.styles);
 const clonedTree = cloneDeep(defaultTemplate.tree);
@@ -160,58 +160,12 @@ const builderStore: StateCreator<BuilderState> = (set, get, store) => {
       );
     },
 
-    /* ------------------------------------------------- Draft ------------------------------------------------ */
-    saveDraft: () => {
-      const { id, tree, styles, meta, hasChanges, templateId } = get();
-      if (templateId !== undefined || !hasChanges) return;
-      const template = { tree, styles, meta };
-
-      const drafts = localStorage.getItem('draft-templates');
-      const draftTemplates: DraftEmailTemplate[] = drafts ? JSON.parse(drafts) : [];
-
-      if (draftTemplates.length >= 20) draftTemplates.shift();
-
-      const index = draftTemplates.findIndex((draftTemplate) => draftTemplate.id === id);
-
-      if (index === -1)
-        draftTemplates.push({
-          id,
-          params: template,
-          createAt: new Date().toISOString(),
-        });
-      else draftTemplates[index].params = template;
-
-      localStorage.setItem('draft-templates', JSON.stringify(draftTemplates));
-    },
-
-    getDrafts: () => {
-      const draftsString = localStorage.getItem('draft-templates');
-
-      const drafts: DraftEmailTemplate[] = draftsString ? JSON.parse(draftsString) : [];
-
-      const html = drafts.map((draft) =>
-        HTMLTreeConverter(draft.params.styles, draft.params.tree, draft.params.meta)
-      );
-
-      return drafts.map((draft, index) => ({ ...draft, html: html[index] }));
-    },
-
-    deleteDraft: (id) => {
-      const drafts = localStorage.getItem('draft-templates');
-      const draftTemplates: DraftEmailTemplate[] = drafts ? JSON.parse(drafts) : [];
-      const index = draftTemplates.findIndex((draftTemplate) => draftTemplate.id === id);
-      if (index !== -1) {
-        draftTemplates.splice(index, 1);
-        localStorage.setItem('draft-templates', JSON.stringify(draftTemplates));
-      }
-    },
-
     /* ------------------------------------------------ Loader ------------------------------------------------ */
-    init: ({ template, templateId, id }) => {
+    init: ({ tree, meta, styles }) => {
       set({
-        tree: template.tree,
-        styles: template.styles,
-        meta: template.meta,
+        tree,
+        styles,
+        meta,
         hoverEle: undefined,
         screen: 'desktop',
         active: undefined,
@@ -220,8 +174,6 @@ const builderStore: StateCreator<BuilderState> = (set, get, store) => {
         selectedNode: undefined,
         editor: undefined,
         hasChanges: false,
-        templateId,
-        ...(id ? { id } : {}), // Add id only if it exists
       });
     },
 

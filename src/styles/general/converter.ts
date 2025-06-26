@@ -1,5 +1,5 @@
-import { converter } from '@/utils/converter';
 import type { Css } from '@/types';
+import { converter } from '@/utils/converter';
 import type { GlobalGeneralStyle } from './type';
 
 export function globalGeneralStyleConverter(general: GlobalGeneralStyle) {

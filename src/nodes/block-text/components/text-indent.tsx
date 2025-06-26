@@ -1,7 +1,7 @@
-import { Button, ButtonGroup } from '@mui/material';
-import { Iconify } from '@/components/iconify';
 import type { Editor } from '@tiptap/core';
+import { Iconify } from '@/components/iconify';
 import { Block } from '@/components/styles/block';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 
 interface Props {
   editor: Editor;
@@ -15,24 +15,22 @@ export function TextIndent({ editor }: Props) {
     if (node.attrs.indent) value = node.attrs.indent;
   });
 
-  const indent = () => {
-    editor.chain().focus().indent().run();
-  };
-
-  const outdent = () => {
-    editor.chain().focus().outdent().run();
+  const onChange = (v: string) => {
+    if (v === 'indent') editor.chain().focus().indent().run();
+    else if (v === 'outdent') editor.chain().focus().outdent().run();
   };
 
   return (
     <Block title="Text Indent">
-      <ButtonGroup variant="outlined" color="inherit">
-        <Button onClick={indent} disabled={value === 4}>
+      <ToggleGroup type="single" variant="outline" onValueChange={onChange}>
+        <ToggleGroupItem value="indent" disabled={value === 4}>
           <Iconify icon="fa6-solid:indent" width={20} />
-        </Button>
-        <Button onClick={outdent} disabled={value === null}>
+        </ToggleGroupItem>
+
+        <ToggleGroupItem value="outdent" disabled={value === null}>
           <Iconify icon="fa6-solid:outdent" width={20} />
-        </Button>
-      </ButtonGroup>
+        </ToggleGroupItem>
+      </ToggleGroup>
     </Block>
   );
 }

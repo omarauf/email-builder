@@ -1,47 +1,47 @@
 import type { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
-import type { CardProps } from '@mui/material';
-import { Card, Tooltip } from '@mui/material';
+import { cn } from '@/lib/utils';
 import { Iconify } from '@/components/iconify';
+import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip';
 
-type Props = Omit<CardProps, 'itemRef'> & {
+interface Props {
   icon: string;
   itemRef?: (element: HTMLElement | null) => void;
   listeners?: SyntheticListenerMap;
   tooltip?: string;
-};
+  onClick?: VoidFunction;
+  className?: string;
+}
 
-export function ElementItem(props: Props) {
-  const { icon, tooltip, itemRef, listeners, sx, onClick, ...other } = props;
-
+export function ElementItem({
+  icon,
+  tooltip,
+  itemRef,
+  listeners,
+  onClick,
+  className,
+  ...other
+}: Props) {
   return (
-    <Tooltip title={tooltip} arrow placement="right">
-      <Card
-        ref={itemRef || null}
-        sx={{
-          aspectRatio: 1,
-          width: 44,
-          borderRadius: 1.25,
-          border: '1px solid',
-          borderColor: (theme) => theme.palette.divider,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          gap: 1,
-          cursor: onClick ? 'pointer' : 'grab',
-          '&:hover': {
-            boxShadow: (theme) => theme.shadows[15],
-            transform: 'scale(1.025)',
-            transition: 'all 0.2s ease-in-out',
-            borderColor: (theme) => theme.palette.primary.main,
-          },
-          ...sx,
-        }}
-        onClick={onClick}
-        {...other}
-        {...listeners}>
-        <Iconify icon={icon} width={20} />
-      </Card>
-    </Tooltip>
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger
+          ref={itemRef || null}
+          onClick={onClick}
+          className={cn(
+            'aspect-square w-11 rounded-lg border border-gray-300 transition-all duration-200 hover:scale-105',
+            className
+          )}
+          style={{
+            cursor: onClick ? 'pointer' : 'grab',
+          }}
+          {...other}
+          {...listeners}>
+          <Iconify icon={icon} width={20} />
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>{tooltip}</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }

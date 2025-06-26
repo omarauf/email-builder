@@ -1,7 +1,6 @@
-import { Box } from '@mui/material';
 import type { BlockMenu } from './type';
-import type { StripeType } from '../stripe/type';
 import type { BlockIndex } from '../block/type';
+import type { StripeType } from '../stripe/type';
 import { useMenuStyle } from './style';
 
 type Prop = BlockMenu & {
@@ -10,26 +9,28 @@ type Prop = BlockMenu & {
 };
 
 export function MenuBlock({ stripeType, ...block }: Prop) {
-  const { data } = block;
+  const { data, style } = block;
   const { menus } = data;
 
-  const { menuSx, menuStyle, menuWrapperStyle } = useMenuStyle(block, stripeType);
+  const { menuStyle, menuWrapperStyle } = useMenuStyle(block, stripeType);
 
   return {
     element: (
       <div style={menuWrapperStyle}>
         {menus.map((menu, index) => (
-          // if (index === 0) delete menuStyle.borderLeft;
-
-          <Box
-            component="a"
+          <a
             href={menu.link}
             key={index}
-            style={menuStyle}
-            sx={menuSx}
+            style={{
+              ...menuStyle,
+              borderLeft:
+                index !== 0
+                  ? `${style.divider}px ${style.dividerStyle} ${style.dividerColor}`
+                  : undefined,
+            }}
             onClick={(e) => e.preventDefault()}>
             {menu.text}
-          </Box>
+          </a>
         ))}
       </div>
     ),

@@ -1,7 +1,7 @@
 import type { UniqueIdentifier } from '@dnd-kit/core';
-import { defaultVisibility, defaultResponsivePadding } from '../common/blueprint';
 import type { ContainerTree } from './type';
 import type { BlockTree } from '../block/type';
+import { defaultVisibility, defaultResponsivePadding } from '../common/blueprint';
 
 interface ContainerProps {
   id: UniqueIdentifier;

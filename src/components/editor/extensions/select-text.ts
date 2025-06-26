@@ -1,6 +1,6 @@
 import { Plugin } from '@tiptap/pm/state';
-import { Decoration, DecorationSet } from '@tiptap/pm/view';
 import { Extension } from '@tiptap/react';
+import { Decoration, DecorationSet } from '@tiptap/pm/view';
 
 export const TextSelectionWrapper = Extension.create({
   name: 'selecation',

@@ -1,11 +1,11 @@
-import { Stack } from '@mui/material';
-import { Iconify } from '@/components/iconify';
+import type { CSSProperties } from 'react';
 import { useShallow } from 'zustand/react/shallow';
+import { Iconify } from '@/components/iconify';
 import { menuItems } from '@/layout/menu/menu';
 import { useBuilderStore } from '@/hooks/use-builder-store';
 import type { BlockImage } from './type';
-import type { StripeType } from '../stripe/type';
 import type { BlockIndex } from '../block/type';
+import type { StripeType } from '../stripe/type';
 import { useImageStyle } from './style';
 
 type Prop = BlockImage & {
@@ -28,22 +28,11 @@ export function ImageBlock({ stripeType, ...block }: Prop) {
 
     return {
       element: (
-        <Stack
-          direction="row"
-          justifyContent="center"
-          alignItems="center"
-          sx={{
-            width: 1,
-            height: 92,
-            background: 'rgb(250, 250, 250)',
-            borderRadius: 0.5,
-            border: '1px solid',
-            borderColor: 'rgb(237, 237, 237)',
-          }}>
+        <div className="border-lg flex h-[92px] w-full items-center justify-center rounded border border-[#d4d4d4] bg-[#fafafa]">
           <Iconify icon={imageItem.icon} />
-        </Stack>
+        </div>
       ),
-      style: {},
+      style: {} as CSSProperties,
     };
   }
 

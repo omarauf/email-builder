@@ -1,6 +1,6 @@
 import type { BlockCode } from './type';
-import type { StripeType } from '../stripe/type';
 import type { BlockIndex } from '../block/type';
+import type { StripeType } from '../stripe/type';
 
 type Prop = BlockCode & {
   stripeType: StripeType;

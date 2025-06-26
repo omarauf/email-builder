@@ -1,8 +1,8 @@
-import { useShallow } from 'zustand/react/shallow';
 import type { CSSProperties } from 'react';
-import { useBuilderStore } from '@/hooks/use-builder-store';
-import { fontFamilyOptions } from '@/constant/font';
+import { useShallow } from 'zustand/react/shallow';
 import { converter } from '@/utils/converter';
+import { fontFamilyOptions } from '@/constant/font';
+import { useBuilderStore } from '@/hooks/use-builder-store';
 import type { BlockButton } from './type';
 
 export function useButtonStyle(buttonBlock: BlockButton) {
@@ -34,15 +34,6 @@ export function useButtonStyle(buttonBlock: BlockButton) {
   const isFullWidth =
     fullWidth?.[screen] === undefined ? globalButtonStyles.fullWidth[screen] : fullWidth[screen];
 
-  const buttonWrapperStyle: CSSProperties = {
-    display: 'flex',
-    justifyContent: align?.[screen],
-    background: blockBackgroundColor,
-    height: height ? `${height}px` : 'auto',
-    width: isFullWidth ? '100%' : 'auto',
-    alignItems: converter.verticalAlign(verticalAlign),
-  };
-
   const hoverBorderColor =
     hover?.borderColor ||
     globalButtonStyles.hover.borderColor ||
@@ -59,6 +50,22 @@ export function useButtonStyle(buttonBlock: BlockButton) {
     globalButtonStyles.hover.fontColor ||
     fontColor ||
     globalButtonStyles.fontColor;
+
+  const buttonWrapperStyle: CSSProperties = {
+    display: 'flex',
+    justifyContent: align?.[screen],
+    background: blockBackgroundColor,
+    height: height ? `${height}px` : 'auto',
+    width: isFullWidth ? '100%' : 'auto',
+    alignItems: converter.verticalAlign(verticalAlign),
+
+    // TODO Fix this
+    ...(globalButtonStyles.hover && {
+      '--hover-background': `${hoverButtonColor} !important`,
+      '--hover-color': `${hoverFontColor} !important`,
+      '--hover-border-color': `${hoverBorderColor} !important`,
+    }),
+  };
 
   const buttonStyle: CSSProperties = {
     background: buttonColor || globalButtonStyles.buttonColor,
@@ -92,13 +99,6 @@ export function useButtonStyle(buttonBlock: BlockButton) {
     // the stripe style should effect the anchor tag for text but not for button component
     // that's why we need to use `!important` to override the default stripe styles
     color: `${fontColor || globalButtonStyles.fontColor} !important`,
-    ...(globalButtonStyles.hover && {
-      ':hover': {
-        background: `${hoverButtonColor} !important`,
-        color: `${hoverFontColor} !important`,
-        borderColor: `${hoverBorderColor} !important`,
-      },
-    }),
   };
 
   const blockStyle: CSSProperties = {

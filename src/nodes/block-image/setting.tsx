@@ -1,9 +1,8 @@
-import { Box, Stack, Button, Divider, Tooltip, Typography } from '@mui/material';
-import { XField } from '@/components/input';
 import { useShallow } from 'zustand/react/shallow';
-import { Image as ImageElement } from '@/components/image';
-import { fSize } from '@/utils/format-number';
-import { blockStyle, StyleComponent } from '@/components/styles';
+import { Input } from '@/components/ui/input';
+import { Switch } from '@/components/ui/switch';
+import { StyleComponent } from '@/components/styles';
+import { Separator } from '@/components/ui/separator';
 import { useBuilderStore } from '@/hooks/use-builder-store';
 import type { BlockImage } from './type';
 import type { BlockIndex } from '../block/type';
@@ -21,94 +20,56 @@ export function ImageSetting({ selectedBlock }: Props) {
 
   if (!data.src || !data.image)
     return (
-      <XField.Text
-        value={data.src}
-        label="Image URL"
-        onChange={async (v) => {
-          setBlockByKey(idx, 'data.src', v);
-          fetchImages();
-        }}
-      />
+      <div className="p-2">
+        <Input
+          value={data.src}
+          placeholder="Enter Image URL here"
+          onChange={(e) => {
+            setBlockByKey(idx, 'data.src', e.target.value);
+            fetchImages();
+          }}
+        />
+      </div>
     );
 
   return (
     <>
-      <Box sx={{ ...blockStyle }}>
-        <Stack direction="row" spacing={2}>
-          <ImageElement
-            src={data.src}
-            alt={data.alt}
-            sx={{
-              width: 120,
-              aspectRatio: 1,
-              borderRadius: 1,
-              backgroundPosition: '0 0, 10px 10px',
-              backgroundSize: '20px 20px',
-              backgroundImage:
-                'linear-gradient(45deg, rgba(0, 0, 0, 0.07) 25%, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0.07) 0px), linear-gradient(45deg, rgba(0, 0, 0, 0.07) 25%, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0.07) 0px)',
-              boxShadow: '0 0 0 1px rgba(0, 0, 0, 0.1)',
-            }}
-            slotProps={{
-              image: { objectFit: 'contain' },
-            }}
-          />
+      <StyleComponent.ImageChanger
+        src={data.src}
+        alt={data.alt}
+        metaData={data.image}
+        onChange={() => {
+          setBlockByKey(idx, 'data.src', '');
+          setBlockByKey(idx, 'data.image', undefined);
+        }}
+      />
 
-          <Stack>
-            <Tooltip title={data.image.name}>
-              <Typography width={200} sx={{ overflow: 'hidden' }}>
-                {data.image.name}
-              </Typography>
-            </Tooltip>
-
-            <Typography variant="body2">
-              {data.image.width} x {data.image.height} px
-            </Typography>
-
-            {data.image.size !== 0 && (
-              <Typography variant="body2">{fSize(data.image.size)}</Typography>
-            )}
-
-            <Box flexGrow={1} />
-
-            <Button
-              variant="outlined"
-              onClick={() => {
-                setBlockByKey(idx, 'data.src', '');
-                setBlockByKey(idx, 'data.image', undefined);
-              }}>
-              Change Image
-            </Button>
-          </Stack>
-        </Stack>
-      </Box>
-
-      <Divider />
+      <Separator />
 
       <StyleComponent.ExternalLink
         value={data.link}
         onChange={(v) => setBlockByKey(idx, 'data.link', v)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.Block title="Alternate Text" control>
-        <XField.Text
-          size="small"
+        <Input
           value={data.alt}
           placeholder="Will be add in alt attribute and title"
-          onChange={(v) => setBlockByKey(idx, 'data.alt', v)}
+          onChange={(e) => setBlockByKey(idx, 'data.alt', e.target.value)}
         />
       </StyleComponent.Block>
 
-      <Divider />
+      <Separator />
 
       {/* TODO: combine both Responsive Images and Image Size in one components */}
       {screen === 'mobile' && (
         <>
           <StyleComponent.Block badge title="Responsive Image">
-            <XField.Switch
-              value={style.responsive}
-              onChange={(v) => {
+            <Switch
+              checked={style.responsive}
+              onCheckedChange={(v) => {
                 setBlockByKey(idx, 'style.responsive', v);
                 if (v) {
                   const maxWidth =
@@ -121,7 +82,7 @@ export function ImageSetting({ selectedBlock }: Props) {
             />
           </StyleComponent.Block>
 
-          <Divider />
+          <Separator />
         </>
       )}
 
@@ -150,7 +111,7 @@ export function ImageSetting({ selectedBlock }: Props) {
         onChangeType={(type) => setBlockByKey(idx, 'data.sizeType', type)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.Alignment
         title={`Alignment (${screen})`}
@@ -160,14 +121,14 @@ export function ImageSetting({ selectedBlock }: Props) {
         onChange={(v) => setBlockByKey(idx, `style.align.${screen}`, v)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.BorderRadius
         value={style.borderRadius}
         onChange={(v) => setBlockByKey(idx, 'style.borderRadius', v)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.MarginPadding
         badge
@@ -176,7 +137,7 @@ export function ImageSetting({ selectedBlock }: Props) {
         onChange={(value) => setBlockByKey(idx, `style.padding.${screen}`, value)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.Hide value={data.hide} onChange={(v) => setBlockByKey(idx, `data.hide`, v)} />
     </>

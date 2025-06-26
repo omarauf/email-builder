@@ -1,11 +1,11 @@
-import { createPortal } from 'react-dom';
-import { DragOverlay, useDndContext } from '@dnd-kit/core';
-import type { DropAnimation } from '@dnd-kit/core';
-import { CSS } from '@dnd-kit/utilities';
 import type { JSX } from 'react';
+import type { DropAnimation } from '@dnd-kit/core';
+import { createPortal } from 'react-dom';
+import { CSS } from '@dnd-kit/utilities';
+import { DragOverlay, useDndContext } from '@dnd-kit/core';
+import { getNodeDragData } from '../utils/node-utils';
 import { ElementItem } from '../layout/menu/element-item';
 import { menuItems, structureItems } from '../layout/menu/menu';
-import { getNodeDragData } from '../utils/node-utils';
 
 const dropAnimationConfig: DropAnimation = {
   keyframes({ transform }) {
@@ -21,8 +21,7 @@ const dropAnimationConfig: DropAnimation = {
     ];
   },
   sideEffects({ active, dragOverlay }) {
-    const activeNode = active.node; // TODO: check if this is correct
-    activeNode.style.opacity = '0';
+    active.node.style.opacity = '0';
 
     const button = dragOverlay.node.querySelector('button');
 
@@ -46,7 +45,7 @@ const dropAnimationConfig: DropAnimation = {
     }
 
     return () => {
-      activeNode.style.opacity = '';
+      active.node.style.opacity = '';
     };
   },
 };
@@ -77,7 +76,7 @@ export function DraggableOverlay({ dropAnimation = dropAnimationConfig }: Props)
 
     if (menuItem) {
       animation = null;
-      elementToRender = <ElementItem icon={menuItem.icon} sx={{ width: 44 }} />;
+      elementToRender = <ElementItem icon={menuItem.icon} className="w-11" />;
     }
   }
 

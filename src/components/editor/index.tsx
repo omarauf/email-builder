@@ -1,9 +1,7 @@
+import { useShallow } from 'zustand/react/shallow';
 import { useRef, useEffect, useCallback } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
-import type { Theme, SxProps } from '@mui/material';
-import { Box } from '@mui/material';
 import { useDebounce } from '@/hooks/use-debounce-fc';
-import { useShallow } from 'zustand/react/shallow';
 import { useBuilderStore } from '@/hooks/use-builder-store';
 import { extensions } from './extensions';
 
@@ -16,14 +14,14 @@ import { extensions } from './extensions';
 
 interface TiptapProps {
   content: string;
-  sx?: SxProps<Theme>;
+  style: React.CSSProperties;
   onChange: (content: string) => void;
 }
 
 // const withToolbar = true;
 // const withPopover = true;
 
-export function Tiptap({ content, sx, onChange }: TiptapProps) {
+export function Tiptap({ content, style, onChange }: TiptapProps) {
   const [screen, setEditor] = useBuilderStore(useShallow((s) => [s.screen, s.setEditor]));
 
   /**
@@ -98,7 +96,7 @@ export function Tiptap({ content, sx, onChange }: TiptapProps) {
   }
 
   return (
-    <Box onClick={() => setEditor(editor)} sx={sx}>
+    <div aria-hidden="true" onClick={() => setEditor(editor)} style={style}>
       {/* {withToolbar ? <Toolbar editor={editor} /> : null} */}
       {/* {withPopover ? <Popover editor={editor} /> : null} */}
       {/* {active && (
@@ -114,6 +112,6 @@ export function Tiptap({ content, sx, onChange }: TiptapProps) {
         // onKeyUp={onValueChange}
         // onKeyUp={() => console.log("Up", editor?.getHTML())}
       />
-    </Box>
+    </div>
   );
 }

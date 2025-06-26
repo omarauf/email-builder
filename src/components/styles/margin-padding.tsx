@@ -1,9 +1,9 @@
-import { Box, Stack, ToggleButton } from '@mui/material';
 import { useState } from 'react';
-import { Iconify } from '@/components/iconify';
-import { XField } from '@/components/input';
 import type { Inset } from '@/types';
+import { Iconify } from '@/components/iconify';
 import { Block } from './block';
+import { Toggle } from '../ui/toggle';
+import { XNumber } from '../input/text/number';
 
 interface Props {
   badge?: boolean;
@@ -26,35 +26,23 @@ export function MarginPadding({ badge, title, value, onChange }: Props) {
 
   return (
     <Block title={title} badge={badge} control>
-      <Stack
-        direction="row"
-        display="grid"
-        gridTemplateColumns="1fr 1fr 1fr"
-        gap={2}
-        mt={2}
-        alignItems="center">
-        <Box />
-        <XField.Number
-          size="small"
+      <div className="grid grid-cols-3 gap-4">
+        <div />
+        <XNumber
           value={value?.[0] || 0}
-          onChange={onChangeHandler(0)}
+          onChange={(e) => onChangeHandler(e)(0)}
           steps={5}
           min={0}
         />
-        <Box />
-        <XField.Number
-          size="small"
+        <div />
+        <XNumber
           value={value?.[3] || 0}
-          onChange={onChangeHandler(3)}
+          onChange={(e) => onChangeHandler(e)(3)}
           steps={5}
           min={0}
         />
-        <Stack direction="row" justifyContent="center">
-          <ToggleButton
-            value={sync}
-            size="small"
-            selected={sync}
-            onChange={() => setSync((prv) => !prv)}>
+        <div className="flex justify-center">
+          <Toggle pressed={sync} onPressedChange={() => setSync(!sync)} variant="outline">
             <Iconify
               icon={
                 sync
@@ -62,24 +50,22 @@ export function MarginPadding({ badge, title, value, onChange }: Props) {
                   : 'solar:lock-keyhole-minimalistic-unlocked-bold-duotone'
               }
             />
-          </ToggleButton>
-        </Stack>
-        <XField.Number
-          size="small"
+          </Toggle>
+        </div>
+        <XNumber
           value={value?.[1] || 0}
-          onChange={onChangeHandler(1)}
+          onChange={(e) => onChangeHandler(e)(1)}
           steps={5}
           min={0}
         />
-        <Box />
-        <XField.Number
-          size="small"
+        <div />
+        <XNumber
           value={value?.[2] || 0}
-          onChange={onChangeHandler(2)}
+          onChange={(e) => onChangeHandler(e)(2)}
           steps={5}
           min={0}
         />
-      </Stack>
+      </div>
     </Block>
   );
 }

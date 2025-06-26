@@ -1,7 +1,7 @@
-import type { Theme, SxProps } from '@mui/material';
 import { useShallow } from 'zustand/react/shallow';
-import { useBuilderStore } from '@/hooks/use-builder-store';
+import { useMemo, type CSSProperties } from 'react';
 import { converter } from '@/utils/converter';
+import { useBuilderStore } from '@/hooks/use-builder-store';
 import type { ContainerTree, ContainerIndex } from './type';
 
 export function useContainerStyle(container: ContainerTree, idx: ContainerIndex) {
@@ -13,12 +13,14 @@ export function useContainerStyle(container: ContainerTree, idx: ContainerIndex)
 
   const structureWidth = getStructureAvailableWidth(idx);
 
-  const containerWrapper: SxProps<Theme> = {
+  const containerWrapper: CSSProperties = {
     padding: converter.inset(padding?.[screen] || padding?.desktop, 'px'),
     width: screen === 'desktop' ? `${width}px` : `${((width / structureWidth) * 100).toFixed(2)}%`,
   };
 
-  const containerStyle: SxProps<Theme> = {
+  const containerStyle: CSSProperties = {
+    display: 'flex',
+    flexDirection: 'column',
     ...converter.image(backgroundImage),
     ...converter.border(border),
     backgroundColor,
@@ -28,80 +30,45 @@ export function useContainerStyle(container: ContainerTree, idx: ContainerIndex)
   return { containerWrapper, containerStyle };
 }
 
-export function containerDropZoneStyle(
+export function useDropZoneStyle(
   hover: boolean,
   over: boolean,
   selected: boolean,
   active: boolean,
   drag: boolean,
-  options?: { animation?: boolean }
-): SxProps<Theme> {
-  const { animation = true } = options || {};
+  animation = true
+) {
+  return useMemo(() => {
+    const classes: string[] = [
+      'relative h-[92px] items-center rounded bg-primary/20 border border-primary/50 justify-center border-dashed',
+    ];
 
-  let style: SxProps<Theme> = {
-    position: 'relative',
-    height: '92px',
-    alignItems: 'center',
-    borderRadius: 0.5,
-    bgcolor: 'primary.lighter',
-    color: 'grey.700',
-    borderColor: 'primary.light',
-    justifyContent: 'center',
-    borderStyle: 'dashed',
-    borderWidth: 1,
-  };
+    if (over) {
+      classes.push('bg-primary/50 border-primary/50');
+    }
 
-  const beforeStyle: SxProps<Theme> = {};
+    if (selected) {
+      classes.push('border-solid shadow-[0_0_0_1px] shadow-primary/50');
+    }
 
-  if (over) {
-    style = {
-      ...style,
-      bgcolor: 'primary.light',
-      color: 'primary.main',
-      borderColor: 'primary.main',
+    if (active) {
+      classes.push('border-solid shadow-[0_0_0_1px] shadow-primary/50');
+    }
+
+    if (hover) {
+      classes.push('border-solid shadow-[0_0_0_1px] shadow-primary/50 border-primary/50');
+    }
+
+    if (drag) {
+      classes.push('grayscale-[90%]');
+    }
+
+    if (animation) {
+      classes.push('transition-all duration-300 ease-in-out');
+    }
+
+    return {
+      classes,
     };
-  }
-
-  if (selected) {
-    style = {
-      ...style,
-      borderStyle: 'solid',
-      boxShadow: (theme) => `0 0 0 1px ${theme.palette.primary.main}`,
-    };
-  }
-
-  if (active) {
-    style = {
-      ...style,
-      borderStyle: 'solid',
-      boxShadow: (theme) => `0 0 0 1px ${theme.palette.primary.main}`,
-    };
-  }
-
-  if (hover) {
-    style = {
-      ...style,
-      boxShadow: (theme) => `0 0 0 1px ${theme.palette.primary.main}`,
-      borderStyle: 'solid',
-      borderColor: 'primary.main',
-    };
-  }
-
-  // if (active && selected) {}
-
-  if (drag) {
-    style = { ...style, filter: 'grayscale(90%)' };
-  }
-
-  if (animation) {
-    style = {
-      ...style,
-      transition: (theme) => theme.transitions.create('all'),
-    };
-  }
-
-  return {
-    ...style,
-    '&:before': beforeStyle,
-  };
+  }, [hover, over, selected, active, drag, animation]);
 }

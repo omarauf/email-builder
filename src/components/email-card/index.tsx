@@ -1,17 +1,16 @@
-import type { CardProps } from '@mui/material';
-import { Box, Card, Skeleton, Typography } from '@mui/material';
 import { useState, useEffect } from 'react';
-import { fDate } from '@/utils/format-time';
+import { cn } from '@/lib/utils';
 import { emailTemplateThumbnail } from '@/utils/thumbnail';
+import { Skeleton } from '../ui/skeleton';
 
-type Prop = CardProps & {
+interface Prop {
   name?: string;
-  date?: string;
   html: string;
   thumbnail?: undefined;
-};
+  onClick?: VoidFunction;
+}
 
-export function EmailTemplateCard({ name, date, html, thumbnail, sx, onClick, ...other }: Prop) {
+export function EmailTemplateCard({ name, html, thumbnail, onClick, ...other }: Prop) {
   const [loading, setLoading] = useState(html !== undefined);
   const [thumbnailSrc, setThumbnailSrc] = useState<string>(thumbnail || '');
 
@@ -28,56 +27,29 @@ export function EmailTemplateCard({ name, date, html, thumbnail, sx, onClick, ..
       });
   }, [html]);
 
-  const showBox = !!name || !!date;
-
   return (
-    <Card
-      sx={{
-        width: 200,
-        height: 300,
-        boxShadow: 1,
-        '&:hover': { boxShadow: 10 },
-        backgroundColor: 'white',
-        ...sx,
-      }}
+    <div
+      className="h-[300px] w-[200px] rounded-2xl bg-white shadow transition-all hover:shadow-xl"
       {...other}>
-      {loading && <Skeleton variant="rounded" height={300} />}
+      {loading && <Skeleton className="h-[300px]" />}
 
       {!loading && (
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            width: 1,
-            height: 1,
-            cursor: onClick ? 'pointer' : 'default',
-          }}
-          onClick={onClick}>
-          <Box
-            component="img"
-            src={thumbnailSrc}
-            sx={{ width: 1, height: 'fit-content', objectFit: 'cover' }}
-          />
-
-          {showBox && (
-            <Box
-              sx={{
-                position: 'absolute',
-                bottom: 0,
-                left: 0,
-                right: 0,
-                p: 1,
-                m: 2,
-                textAlign: 'center',
-                bgcolor: 'background.paper',
-                borderRadius: 1,
-              }}>
-              {name && <Typography variant="body2">{name}</Typography>}
-              {date && <Typography variant="caption">{fDate(date)}</Typography>}
-            </Box>
+        <div
+          aria-hidden="true"
+          className={cn(
+            'flex h-full w-full items-center',
+            onClick ? 'cursor-pointer' : 'cursor-default'
           )}
-        </Box>
+          onClick={onClick}>
+          <img src={thumbnailSrc} className="h-fit w-full object-cover" alt="thumbnail" />
+
+          {name && (
+            <div className="bg-muted-foreground absolute right-0 bottom-0 left-0 m-4 rounded-lg p-2 text-center">
+              {name && <p className="text-sm">{name}</p>}
+            </div>
+          )}
+        </div>
       )}
-    </Card>
+    </div>
   );
 }

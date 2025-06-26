@@ -1,6 +1,6 @@
 import type { BlockTree, BlockIndex } from '../nodes/block/type';
-import type { ContainerTree, ContainerIndex } from '../nodes/container/type';
 import type { StripeTree, StripeIndex } from '../nodes/stripe/type';
+import type { ContainerTree, ContainerIndex } from '../nodes/container/type';
 import type { StructureTree, StructureIndex } from '../nodes/structure/type';
 
 export type NodeType =

@@ -1,9 +1,9 @@
-import { useShallow } from 'zustand/react/shallow';
 import { useEffect } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 import { Scrollbar } from '@/components/scrollbar';
 import { Tree } from '../nodes/tree/render';
-import { useBuilderStore } from '../hooks/use-builder-store';
 import { useDragHandler } from '../hooks/use-drag-handler';
+import { useBuilderStore } from '../hooks/use-builder-store';
 
 export function RenderTree() {
   useDragHandler();
@@ -25,7 +25,7 @@ export function RenderTree() {
 
   return (
     <Scrollbar
-      sx={{ position: 'relative', bgcolor: backgroundColor }}
+      style={{ position: 'relative', backgroundColor, paddingLeft: 96, paddingRight: 432 }}
       onClick={clearSelectedNode}
       ref={setRef}>
       <Tree />

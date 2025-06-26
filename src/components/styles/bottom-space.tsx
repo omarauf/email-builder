@@ -1,6 +1,4 @@
-import { XField } from '@/components/input';
-import type { Theme, SxProps } from '@mui/material';
-import { Typography } from '@mui/material';
+import { Input } from '@/components/ui/input';
 import { Block } from './block';
 
 interface Props {
@@ -8,20 +6,25 @@ interface Props {
   title: string;
   subTitle: string;
   value: number;
-  sx?: SxProps<Theme>;
   onChange: (v: number) => void;
+  className?: string;
 }
 
-export function BottomSpace({ title, subTitle, sx, badge, value, onChange }: Props) {
+export function BottomSpace({ title, subTitle, badge, value, className, onChange }: Props) {
   return (
     <Block
       title={title}
       badge={badge}
-      control={<XField.Number size="small" value={value} onChange={onChange} sx={{ width: 120 }} />}
-      sx={sx}>
-      <Typography variant="body2" sx={{ mb: 1 }}>
-        {subTitle}
-      </Typography>
+      className={className}
+      control={
+        <Input
+          type="number"
+          value={value}
+          onChange={(e) => onChange(Number(e.target.value))}
+          className="w-32"
+        />
+      }>
+      <p className="text-muted-foreground mb-2 text-sm">{subTitle}</p>
     </Block>
   );
 }

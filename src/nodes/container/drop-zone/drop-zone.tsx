@@ -1,17 +1,18 @@
-import { useDroppable } from '@dnd-kit/core';
 import { memo } from 'react';
-import { Box, type BoxProps } from '@mui/material';
-import { Label } from '@/components/label';
+import { useDroppable } from '@dnd-kit/core';
 import type { NodeType } from '@/types';
 import { getNodeDragData } from '@/utils/node-utils';
 
-type Props = Omit<BoxProps, 'onDrop'> & {
+interface Props {
   accept: NodeType;
   stripeIndex: number;
   structureIndex?: number;
   containerIndex?: number;
   blockIndex?: number;
-};
+  style?: React.CSSProperties;
+  width?: string | number;
+  top?: string | number;
+}
 
 const debug = false;
 
@@ -21,8 +22,9 @@ function DropZoneMemo({
   structureIndex,
   containerIndex,
   blockIndex,
-  sx,
-  ...props
+  style,
+  width,
+  top,
 }: Props) {
   const type = accept;
 
@@ -32,11 +34,6 @@ function DropZoneMemo({
     id: `drop-zone-${JSON.stringify(idx)}`,
     data: { type: `drop-zone-${type}`, idx },
   });
-
-  // if (!debug && active === null) return null;
-  // const activeData = active && getNodeDragData(active);
-  // const show = activeData && (accept === activeData.type || accept.includes(activeData.type));
-  // if (!debug && !show) return null;
 
   if (active === null) return null;
   const activeData = getNodeDragData(active);
@@ -49,42 +46,37 @@ function DropZoneMemo({
   else color = 'success';
 
   return (
-    <Box
-      // component={m.div}
+    <div
       ref={setNodeRef}
       // initial={{ height: "0px" }}
       // animate={{ height: "30px" }}
       // exit={{ height: "0px" }}
       // transition={{ duration: 0.15, ease: [1, 0.5, 0.8, 1] }}
-      sx={{
+      style={{
         position: 'relative',
-        // borderBottomColor: isOver ? "success.main" : "grey.700",
-        // display: isOver ? "flex" : "none",
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        bgcolor: isOver ? 'success.lighter' : 'grey.A200',
-        color: isOver ? 'success.main' : 'grey.700',
-        // opacity: isOver ? 1 : 0,
         height: debug ? '30px' : '0px',
         overflow: 'visible',
         zIndex: 3,
-        boxShadow: () => (isOver ? `0 0 0 1px black` : ''),
-        ...sx,
-      }}
-      {...props}>
+        boxShadow: isOver ? `0 0 0 1px black` : '',
+        width,
+        top,
+        ...style,
+      }}>
       {isOver && (
-        <Label color="default" variant="filled" sx={{ position: 'absolute' }}>
-          Drop here
-        </Label>
+        <span className="bg-muted-foreground text-foreground absolute rounded-md px-2 py-1 text-xs font-bold">
+          Drop Here
+        </span>
       )}
 
       {debug && (
-        <Label color={color} variant="filled" sx={{ position: 'absolute' }}>
+        <p color={color} className="absolute">
           {JSON.stringify(idx)}
-        </Label>
+        </p>
       )}
-    </Box>
+    </div>
   );
 }
 

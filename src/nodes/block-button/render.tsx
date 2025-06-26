@@ -1,7 +1,6 @@
-import { Box } from '@mui/material';
 import type { BlockButton } from './type';
-import type { StripeType } from '../stripe/type';
 import type { BlockIndex } from '../block/type';
+import type { StripeType } from '../stripe/type';
 import { useButtonStyle } from './style';
 
 type Prop = BlockButton & {
@@ -17,17 +16,16 @@ export function ButtonBlock({ stripeType, ...block }: Prop) {
 
   return {
     element: (
-      <span style={buttonWrapperStyle}>
-        <Box
-          component="a"
+      <span style={buttonWrapperStyle} className="button">
+        <a
           id={`${id}`}
           target="_blank"
           href={link}
-          sx={buttonStyle}
+          style={buttonStyle}
           onClick={(e) => e.preventDefault()}
           rel="noreferrer">
           {text}
-        </Box>
+        </a>
       </span>
     ),
     style: blockStyle,

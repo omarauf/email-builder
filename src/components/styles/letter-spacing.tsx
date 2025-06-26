@@ -1,9 +1,9 @@
-import { Stack, ToggleButton, ToggleButtonGroup } from '@mui/material';
-import { XField } from '@/components/input';
 import { Block } from './block';
+import { Input } from '../ui/input';
+import { XToggleButtonGroup } from '../x-common';
 
 interface Props {
-  unit: string;
+  unit: 'px' | 'em';
   value: number;
   onValueChange: (value: number) => void;
   onUnitChange: (value: 'px' | 'em') => void;
@@ -12,26 +12,24 @@ interface Props {
 export function LetterSpacing({ unit, value, onValueChange, onUnitChange }: Props) {
   return (
     <Block title="Letter Spacing">
-      <Stack direction="row" spacing={1} alignItems="center">
-        <XField.Number
-          size="small"
+      <div className="flex items-center gap-2">
+        <Input
+          type="number"
           value={value}
-          onChange={onValueChange}
-          sx={{ width: 120 }}
-          steps={1}
+          onChange={(e) => onValueChange(e.target.valueAsNumber)}
+          className="w-32"
         />
-        <ToggleButtonGroup
-          value={unit}
-          sx={{ width: 100 }}
-          exclusive
-          size="small"
-          fullWidth
-          onChange={(_, a) => a && onUnitChange(a)}>
-          <ToggleButton value="px">px</ToggleButton>
 
-          <ToggleButton value="em">em</ToggleButton>
-        </ToggleButtonGroup>
-      </Stack>
+        <XToggleButtonGroup
+          type="single"
+          value={unit}
+          buttons={[
+            { value: 'px', title: 'px' },
+            { value: 'em', title: 'em' },
+          ]}
+          onChange={(v) => onUnitChange(v)}
+        />
+      </div>
     </Block>
   );
 }

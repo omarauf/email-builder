@@ -3,9 +3,9 @@ import { useDraggable } from '@dnd-kit/core';
 import { useShallow } from 'zustand/react/shallow';
 import { useStoreWithEqualityFn } from 'zustand/traditional';
 import type { Node, NodeIndexMap } from '../types';
+import type { ContainerTree } from '../nodes/container/type';
 import { useBuilderStore } from './use-builder-store';
 import { doesContainerHaveBlock } from '../utils/node-utils';
-import type { ContainerTree } from '../nodes/container/type';
 
 export function useNode<T extends Omit<Node, 'idx'>>(
   node: T,
@@ -29,7 +29,9 @@ export function useNode<T extends Omit<Node, 'idx'>>(
   const hoverEle = useStoreWithEqualityFn(
     useBuilderStore,
     (s) => s.hoverEle,
-    (oldHover, newHover) => oldHover?.id !== id && newHover?.id !== id
+    (oldHover, newHover) =>
+      // console.log(oldHover, oldHover?.id);
+      oldHover?.id !== id && newHover?.id !== id
   );
 
   /**

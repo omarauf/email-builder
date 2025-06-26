@@ -1,9 +1,10 @@
-import { XField } from '@/components/input';
 import { useCallback } from 'react';
-import { IconButton, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { Iconify } from '@/components/iconify';
 import { getImageDimension } from '@/utils/image';
 import { Block } from './block';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
+import { XToggleButtonGroup } from '../x-common';
 
 interface Props {
   title: string;
@@ -48,30 +49,26 @@ export function ImageSize(props: Props) {
 
   return (
     <Block badge title={title}>
-      <IconButton onClick={() => fitToAll()}>
+      <Button size="icon" variant="outline" onClick={() => fitToAll()}>
         <Iconify icon="fluent:scale-fit-16-regular" />
-      </IconButton>
+      </Button>
 
-      <ToggleButtonGroup
-        exclusive
-        size="small"
+      <XToggleButtonGroup
+        type="single"
         value={sizeType}
-        onChange={(_, v) => {
-          if (v === null || v === sizeType) return;
-          onChangeType(v);
-        }}>
-        <ToggleButton key="width" value="width">
-          <Iconify icon="material-symbols:width" />
-        </ToggleButton>
-        <ToggleButton key="height" value="height">
-          <Iconify icon="material-symbols:height" />
-        </ToggleButton>
-      </ToggleButtonGroup>
-      <XField.Number
+        onChange={onChangeType}
+        buttons={[
+          { value: 'width', icon: 'material-symbols:width' },
+          { value: 'height', icon: 'material-symbols:height' },
+        ]}
+      />
+
+      <Input
         value={value}
         max={max}
-        size="small"
-        onChange={(v) => {
+        type="number"
+        onChange={(e) => {
+          const v = e.target.valueAsNumber;
           if (sizeType === 'width') {
             onChangeValue('height', Math.round(v / imageAspectRatio));
             onChangeValue('width', Math.round(v));
@@ -80,7 +77,7 @@ export function ImageSize(props: Props) {
             onChangeValue('width', Math.round(v * imageAspectRatio));
           }
         }}
-        sx={{ width: 120 }}
+        className="w-24"
       />
     </Block>
   );

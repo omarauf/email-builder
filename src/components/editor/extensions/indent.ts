@@ -1,7 +1,7 @@
-import type { Transaction } from 'prosemirror-state';
-import { AllSelection, TextSelection } from 'prosemirror-state';
 import type { Command } from '@tiptap/react';
+import type { Transaction } from 'prosemirror-state';
 import { Extension } from '@tiptap/react';
+import { AllSelection, TextSelection } from 'prosemirror-state';
 
 interface IndentOptions {
   types: string[];

@@ -1,11 +1,14 @@
-import { useShallow } from 'zustand/react/shallow';
-import { XField } from '@/components/input';
-import { Box, Stack, Divider, Typography, IconButton } from '@mui/material';
-import { Iconify } from '@/components/iconify';
 import { toast } from 'sonner';
-import { useBuilderStore } from '@/hooks/use-builder-store';
+import { useShallow } from 'zustand/react/shallow';
+import { cn } from '@/lib/utils';
+import { Input } from '@/components/ui/input';
+import { Iconify } from '@/components/iconify';
+import { Switch } from '@/components/ui/switch';
+import { Button } from '@/components/ui/button';
 import { blockStyle } from '@/components/styles';
 import { Block } from '@/components/styles/block';
+import { Separator } from '@/components/ui/separator';
+import { useBuilderStore } from '@/hooks/use-builder-store';
 
 export function UTMParametersField() {
   const [meta, setMetaByKey] = useBuilderStore(useShallow((s) => [s.meta, s.setMetaByKey]));
@@ -69,71 +72,70 @@ export function UTMParametersField() {
 
   return (
     <>
-      <Divider sx={{ borderBottomWidth: 2 }} />
+      <Separator />
 
-      <Stack spacing={1} sx={blockStyle}>
+      <div className={cn(blockStyle.py, 'flex flex-col gap-4')}>
         {staticParams.map((p) => (
-          <Block key={p.key} title={p.key} control sx={{ py: 0, px: 0 }}>
-            <XField.Text
-              size="small"
+          <Block key={p.key} title={p.key} control className="py-0">
+            <Input
               placeholder={p.placeholder}
               value={p.value || ''}
-              onChange={(v) =>
-                setMetaByKey(`utmParameters.${p.key}`, v.replace(/[^a-zA-Z0-9_]/g, '_'))
+              onChange={(e) =>
+                setMetaByKey(
+                  `utmParameters.${p.key}`,
+                  e.target.value.replace(/[^a-zA-Z0-9_]/g, '_')
+                )
               }
             />
           </Block>
         ))}
-      </Stack>
+      </div>
 
-      <Divider sx={{ borderBottomWidth: 2 }} />
+      <Separator />
 
       <Block
         title="Custom UTM Parameters"
-        control={<XField.Switch value={custom.length !== 0} onChange={onChangeHandler} />}>
-        <Typography variant="caption" color="textSecondary">
+        control={<Switch checked={custom.length !== 0} onCheckedChange={onChangeHandler} />}>
+        <p className="text-muted-foreground text-sm">
           This allows you to add your own parameters for all links at one time. If you need to add a
           unique parameter for some link you could add it in the options of a specific link.
-        </Typography>
+        </p>
 
         {custom.length > 0 && (
-          <Stack spacing={1}>
+          <div className="flex flex-col gap-2">
             {custom.map((p, i) => (
-              <Stack key={`${p.name}-${p.value}`} direction="row" spacing={1} sx={{ py: 1 }}>
-                <XField.Text
-                  size="small"
+              <div key={`${p.name}-${p.value}`} className="flex flex-row space-x-1 py-1">
+                <Input
                   placeholder="Key"
                   value={p.name}
-                  onChange={(v) =>
-                    setMetaByKey(`utmParameters.custom.${i}.name`, v.replace(/[^a-zA-Z0-9_]/g, '_'))
-                  }
-                  error={p.name === ''}
-                />
-                <XField.Text
-                  size="small"
-                  placeholder="Value"
-                  value={p.value}
-                  onChange={(v) =>
+                  onChange={(e) =>
                     setMetaByKey(
-                      `utmParameters.custom.${i}.value`,
-                      v.replace(/[^a-zA-Z0-9_]/g, '_')
+                      `utmParameters.custom.${i}.name`,
+                      e.target.value.replace(/[^a-zA-Z0-9_]/g, '_')
                     )
                   }
-                  error={p.value === ''}
+                />
+                <Input
+                  placeholder="Value"
+                  value={p.value}
+                  onChange={(e) =>
+                    setMetaByKey(
+                      `utmParameters.custom.${i}.value`,
+                      e.target.value.replace(/[^a-zA-Z0-9_]/g, '_')
+                    )
+                  }
                 />
 
-                <IconButton onClick={() => removeCustomParameter(i)}>
+                <Button size="icon" variant="destructive" onClick={() => removeCustomParameter(i)}>
                   <Iconify icon="solar:trash-bin-trash-bold" color="white" width={22} />
-                </IconButton>
-              </Stack>
+                </Button>
+              </div>
             ))}
 
-            <Box>
-              <IconButton onClick={addCustomParameter}>
-                <Iconify color="white" icon="ic:baseline-plus" width={24} />
-              </IconButton>
-            </Box>
-          </Stack>
+            <Button size="icon" variant="secondary" onClick={addCustomParameter}>
+              <Iconify color="white" icon="ic:baseline-plus" width={24} />
+            </Button>
+          </div>
         )}
       </Block>
     </>

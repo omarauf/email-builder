@@ -1,14 +1,16 @@
-import { Divider } from '@mui/material';
-import { XField } from '@/components/input';
 import { useShallow } from 'zustand/react/shallow';
+import { Block } from '@/components/styles/block';
+import { Textarea } from '@/components/ui/textarea';
+import { Separator } from '@/components/ui/separator';
 // TODO Add the following imports:
 // import { EmailAnnotations } from "./email-annotations";
 // import { EmailAnnotationsSetting } from "./email-annotations-setting";
 import { useBuilderStore } from '@/hooks/use-builder-store';
 import { SettingCard } from '@/components/card/setting-card';
-import { Block } from '@/components/styles/block';
-import { UTMParametersField } from './utm-parameters-fields';
 import { UTMParameters } from './utm-parameters';
+import { EmailAnnotations } from './email-annotations';
+import { UTMParametersField } from './utm-parameters-fields';
+import { EmailAnnotationsSetting } from './email-annotations-setting';
 
 export function Message() {
   const [meta, setMetaByKey] = useBuilderStore(useShallow((s) => [s.meta, s.setMetaByKey]));
@@ -16,38 +18,32 @@ export function Message() {
   return (
     <SettingCard>
       <Block title="Subject" control>
-        <XField.Text
+        <Textarea
           placeholder="Enter subject"
           value={meta.subject}
-          onChange={(v) => setMetaByKey('subject', v)}
-          multiline
+          onChange={(e) => setMetaByKey('subject', e.target.value)}
           rows={3}
-          sx={{ '& .MuiInputBase-multiline': { pt: 1 } }}
-          slotProps={{ input: { variant: 'filled' } }}
         />
       </Block>
 
-      <Divider sx={{ borderBottomWidth: 2 }} />
+      <Separator />
 
       <Block title="Preheader" control>
-        <XField.Text
+        <Textarea
           placeholder="Enter preheader"
           value={meta.preheader}
-          onChange={(v) => setMetaByKey('preheader', v)}
-          multiline
-          rows={4}
-          sx={{ '& .MuiInputBase-multiline': { pt: 1 } }}
-          slotProps={{ input: { variant: 'filled' } }}
+          onChange={(e) => setMetaByKey('preheader', e.target.value)}
+          rows={5}
         />
       </Block>
 
-      {/* <Divider sx={{ borderBottomWidth: 2 }} />
+      <Separator />
 
       <EmailAnnotations />
 
-      <EmailAnnotationsSetting /> */}
+      <EmailAnnotationsSetting />
 
-      <Divider sx={{ borderBottomWidth: 2 }} />
+      <Separator />
 
       <UTMParameters />
 

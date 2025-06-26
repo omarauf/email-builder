@@ -1,10 +1,10 @@
-import { Box, Divider } from '@mui/material';
 import { useShallow } from 'zustand/react/shallow';
-import { XField } from '@/components/input';
-import { StyleComponent } from '@/components/styles';
 import type { HeadingType } from '@/nodes/block-text/type';
+import { Switch } from '@/components/ui/switch';
+import { XTabs } from '@/components/x-common/tabs';
+import { StyleComponent } from '@/components/styles';
+import { Separator } from '@/components/ui/separator';
 import { useBuilderStore } from '@/hooks/use-builder-store';
-import { XTabs } from '@/components/tabs';
 import { DEFAULT_HEADING_BOTTOM_SPACE } from './blueprint';
 
 const TABS = [
@@ -23,13 +23,13 @@ export function HeadingsSetting() {
   const { heading } = styles;
 
   return (
-    <Box>
+    <div>
       <StyleComponent.FontFamily
         value={heading.fontFamily}
         onChange={(c) => setGlobalStyleByKey(`heading.fontFamily`, c)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.LetterSpacing
         unit={heading.letterSpacing.unit}
@@ -38,12 +38,12 @@ export function HeadingsSetting() {
         onUnitChange={(v) => setGlobalStyleByKey('heading.letterSpacing.unit', v)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.Block title="Paragraph Bottom Space">
-        <XField.Switch
-          value={heading.bottomSpaceEnabled}
-          onChange={(v) => {
+        <Switch
+          checked={heading.bottomSpaceEnabled}
+          onCheckedChange={(v) => {
             if (v)
               (['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] as const).forEach((type) => {
                 const defaultValue = DEFAULT_HEADING_BOTTOM_SPACE[type];
@@ -56,10 +56,10 @@ export function HeadingsSetting() {
         />
       </StyleComponent.Block>
 
-      <Divider />
+      <Separator />
 
-      <XTabs tabs={TABS} styleType="custom" variant="fullWidth" />
-    </Box>
+      <XTabs tabs={TABS} defaultTab="h1" className="h-12 rounded-none py-1.5" />
+    </div>
   );
 }
 
@@ -70,7 +70,7 @@ function HeadingSetting({ type }: { type: HeadingType }) {
   const { heading } = styles;
 
   return (
-    <Box>
+    <div>
       <StyleComponent.FontSize
         badge
         title={`Font Size on ${screen}`}
@@ -78,7 +78,7 @@ function HeadingSetting({ type }: { type: HeadingType }) {
         onChange={(v) => setGlobalStyleByKey(`heading.${type}.fontSize.${screen}`, v)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.TextAlignment
         title={`Text Alignment on ${screen}`}
@@ -86,7 +86,7 @@ function HeadingSetting({ type }: { type: HeadingType }) {
         onChange={(v) => setGlobalStyleByKey(`heading.${type}.textAlignment.${screen}`, v)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.LineHeight
         badge
@@ -95,7 +95,7 @@ function HeadingSetting({ type }: { type: HeadingType }) {
         onChange={(v) => setGlobalStyleByKey(`heading.${type}.lineHeight.${screen}`, v)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.Color
         title="Font Color"
@@ -103,24 +103,26 @@ function HeadingSetting({ type }: { type: HeadingType }) {
         onChange={(c) => setGlobalStyleByKey(`heading.${type}.fontColor`, c)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.TextStyles
         value={heading[type].textStyles}
         onChange={(v) => setGlobalStyleByKey(`heading.${type}.textStyles`, v)}
       />
 
-      <Divider />
-
       {heading.bottomSpaceEnabled && (
-        <StyleComponent.BottomSpace
-          badge
-          title={`Bottom Space on ${screen}`}
-          subTitle="The bottom space will be applied to all text paragraphs"
-          value={heading[type].bottomSpace[screen] || 0}
-          onChange={(v) => setGlobalStyleByKey(`heading.${type}.bottomSpace.${screen}`, v)}
-        />
+        <>
+          <Separator />
+
+          <StyleComponent.BottomSpace
+            badge
+            title={`Bottom Space on ${screen}`}
+            subTitle="The bottom space will be applied to all text paragraphs"
+            value={heading[type].bottomSpace[screen] || 0}
+            onChange={(v) => setGlobalStyleByKey(`heading.${type}.bottomSpace.${screen}`, v)}
+          />
+        </>
       )}
-    </Box>
+    </div>
   );
 }

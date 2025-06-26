@@ -1,8 +1,10 @@
-import { Divider } from '@mui/material';
-import { XField } from '@/components/input';
 import { useShallow } from 'zustand/react/shallow';
+import { XField } from '@/components/input';
+import { Input } from '@/components/ui/input';
+import { Switch } from '@/components/ui/switch';
+import { XTabs } from '@/components/x-common/tabs';
 import { StyleComponent } from '@/components/styles';
-import { XTabs } from '@/components/tabs';
+import { Separator } from '@/components/ui/separator';
 import { useBuilderStore } from '@/hooks/use-builder-store';
 import type { BlockButton } from './type';
 import type { BlockIndex } from '../block/type';
@@ -29,17 +31,16 @@ export function ButtonSetting({ selectedBlock }: Props) {
             onChange={(v) => setBlockByKey(idx, 'data.link', v)}
           />
 
-          <Divider />
+          <Separator />
 
           <StyleComponent.Block title="Button Text" control>
-            <XField.Text
+            <Input
               value={data.text}
-              size="small"
-              onChange={(v) => setBlockByKey(idx, 'data.text', v)}
+              onChange={(e) => setBlockByKey(idx, 'data.text', e.target.value)}
             />
           </StyleComponent.Block>
 
-          <Divider />
+          <Separator />
 
           <StyleComponent.Alignment
             title={`Alignment (${screen})`}
@@ -48,7 +49,7 @@ export function ButtonSetting({ selectedBlock }: Props) {
             onChange={(v) => setBlockByKey(idx, `style.align.${screen}`, v)}
           />
 
-          <Divider />
+          <Separator />
 
           <StyleComponent.ButtonHeight
             align={style.verticalAlign}
@@ -57,7 +58,7 @@ export function ButtonSetting({ selectedBlock }: Props) {
             onAlignChange={(a) => setBlockByKey(idx, 'style.verticalAlign', a)}
           />
 
-          <Divider />
+          <Separator />
 
           <StyleComponent.MarginPadding
             badge
@@ -66,7 +67,7 @@ export function ButtonSetting({ selectedBlock }: Props) {
             onChange={(value) => setBlockByKey(idx, `style.padding.${screen}`, value)}
           />
 
-          <Divider />
+          <Separator />
 
           <StyleComponent.Hide
             value={data.hide}
@@ -86,7 +87,7 @@ export function ButtonSetting({ selectedBlock }: Props) {
             onChange={(v) => setBlockByKey(idx, 'style.blockBackgroundColor', v)}
           />
 
-          <Divider />
+          <Separator />
 
           <StyleComponent.Color
             title="Button Color"
@@ -94,33 +95,32 @@ export function ButtonSetting({ selectedBlock }: Props) {
             onChange={(v) => setBlockByKey(idx, 'style.buttonColor', v)}
           />
 
-          <Divider />
+          <Separator />
 
           <StyleComponent.FontFamily
             value={style.fontFamily || globalButtonStyles.fontFamily}
             onChange={(v) => setBlockByKey(idx, 'style.fontFamily', v)}
           />
 
-          <Divider />
+          <Separator />
 
           <StyleComponent.Block badge title={`Font Size (${screen})`}>
             <XField.Number
-              size="small"
               value={style.fontSize?.[screen] || globalButtonStyles.fontSize[screen]}
               onChange={(v) => setBlockByKey(idx, `style.fontSize.${screen}`, v)}
               steps={1}
-              sx={{ width: 120 }}
+              className="w-[120px]"
             />
           </StyleComponent.Block>
 
-          <Divider />
+          <Separator />
 
           <StyleComponent.TextStyles
             value={style.textStyle || globalButtonStyles.textStyles}
             onChange={(v) => setBlockByKey(idx, `style.textStyle`, v)}
           />
 
-          <Divider />
+          <Separator />
 
           <StyleComponent.Color
             title="Font Color"
@@ -128,27 +128,27 @@ export function ButtonSetting({ selectedBlock }: Props) {
             onChange={(v) => setBlockByKey(idx, 'style.fontColor', v)}
           />
 
-          <Divider />
+          <Separator />
 
           <StyleComponent.Block title={`Fit to Container (${screen})`} badge>
-            <XField.Switch
-              value={
+            <Switch
+              checked={
                 style.fullWidth?.[screen] === undefined
                   ? globalButtonStyles.fullWidth[screen]
                   : style.fullWidth[screen]
               }
-              onChange={(v) => setBlockByKey(idx, `style.fullWidth.${screen}`, v)}
+              onCheckedChange={(v) => setBlockByKey(idx, `style.fullWidth.${screen}`, v)}
             />
           </StyleComponent.Block>
 
-          <Divider />
+          <Separator />
 
           <StyleComponent.BorderRadius
             value={style.borderRadius || globalButtonStyles.borderRadius}
             onChange={(v) => setBlockByKey(idx, 'style.borderRadius', v)}
           />
 
-          <Divider />
+          <Separator />
 
           <StyleComponent.Border
             value={style.border || globalButtonStyles.border}
@@ -157,7 +157,7 @@ export function ButtonSetting({ selectedBlock }: Props) {
 
           {globalButtonStyles.hover && (
             <>
-              <Divider />
+              <Separator />
 
               <StyleComponent.ButtonHover
                 value={{
@@ -183,7 +183,7 @@ export function ButtonSetting({ selectedBlock }: Props) {
             </>
           )}
 
-          <Divider />
+          <Separator />
 
           <StyleComponent.MarginPadding
             badge
@@ -196,5 +196,5 @@ export function ButtonSetting({ selectedBlock }: Props) {
     },
   ];
 
-  return <XTabs tabs={tabs} styleType="custom" variant="fullWidth" />;
+  return <XTabs tabs={tabs} defaultTab="Settings" />;
 }

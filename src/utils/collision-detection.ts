@@ -1,5 +1,5 @@
-import type { Coordinates } from '@dnd-kit/utilities';
 import type { RefObject } from 'react';
+import type { Coordinates } from '@dnd-kit/utilities';
 import type { Collision, ClientRect, CollisionDetection } from '@dnd-kit/core';
 
 /**

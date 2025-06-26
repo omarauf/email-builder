@@ -1,10 +1,10 @@
 import { useRef } from 'react';
-import { ResizeHandler } from '@/components/floating-button/resize';
 import { useBuilderStore } from '@/hooks/use-builder-store';
+import { ResizeHandler } from '@/components/floating-button/resize';
+import type { BlockSpacer } from './type';
 import type { BlockIndex } from '../block/type';
 import type { StripeType } from '../stripe/type';
 import { useSpacerStyle } from './style';
-import type { BlockSpacer } from './type';
 
 type Prop = BlockSpacer & {
   stripeType: StripeType;

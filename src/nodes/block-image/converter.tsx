@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react';
-import { converter } from '@/utils/converter';
 import type { Css } from '@/types';
+import { converter } from '@/utils/converter';
 import type { BlockImage } from './type';
 
 export function BlockImageConverter({ block }: { block: BlockImage }) {

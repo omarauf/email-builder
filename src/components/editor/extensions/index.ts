@@ -1,24 +1,24 @@
 import type { Extensions } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import Typography from '@tiptap/extension-typography';
 import Link from '@tiptap/extension-link';
-import Placeholder from '@tiptap/extension-placeholder';
+import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
-import TextStyle from '@tiptap/extension-text-style';
 // import TextAlign from "@tiptap/extension-text-align";
 import Subscript from '@tiptap/extension-subscript';
+import TextStyle from '@tiptap/extension-text-style';
+import Typography from '@tiptap/extension-typography';
+import Placeholder from '@tiptap/extension-placeholder';
 import Superscript from '@tiptap/extension-superscript';
-// import { MentionSuggestion } from "./mention-suggestion";
-import { LineHeight } from './line-height';
-import { TextSelectionWrapper } from './select-text';
-import { LetterSpacing } from './letter-spacing';
-import { FontColor } from './font-color';
-// import { TextDirection } from "./text-direction";
-import { FontFamily } from './font-family';
-import { Highlight } from './highlight';
 import { Indent } from './indent';
 import { FontSize } from './font-size';
+import { Highlight } from './highlight';
+import { FontColor } from './font-color';
 import { TextAlign } from './text-align';
+// import { MentionSuggestion } from "./mention-suggestion";
+import { LineHeight } from './line-height';
+// import { TextDirection } from "./text-direction";
+import { FontFamily } from './font-family';
+import { LetterSpacing } from './letter-spacing';
+import { TextSelectionWrapper } from './select-text';
 // import { setMark2 } from "./set-mark";
 
 export const extensions: Extensions = [

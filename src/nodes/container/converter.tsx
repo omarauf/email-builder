@@ -1,9 +1,9 @@
 import type { CSSProperties } from 'react';
+import type { Css } from '@/types';
 import type { Styles } from '@/styles/type';
 import { converter } from '@/utils/converter';
-import type { Css } from '@/types';
-import { BlockConverter } from '../block/converter';
 import type { ContainerTree } from './type';
+import { BlockConverter } from '../block/converter';
 
 interface Props {
   container: ContainerTree;

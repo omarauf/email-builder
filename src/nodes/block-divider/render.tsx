@@ -1,8 +1,8 @@
 import { useRef } from 'react';
+import type { BlockDivider } from './type';
 import type { BlockIndex } from '../block/type';
 import type { StripeType } from '../stripe/type';
 import { useDividerStyle } from './style';
-import type { BlockDivider } from './type';
 
 type Prop = BlockDivider & {
   stripeType: StripeType;

@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react';
-import { useBuilderStore } from '@/hooks/use-builder-store';
 import { converter } from '@/utils/converter';
+import { useBuilderStore } from '@/hooks/use-builder-store';
 import type { BlockDivider } from './type';
 
 export function useDividerStyle(buttonBlock: BlockDivider) {

@@ -1,7 +1,6 @@
-import { Stack, ToggleButton, ToggleButtonGroup } from '@mui/material';
-import { Iconify } from '@/components/iconify';
 import type { Editor } from '@tiptap/react';
 import { Block } from '@/components/styles/block';
+import { XToggleButtonGroup } from '@/components/x-common';
 
 interface Props {
   editor: Editor;
@@ -27,68 +26,61 @@ export function TextStyle({ editor }: Props) {
 
   const buttons = [
     [
-      {
-        value: 'bold',
-        icon: 'solar:text-bold-bold',
-        onclick: () => editor.commands.toggleBold(),
-      },
-      {
-        value: 'italic',
-        icon: 'solar:text-italic-bold',
-        onclick: () => editor.commands.toggleItalic(),
-      },
-      {
-        value: 'underline',
-        icon: 'ic:round-format-underlined',
-        onclick: () => editor.commands.toggleUnderline(),
-      },
-      {
-        value: 'strikethrough',
-        icon: 'tabler:strikethrough',
-        onclick: () => editor.commands.toggleStrike(),
-      },
+      { value: 'bold', icon: 'solar:text-bold-bold' },
+      { value: 'italic', icon: 'solar:text-italic-bold' },
+      { value: 'underline', icon: 'ic:round-format-underlined' },
+      { value: 'strikethrough', icon: 'tabler:strikethrough' },
     ],
     [
-      {
-        value: 'subscript',
-        icon: 'material-symbols:subscript',
-        onclick: () => editor.commands.toggleSubscript(),
-      },
-      {
-        value: 'superscript',
-        icon: 'material-symbols:superscript',
-        onclick: () => editor.commands.toggleSuperscript(),
-      },
+      { value: 'subscript', icon: 'material-symbols:subscript' },
+      { value: 'superscript', icon: 'material-symbols:superscript' },
     ],
-    [
-      {
-        value: '',
-        icon: 'pajamas:clear-all',
-        onclick: () => {
-          editor.commands.unsetBold();
-          editor.commands.unsetItalic();
-          editor.commands.unsetUnderline();
-          editor.commands.unsetStrike();
-          editor.commands.unsetSubscript();
-          editor.commands.unsetSuperscript();
-        },
-      },
-    ],
+    [{ value: 'clear', icon: 'pajamas:clear-all' }],
   ];
+
+  const onChangeHandler = (value: string[]) => {
+    if (value.includes('bold')) editor.commands.toggleBold();
+    else editor.commands.unsetBold();
+
+    if (value.includes('italic')) editor.commands.toggleItalic();
+    else editor.commands.unsetItalic();
+
+    if (value.includes('underline')) editor.commands.toggleUnderline();
+    else editor.commands.unsetUnderline();
+
+    if (value.includes('strikethrough')) editor.commands.toggleStrike();
+    else editor.commands.unsetStrike();
+
+    if (value.includes('subscript')) editor.commands.toggleSubscript();
+    else editor.commands.unsetSubscript();
+
+    if (value.includes('superscript')) editor.commands.toggleSuperscript();
+    else editor.commands.unsetSuperscript();
+
+    if (value.includes('clear')) {
+      editor.commands.unsetBold();
+      editor.commands.unsetItalic();
+      editor.commands.unsetUnderline();
+      editor.commands.unsetStrike();
+      editor.commands.unsetSubscript();
+      editor.commands.unsetSuperscript();
+    }
+  };
 
   return (
     <Block title="Text Style" control>
-      <Stack direction="row" justifyContent="space-between" width={1}>
+      <div className="flex w-full justify-between">
         {buttons.map((bG, index) => (
-          <ToggleButtonGroup key={index} size="small" value={v} disabled={disabled}>
-            {bG.map((b) => (
-              <ToggleButton key={b.icon} value={b.value} onClick={() => b.onclick()}>
-                <Iconify icon={b.icon} />
-              </ToggleButton>
-            ))}
-          </ToggleButtonGroup>
+          <XToggleButtonGroup
+            type="multiple"
+            key={index}
+            value={v}
+            disabled={disabled}
+            buttons={bG}
+            onChange={onChangeHandler}
+          />
         ))}
-      </Stack>
+      </div>
     </Block>
   );
 }

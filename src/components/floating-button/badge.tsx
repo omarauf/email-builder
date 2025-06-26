@@ -1,6 +1,5 @@
-import { m, AnimatePresence } from 'framer-motion';
-import { Box, Stack, Typography } from '@mui/material';
 import { useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import type { Node } from '@/types';
 
 interface Props {
@@ -36,9 +35,9 @@ export function Badge({ node, visibilityCondition }: Props) {
     <AnimatePresence>
       {visibilityCondition && (
         <>
-          <Box
+          <div
             className="floating-button"
-            sx={{
+            style={{
               position: 'absolute',
               clipPath: 'polygon(0 0,30% 100%,0 100%)',
               transform: 'translateY(-100%)',
@@ -46,46 +45,38 @@ export function Badge({ node, visibilityCondition }: Props) {
               top: 0,
               left: elementRef.current?.getBoundingClientRect().width || 0,
               height: elementRef.current?.getBoundingClientRect().height || 50,
-              //   bgcolor: "green",
               zIndex: 100,
             }}
           />
-          <Box
-            component={m.div}
+          <motion.div
             variants={variants}
             initial="initial"
             animate="animate"
             exit="exit"
             className="floating-button"
-            sx={{
+            style={{
               position: 'absolute',
               display: 'flex',
               alignItems: 'center',
               zIndex: 100,
-              pb: 0.5,
-              //   bgcolor: "red",
+              paddingBottom: 4,
               top: 0,
               left: 0,
               transform: 'translateY(-100%)',
             }}>
-            <Stack
+            <div
               ref={elementRef}
-              direction="row"
-              bgcolor="rgb(102, 102, 102)"
-              borderRadius="15px"
-              sx={{
-                py: 0.5,
-                px: 1.5,
+              className="flex rounded-xl px-3 py-1"
+              style={{
+                backgroundColor: 'rgb(102, 102, 102)',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 zIndex: 100,
               }}>
-              <Typography color="white" variant="caption" fontSize="10px">
-                {title}
-              </Typography>
-            </Stack>
-          </Box>
+              <p className="text-[10px] text-white">{title}</p>
+            </div>
+          </motion.div>
         </>
       )}
     </AnimatePresence>

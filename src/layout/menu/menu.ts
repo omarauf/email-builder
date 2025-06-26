@@ -1,5 +1,5 @@
-import type { BlockType } from '@/nodes/block/type';
 import type { NodeType } from '@/types';
+import type { BlockType } from '@/nodes/block/type';
 
 interface MenuItem {
   type: 'block';

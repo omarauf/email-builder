@@ -1,11 +1,11 @@
-import type { BlockButton } from '../block-button/type';
 import type { BlockCode } from '../block-code/type';
-import type { BlockDivider } from '../block-divider/type';
-import type { BlockImage } from '../block-image/type';
-import type { BlockMenu } from '../block-menus/type';
-import type { BlockSpacer } from '../block-spacer/type';
 import type { BlockText } from '../block-text/type';
+import type { BlockMenu } from '../block-menus/type';
+import type { BlockImage } from '../block-image/type';
+import type { BlockButton } from '../block-button/type';
+import type { BlockSpacer } from '../block-spacer/type';
 import type { ContainerIndex } from '../container/type';
+import type { BlockDivider } from '../block-divider/type';
 
 export type BlockTree =
   | BlockButton

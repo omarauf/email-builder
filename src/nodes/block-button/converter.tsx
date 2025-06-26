@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react';
+import type { Css } from '@/types';
 import type { Styles } from '@/styles/type';
 import { converter } from '@/utils/converter';
-import type { Css } from '@/types';
 import type { BlockButton } from './type';
 
 export function BlockButtonConverter({ block, styles }: { block: BlockButton; styles: Styles }) {

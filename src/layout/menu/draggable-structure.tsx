@@ -1,21 +1,20 @@
-import { useDraggable } from '@dnd-kit/core';
-import { Stack } from '@mui/material';
-import { usePopover, CustomPopover } from '@/components/custom-popover';
 import type { Dispatch, SetStateAction } from 'react';
 import { useState, useEffect } from 'react';
-import type { Layout } from '@/nodes/structure/type';
+import { useDraggable } from '@dnd-kit/core';
 import type { NodeType } from '@/types';
+import type { Layout } from '@/nodes/structure/type';
+import { useBoolean } from '@/hooks/use-boolean';
 import { LayoutContainer } from '@/nodes/container/layout';
-import { ElementItem } from './element-item';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { structureItems } from './menu';
+import { ElementItem } from './element-item';
 
 const structure = structureItems.find((x) => x.type === 'structure');
 
 export function DraggableStructure() {
   if (!structure) throw new Error('Structure not found');
-  const clickPopover = usePopover();
   const [isDragging, setIsDragging] = useState(false);
-
+  const open = useBoolean();
   const { type, icon } = structure;
 
   // const { setNodeRef, listeners, isDragging } = useDraggable({
@@ -27,31 +26,38 @@ export function DraggableStructure() {
   //   if (isDragging) clickPopover.onClose();
   // }, [clickPopover, isDragging]);
 
-  return (
-    <>
-      <ElementItem icon={icon} onClick={clickPopover.onOpen} />
+  // return (
+  //   <Popover>
+  //     <PopoverTrigger asChild>
+  //       <Button variant="outline">Open popover</Button>
+  //     </PopoverTrigger>
+  //     <PopoverContent className="w-80">Place content for the popover here</PopoverContent>
+  //   </Popover>
+  // );
 
-      <CustomPopover
-        open={clickPopover.open}
-        onClose={clickPopover.onClose}
-        anchorEl={clickPopover.anchorEl}
-        sx={{ display: isDragging ? 'none' : 'block' }}
-        slotProps={{ arrow: { placement: 'top-left', hide: true } }}>
-        <Stack sx={{ p: 1.5, width: 500 }} spacing={2}>
-          {(
-            ['1', '2', '3', '4', '6', '7', '8', '9', '10', '1:2', '1:3', '2:1', '3:1'] as const
-          ).map((layout) => (
+  return (
+    <Popover open={open.value} onOpenChange={open.setValue}>
+      <PopoverTrigger asChild>
+        <ElementItem icon={icon} />
+      </PopoverTrigger>
+      <PopoverContent
+        className="flex w-[500px] flex-col gap-2 p-2"
+        style={{
+          display: isDragging ? 'none' : 'block',
+        }}>
+        {(['1', '2', '3', '4', '6', '7', '8', '9', '10', '1:2', '1:3', '2:1', '3:1'] as const).map(
+          (layout) => (
             <DraggableLayoutContainer
               key={layout}
               layout={layout}
-              onClose={clickPopover.onClose}
+              onClose={open.onFalse}
               type={type}
               setIsDragging={setIsDragging}
             />
-          ))}
-        </Stack>
-      </CustomPopover>
-    </>
+          )
+        )}
+      </PopoverContent>
+    </Popover>
   );
 }
 

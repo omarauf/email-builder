@@ -1,14 +1,15 @@
-import { Stack } from '@mui/material';
 import { memo, Fragment } from 'react';
-import { MasterButton } from '@/components/floating-button/master';
-import { Badge } from '@/components/floating-button/badge';
+import { cn } from '@/lib/utils';
 import { useContainer } from '@/hooks/use-node';
-import { Block } from '../block/render';
-import { DropZone } from './drop-zone/drop-zone';
-import { borderStyle } from '../common/style';
+import { classname } from '@/constant/classname';
+import { Badge } from '@/components/floating-button/badge';
+import { MasterButton } from '@/components/floating-button/master';
 import type { ContainerTree } from './type';
-import { useContainerStyle } from './style';
 import type { StructureIndex } from '../structure/type';
+import { Block } from '../block/render';
+import { useContainerStyle } from './style';
+import { DropZone } from './drop-zone/drop-zone';
+import { useBorderStyle } from '../common/use-border-style';
 
 type Props = ContainerTree & {
   structureIdx: StructureIndex;
@@ -39,26 +40,25 @@ function ContainerMemo({ structureIdx, containerIndex, ...container }: Props) {
   const { id, idx, children } = node;
 
   const { containerWrapper, containerStyle } = useContainerStyle(container, idx);
+  const { classes, beforeClasses } = useBorderStyle(isHover, isSelect, isActive, isDrag, 'blue');
 
   return (
-    <Stack
+    <div
+      aria-hidden="true"
       id={String(id)}
       ref={setNodeRef}
-      direction="column"
-      className="container"
-      sx={{
-        position: 'relative',
-        height: '100%',
-        ...containerWrapper,
-        ...borderStyle(isHover, isSelect, isActive, isDrag, {
-          borderColor: 'blue',
-        }),
-      }}
+      className={cn(
+        'relative flex h-full flex-col',
+        classname.container,
+        ...classes,
+        ...beforeClasses
+      )}
+      style={containerWrapper}
       onClick={(e) => {
         e.stopPropagation();
         selectNode(node);
       }}>
-      <Stack sx={containerStyle}>
+      <div style={containerStyle}>
         {children.map((block, index) => (
           <Fragment key={block.id}>
             {!isDrag && <DropZone accept="block" {...idx} blockIndex={index} />}
@@ -66,7 +66,7 @@ function ContainerMemo({ structureIdx, containerIndex, ...container }: Props) {
             <Block containerIdx={idx} blockIndex={index} {...block} />
           </Fragment>
         ))}
-      </Stack>
+      </div>
 
       {!isDrag && <DropZone accept="block" {...idx} blockIndex={children.length} />}
 
@@ -89,7 +89,7 @@ function ContainerMemo({ structureIdx, containerIndex, ...container }: Props) {
           (isSelect && !isBlockHover && !isBlockSelected)
         }
       />
-    </Stack>
+    </div>
   );
 }
 

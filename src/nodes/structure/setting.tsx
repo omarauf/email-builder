@@ -1,13 +1,16 @@
-import { Box, Stack, Button, Divider, Typography, IconButton } from '@mui/material';
+import { toast } from 'sonner';
+import { useShallow } from 'zustand/react/shallow';
+import { cn } from '@/lib/utils';
 import { XField } from '@/components/input';
 import { Iconify } from '@/components/iconify';
-import { useShallow } from 'zustand/react/shallow';
-import { toast } from 'sonner';
-import { blockStyle, StyleComponent } from '@/components/styles';
+import { Button } from '@/components/ui/button';
+import { Switch } from '@/components/ui/switch';
 import { getImageMetaData } from '@/utils/image';
+import { Separator } from '@/components/ui/separator';
 import { useBuilderStore } from '@/hooks/use-builder-store';
-import type { StructureTree, StructureIndex } from './type';
+import { blockStyle, StyleComponent } from '@/components/styles';
 import type { StripeTree } from '../stripe/type';
+import type { StructureTree, StructureIndex } from './type';
 
 interface Props {
   selectedStructure: StructureTree & { idx: StructureIndex };
@@ -53,37 +56,23 @@ export function StructureSetting({ selectedStructure }: Props) {
 
   return (
     <>
-      <Box {...blockStyle}>
-        <Stack
-          direction="row"
-          sx={{
-            p: 1.5,
-            borderRadius: 1,
-            border: '1px solid',
-            borderColor: 'divider',
-          }}>
-          <Stack direction="row" flexGrow={1} spacing={1.5}>
+      <div className={cn(blockStyle.px, blockStyle.py)}>
+        <div className="flex rounded-xl border p-3">
+          <div className="flex grow gap-3">
             {children.map((c, i) => (
-              <Box
+              <div
                 key={c.id}
-                sx={{
-                  textAlign: 'center',
-                  bgcolor: 'primary.lighter',
-                  color: 'primary.main',
-                  py: 1,
-                  borderRadius: 0.75,
-                  border: '1px dashed',
-                  borderColor: 'primary.main',
-                  width: `${(c.style.width / styles.general.width) * 100}%`,
-                }}>
+                className="bg-primary/50 border-muted-foreground rounded-lg border border-dashed py-2 text-center"
+                style={{ width: `${(c.style.width / styles.general.width) * 100}%` }}>
                 {i}
-              </Box>
+              </div>
             ))}
-          </Stack>
+          </div>
 
           <Button
-            variant="outlined"
-            sx={{ width: '42px', height: '42px', minWidth: 0 }}
+            size="icon"
+            variant="outline"
+            className="h-10.5 w-10.5"
             onClick={() => {
               addContainer({
                 ...selectedStructure.idx,
@@ -93,74 +82,68 @@ export function StructureSetting({ selectedStructure }: Props) {
             }}>
             <Iconify icon="ic:baseline-plus" width={24} />
           </Button>
-        </Stack>
+        </div>
 
-        <Stack direction="column" mt={2} spacing={2}>
+        <div className="mt-4 flex flex-col gap-4">
           {children.map((c, i) => (
-            <Stack key={c.id} direction="row" spacing={1} alignItems="center" width={1}>
+            <div key={c.id} className="flex w-full items-center gap-2">
               <Iconify icon="ant-design:drag-outlined" width={24} />
-              <Typography width={90}>Container {i + 1}</Typography>
-              <IconButton
+              <p className="w-fit">Container {i + 1}</p>
+              <Button
+                size="icon"
+                variant="ghost"
                 onClick={() => {
-                  deleteNode({
-                    ...c,
-                    idx: { ...selectedStructure.idx, containerIndex: i },
-                  });
+                  deleteNode({ ...c, idx: { ...selectedStructure.idx, containerIndex: i } });
                   adjustStructureContainerWidth(idx);
                 }}>
                 <Iconify icon="solar:trash-bin-trash-bold-duotone" width={24} />
-              </IconButton>
-              <Box flexGrow={1} />
+              </Button>
+              <div className="grow" />
               <XField.Number
-                size="small"
+                className="w-[120px]"
                 value={c.style.width}
                 onChange={(v) => adjustStructureContainerWidth(idx, v, i)}
-                sx={{ width: 120 }}
               />
-            </Stack>
+            </div>
           ))}
-        </Stack>
+        </div>
 
         <StyleComponent.StructureLayout
           containerWidth={children.map((c) => c.style.width)}
           containerCount={children.length}
           onChange={(v) => changeStructureLayout(idx, v)}
         />
-      </Box>
+      </div>
 
-      <Divider />
+      <Separator />
 
-      {/* {(screen === "desktop" || (screen === "mobile" && style.mobileDirection !== "row")) && ( */}
       <StyleComponent.Block badge title="Gap">
         <XField.Number
-          size="small"
           value={style.gap?.[screen] || 0}
           steps={5}
           max={screen === 'desktop' ? Math.floor(maxGap) : undefined}
+          className="w-[120px]"
           onChange={(v) => {
             setStructureByKey(idx, `style.gap.${screen}`, v);
             adjustStructureContainerWidth(idx);
           }}
-          sx={{ width: 120 }}
         />
       </StyleComponent.Block>
-      {/* )} */}
 
       {screen === 'mobile' && (
         <>
-          <Divider />
+          <Separator />
 
           <StyleComponent.Block title="Direction on Mobile">
-            <XField.Switch
-              sx={{ m: 0 }}
-              value={style.responsive}
-              onChange={(v) => setStructureByKey(idx, `style.responsive`, v)}
+            <Switch
+              checked={style.responsive}
+              onCheckedChange={(v) => setStructureByKey(idx, `style.responsive`, v)}
             />
           </StyleComponent.Block>
         </>
       )}
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.Color
         title="Background Color"
@@ -168,7 +151,7 @@ export function StructureSetting({ selectedStructure }: Props) {
         onChange={(c) => setStructureByKey(idx, 'style.backgroundColor', c)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.ImageBackground
         title="Background Image"
@@ -187,14 +170,14 @@ export function StructureSetting({ selectedStructure }: Props) {
         onChange={(v) => setStructureByKey(idx, `style.backgroundImage`, v)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.BorderRadius
         value={style.borderRadius}
         onChange={(v) => setStructureByKey(idx, 'style.borderRadius', v)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.MarginPadding
         badge
@@ -206,7 +189,7 @@ export function StructureSetting({ selectedStructure }: Props) {
         }}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.Hide
         value={data.hide}

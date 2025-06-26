@@ -1,9 +1,9 @@
 import type { CSSProperties } from 'react';
+import type { Css } from '@/types';
 import type { Styles } from '@/styles/type';
 import { converter } from '@/utils/converter';
-import type { Css } from '@/types';
-import { ContainerConverter } from '../container/converter';
 import type { StructureTree } from './type';
+import { ContainerConverter } from '../container/converter';
 
 interface Props {
   structure: StructureTree;

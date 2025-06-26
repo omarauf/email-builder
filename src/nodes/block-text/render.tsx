@@ -1,10 +1,10 @@
 import { useCallback } from 'react';
 import { Tiptap } from '@/components/editor';
 import { useBuilderStore } from '@/hooks/use-builder-store';
-import { useTextStyle } from './style';
 import type { BlockText } from './type';
-import type { StripeType } from '../stripe/type';
 import type { BlockIndex } from '../block/type';
+import type { StripeType } from '../stripe/type';
+import { useTextStyle } from './style';
 
 type Prop = BlockText & {
   stripeType: StripeType;
@@ -29,8 +29,8 @@ export function TextBlock({ stripeType, ...block }: Prop) {
   return {
     element: (
       <Tiptap
-        // style={paragraphStyles}
-        sx={{ ' p': paragraphStyles, ...headingStyles }}
+        style={{ ...paragraphStyles, ...headingStyles }}
+        // style={{ ' p': paragraphStyles, ...headingStyles }}
         content={data.text}
         onChange={onChange}
       />

@@ -1,8 +1,9 @@
 import { useShallow } from 'zustand/react/shallow';
-import { XField } from '@/components/input';
-import { Divider } from '@mui/material';
-import { useBuilderStore } from '@/hooks/use-builder-store';
+import { Input } from '@/components/ui/input';
+import { Switch } from '@/components/ui/switch';
 import { Block } from '@/components/styles/block';
+import { Separator } from '@/components/ui/separator';
+import { useBuilderStore } from '@/hooks/use-builder-store';
 
 export function EmailAnnotationsSetting() {
   const [meta, setMetaByKey] = useBuilderStore(useShallow((s) => [s.meta, s.setMetaByKey]));
@@ -11,73 +12,70 @@ export function EmailAnnotationsSetting() {
 
   return (
     <>
-      <Divider sx={{ borderBottomWidth: 2 }} />
+      <Separator />
 
       <Block
         title="Offer Badge"
         control={
-          <XField.Switch
-            value={meta.emailAnnotations.offerBadge !== undefined}
-            onChange={(v) => {
+          <Switch
+            checked={meta.emailAnnotations.offerBadge !== undefined}
+            onCheckedChange={(v) => {
               if (v) setMetaByKey('emailAnnotations.offerBadge', '20% off');
               else setMetaByKey('emailAnnotations.offerBadge', undefined);
             }}
           />
         }>
         {meta.emailAnnotations.offerBadge !== undefined && (
-          <XField.Text
-            size="small"
+          <Input
             value={meta.emailAnnotations.offerBadge || ''}
-            onChange={(v) => setMetaByKey('emailAnnotations.offerBadge', v)}
+            onChange={(e) => setMetaByKey('emailAnnotations.offerBadge', e.target.value)}
           />
         )}
       </Block>
 
-      <Divider sx={{ borderBottomWidth: 2 }} />
+      <Separator />
 
       <Block
         title="Promocode Badge"
         control={
-          <XField.Switch
-            value={meta.emailAnnotations.promoCode !== undefined}
-            onChange={(v) => {
+          <Switch
+            checked={meta.emailAnnotations.promoCode !== undefined}
+            onCheckedChange={(v) => {
               if (v) setMetaByKey('emailAnnotations.promoCode', 'PROMO-20%OFF');
               else setMetaByKey('emailAnnotations.promoCode', undefined);
             }}
           />
         }>
         {meta.emailAnnotations.promoCode !== undefined && (
-          <XField.Text
-            size="small"
+          <Input
             value={meta.emailAnnotations.promoCode || ''}
-            onChange={(v) => setMetaByKey('emailAnnotations.promoCode', v)}
+            onChange={(e) => setMetaByKey('emailAnnotations.promoCode', e.target.value)}
           />
         )}
       </Block>
 
-      <Divider sx={{ borderBottomWidth: 2 }} />
+      <Separator />
 
       <Block
         title="Include Sender Logo"
         control={
-          <XField.Switch
-            value={meta.emailAnnotations.senderLogo !== undefined}
-            onChange={(v) => {
+          <Switch
+            checked={meta.emailAnnotations.senderLogo !== undefined}
+            onCheckedChange={(v) => {
               if (v) setMetaByKey('emailAnnotations.senderLogo', '');
               else setMetaByKey('emailAnnotations.senderLogo', undefined);
             }}
           />
         }>
         {meta.emailAnnotations.senderLogo !== undefined && (
-          <XField.Text
-            size="small"
+          <Input
             value={meta.emailAnnotations.senderLogo || ''}
-            onChange={(v) => setMetaByKey('emailAnnotations.senderLogo', v)}
+            onChange={(e) => setMetaByKey('emailAnnotations.senderLogo', e.target.value)}
           />
         )}
       </Block>
 
-      {/* <Divider sx={{ borderBottomWidth: 2 }} />
+      {/* <Separator />
 
       <Block
         title="Include a Promo Image"
@@ -99,7 +97,7 @@ export function EmailAnnotationsSetting() {
         )}
       </Block>
 
-      <Divider sx={{ borderBottomWidth: 2 }} />
+      <Separator />
 
       <Block
         title="End of discount offer"

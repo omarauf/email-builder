@@ -1,7 +1,7 @@
-import { Divider } from '@mui/material';
-import { XField } from '@/components/input';
 import { useShallow } from 'zustand/react/shallow';
+import { XField } from '@/components/input';
 import { StyleComponent } from '@/components/styles';
+import { Separator } from '@/components/ui/separator';
 import { useBuilderStore } from '@/hooks/use-builder-store';
 import type { BlockSpacer } from './type';
 import type { BlockIndex } from '../block/type';
@@ -23,19 +23,18 @@ export function SpacerSetting({ selectedBlock }: Props) {
         onChange={(v) => setBlockByKey(idx, 'style.blockBackgroundColor', v)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.Block badge title={`Height (${screen})`}>
         <XField.Number
-          size="small"
           value={style.height[screen] || 0}
           onChange={(v) => setBlockByKey(idx, `style.height.${screen}`, v)}
           steps={1}
-          sx={{ width: 120 }}
+          className="w-[120px]"
         />
       </StyleComponent.Block>
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.Hide value={data.hide} onChange={(v) => setBlockByKey(idx, `data.hide`, v)} />
     </>

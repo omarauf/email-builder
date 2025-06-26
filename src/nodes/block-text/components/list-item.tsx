@@ -1,27 +1,26 @@
-import { Button, ButtonGroup } from '@mui/material';
 import type { Editor } from '@tiptap/core';
-import { Iconify } from '@/components/iconify';
 import { Block } from '@/components/styles/block';
+import { XToggleButtonGroup } from '@/components/x-common';
 
 export function ListItem({ editor }: { editor: Editor }) {
-  const bullet = () => {
-    editor.chain().focus().toggleBulletList().run();
-  };
-
-  const order = () => {
-    editor.chain().focus().toggleOrderedList().run();
+  const onClickHandler = (value: 'bullet' | 'order' | '') => {
+    if (value === 'bullet') editor.chain().focus().toggleBulletList().run();
+    else if (value === 'order') editor.chain().focus().toggleOrderedList().run();
   };
 
   return (
     <Block title="List Item">
-      <ButtonGroup variant="outlined" color="inherit">
-        <Button onClick={bullet}>
-          <Iconify icon="fa-solid:list-ul" width={20} />
-        </Button>
-        <Button onClick={order}>
-          <Iconify icon="fa-solid:list-ol" width={20} />
-        </Button>
-      </ButtonGroup>
+      <XToggleButtonGroup
+        type="single"
+        value={
+          editor.isActive('bulletList') ? 'bullet' : editor.isActive('orderedList') ? 'order' : ''
+        }
+        buttons={[
+          { value: 'bullet', icon: 'fa-solid:list-ul' },
+          { value: 'order', icon: 'fa-solid:list-ol' },
+        ]}
+        onChange={onClickHandler}
+      />
     </Block>
   );
 }

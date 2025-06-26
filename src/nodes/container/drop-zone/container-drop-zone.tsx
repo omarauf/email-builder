@@ -1,11 +1,11 @@
 import { useDroppable } from '@dnd-kit/core';
-import { Stack, Typography } from '@mui/material';
-import { Iconify } from '@/components/iconify';
 import { useShallow } from 'zustand/react/shallow';
-import { Label } from '@/components/label';
+import { cn } from '@/lib/utils';
+import { Iconify } from '@/components/iconify';
+import { classname } from '@/constant/classname';
 import { useBuilderStore } from '@/hooks/use-builder-store';
 import type { ContainerTree, ContainerIndex } from '../type';
-import { containerDropZoneStyle } from '../style';
+import { useDropZoneStyle } from '../style';
 
 type Props = ContainerTree & {
   idx: ContainerIndex;
@@ -31,32 +31,26 @@ export function ContainerDropZone({ idx, width, ...container }: Props) {
 
   const node = { ...container, idx };
 
+  const { classes } = useDropZoneStyle(isHover, isOver, isSelect, isActive, isDrag);
+
   return (
-    <Stack
+    <div
+      aria-hidden="true"
       id={String(id)}
       ref={setNodeRef}
-      className="container"
-      sx={{
-        width,
-        ...containerDropZoneStyle(isHover, isOver, isSelect, isActive, isDrag),
-      }}
+      className={cn('relative flex flex-col', classname.container, ...classes)}
+      style={{ width }}
       onClick={(e) => {
         e.stopPropagation();
         selectNode(node);
       }}>
-      <Iconify icon="solar:download-outline" color="primary.main" />
-      <Typography
-        color="primary.main"
-        variant="body2"
-        textAlign="center"
-        style={{ lineHeight: 1.5, letterSpacing: 'normal' }}>
-        Drop content here
-      </Typography>
+      <Iconify icon="solar:download-outline" className="text-primary" />
+      <p className="text-primary mt-2 mb-1 text-center text-xs font-semibold">Drop content here</p>
       {isOver && (
-        <Label color="default" variant="filled" sx={{ position: 'absolute' }}>
-          Drop here
-        </Label>
+        <span className="bg-muted-foreground text-foreground absolute rounded-md px-2 py-1 text-xs font-bold">
+          Drop Here
+        </span>
       )}
-    </Stack>
+    </div>
   );
 }

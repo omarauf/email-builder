@@ -1,19 +1,19 @@
-import { Stack } from '@mui/material';
 import { memo, Fragment } from 'react';
 import { useShallow } from 'zustand/react/shallow';
-import { MasterButton } from '@/components/floating-button/master';
-import { AddButton } from '@/components/floating-button/add';
-import { Badge } from '@/components/floating-button/badge';
+import { cn } from '@/lib/utils';
 import { useNode } from '@/hooks/use-node';
+import { classname } from '@/constant/classname';
+import { Badge } from '@/components/floating-button/badge';
 import { useBuilderStore } from '@/hooks/use-builder-store';
+import { AddButton } from '@/components/floating-button/add';
 import { HiddenBadge } from '@/components/floating-button/hidden';
 import { DEFAULT_MOBILE_WIDTH } from '@/styles/general/blueprint';
-import { classname } from '@/constant/classname';
-import { useStripeStyle } from './style';
+import { MasterButton } from '@/components/floating-button/master';
 import type { StripeTree } from './type';
-import { borderStyle } from '../common/style';
-import { DropZone } from '../container/drop-zone/drop-zone';
+import { useStripeStyle } from './style';
 import { Structure } from '../structure/render';
+import { useBorderStyle } from '../common/use-border-style';
+import { DropZone } from '../container/drop-zone/drop-zone';
 
 type Props = StripeTree & {
   stripeIndex: number;
@@ -53,22 +53,29 @@ export function StripeMemo({ stripeIndex, ...stripe }: Props) {
 
   const adjustedGeneralWidth = screen === 'desktop' ? generalWidth : DEFAULT_MOBILE_WIDTH;
 
+  const { classes, beforeClasses } = useBorderStyle(isHover, isSelect, isActive, isDrag);
+
   return (
-    <Stack
+    <div
       id={String(id)}
       ref={setNodeRef}
-      direction="column"
-      className={classname.stripeWrapper}
-      sx={{
-        position: 'relative',
-        ...stripeWrapper,
-        ...borderStyle(isHover, isSelect, isActive, isDrag),
-      }}
+      aria-hidden="true"
+      className={cn(
+        'relative flex flex-col',
+        classname.stripeWrapper,
+        ...classes,
+        ...beforeClasses
+      )}
+      style={stripeWrapper}
       onClick={(e) => {
         e.stopPropagation();
         selectNode(node);
       }}>
-      <Stack width={adjustedGeneralWidth} sx={stripeStyle}>
+      <div
+        style={{
+          width: adjustedGeneralWidth,
+          ...stripeStyle,
+        }}>
         {children.map((structure, index) => (
           <Fragment key={structure.id}>
             {(!shouldHideDropZone ||
@@ -90,7 +97,7 @@ export function StripeMemo({ stripeIndex, ...stripe }: Props) {
             />
           </Fragment>
         ))}
-      </Stack>
+      </div>
 
       {(isHover || (isSelect && !isMouseInsideTree)) && (
         <>
@@ -125,7 +132,7 @@ export function StripeMemo({ stripeIndex, ...stripe }: Props) {
       )}
 
       <HiddenBadge hidden={hide?.[screen]} />
-    </Stack>
+    </div>
   );
 }
 

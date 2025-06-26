@@ -1,10 +1,10 @@
-import { Divider } from '@mui/material';
-import { XField } from '@/components/input';
-import { useShallow } from 'zustand/react/shallow';
 import { toast } from 'sonner';
-import { StyleComponent } from '@/components/styles';
-import { useBuilderStore } from '@/hooks/use-builder-store';
+import { useShallow } from 'zustand/react/shallow';
+import { XSelect } from '@/components/x-common';
 import { getImageMetaData } from '@/utils/image';
+import { StyleComponent } from '@/components/styles';
+import { Separator } from '@/components/ui/separator';
+import { useBuilderStore } from '@/hooks/use-builder-store';
 import type { StripeTree, StripeIndex } from './type';
 
 interface Props {
@@ -17,10 +17,9 @@ export function StripeSetting({ selectedStripe }: Props) {
 
   return (
     <>
-      <StyleComponent.Block title="Message Area" control>
-        <XField.Select
-          size="small"
-          sx={{ width: 120 }}
+      <StyleComponent.Block title="Message Area">
+        <XSelect
+          className="w-[120px]"
           value={data.stripeType}
           options={[
             { name: 'Header', id: 'header' },
@@ -32,7 +31,7 @@ export function StripeSetting({ selectedStripe }: Props) {
         />
       </StyleComponent.Block>
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.Color
         title="Stripe Background Color"
@@ -44,7 +43,7 @@ export function StripeSetting({ selectedStripe }: Props) {
         onChange={(c) => setStripeByKey(idx, 'style.backgroundColor', c)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.ImageBackground
         title="Stripe Background Image"
@@ -63,7 +62,7 @@ export function StripeSetting({ selectedStripe }: Props) {
         onChange={(v) => setStripeByKey(idx, `style.backgroundImage`, v)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.Color
         title="Content Background Color"
@@ -75,7 +74,7 @@ export function StripeSetting({ selectedStripe }: Props) {
         onChange={(c) => setStripeByKey(idx, 'style.contentBackColor', c)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.Border
         value={style.border}
@@ -84,7 +83,7 @@ export function StripeSetting({ selectedStripe }: Props) {
         }}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.Hide
         value={data.hide}

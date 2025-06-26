@@ -1,10 +1,9 @@
-import { Box, Stack } from '@mui/material';
 import { memo, Fragment } from 'react';
 import { useShallow } from 'zustand/react/shallow';
-import { useBuilderStore } from '@/hooks/use-builder-store';
 import { converter } from '@/utils/converter';
-import { DropZone } from '../container/drop-zone/drop-zone';
+import { useBuilderStore } from '@/hooks/use-builder-store';
 import { Stripe } from '../stripe/render';
+import { DropZone } from '../container/drop-zone/drop-zone';
 
 function TreeMemo() {
   const [tree, margin, screen] = useBuilderStore(
@@ -12,16 +11,10 @@ function TreeMemo() {
   );
 
   return (
-    <Stack
+    <div
+      className="flex h-full flex-col px-1"
       id="tree"
-      spacing={0}
-      px={0.5}
-      sx={{
-        margin: converter.inset(margin[screen], 'px'),
-        // pl: 12,
-        // pr: 54,
-        height: '100%',
-      }}>
+      style={{ margin: converter.inset(margin[screen], 'px') }}>
       {tree.children.map((stripe, index) => (
         <Fragment key={stripe.id}>
           <DropZone accept="stripe" stripeIndex={index} />
@@ -32,8 +25,8 @@ function TreeMemo() {
 
       <DropZone accept="stripe" stripeIndex={tree.children.length} />
 
-      <Box sx={{ height: 100 }} />
-    </Stack>
+      <div className="h-28" />
+    </div>
   );
 }
 

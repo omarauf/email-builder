@@ -1,10 +1,10 @@
-import ReactDOMServer from 'react-dom/server';
 import type { CSSProperties } from 'react';
+import ReactDOMServer from 'react-dom/server';
+import type { Css, Meta } from '@/types';
 import type { Styles } from '@/styles/type';
 import { globalStyleConverter } from '@/styles/converter';
-import type { Css, Meta } from '@/types';
-import { StripeConverter } from '../stripe/converter';
 import type { Tree } from './type';
+import { StripeConverter } from '../stripe/converter';
 
 export function HTMLTreeConverter(styles: Styles, tree: Tree, meta: Meta) {
   const { css, html: body } = BodyTreeConverter({ tree, styles });

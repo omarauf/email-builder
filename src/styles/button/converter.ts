@@ -1,5 +1,5 @@
-import { converter } from '@/utils/converter';
 import type { Css } from '@/types';
+import { converter } from '@/utils/converter';
 import type { GlobalButtonStyle } from './type';
 
 export function globalButtonStyleConverter(button: GlobalButtonStyle) {

@@ -1,20 +1,19 @@
-import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
 import { toast } from 'sonner';
-import { Box, Stack } from '@mui/material';
 import { useCallback } from 'react';
 import { useShallow } from 'zustand/react/shallow';
+import { Button } from '@/components/ui/button';
 import { useBuilderStore } from '@/hooks/use-builder-store';
+import {
+  Dialog,
+  DialogClose,
+  DialogTitle,
+  DialogHeader,
+  DialogContent,
+  DialogTrigger,
+  DialogDescription,
+} from '@/components/ui/dialog';
 
-interface Props {
-  open: boolean;
-  onClose: VoidFunction;
-}
-
-export function EmailPreview({ open, onClose }: Props) {
+export function EmailPreview() {
   const [getAsHtml, getAsImage] = useBuilderStore(useShallow((s) => [s.getAsHtml, s.getAsImage]));
   const html = getAsHtml();
 
@@ -28,39 +27,51 @@ export function EmailPreview({ open, onClose }: Props) {
   const desktopImage = useCallback(() => getAsImage('desktop', 'desktop.png'), [getAsImage]);
 
   return (
-    <Dialog fullWidth maxWidth="xl" open={open} onClose={onClose}>
-      <DialogTitle>Preview Email Template</DialogTitle>
+    <Dialog>
+      <DialogTrigger asChild>
+        <Button variant="outline">Preview</Button>
+      </DialogTrigger>
 
-      <DialogContent sx={{ typography: 'body2', overflow: 'hidden', height: '70vh' }}>
-        <Stack direction="row" justifyContent="space-around" height={1}>
-          <Box border="1px solid" borderColor="divider" width={800}>
+      <DialogContent className="flex h-4/5 flex-col sm:max-w-4/5">
+        <DialogHeader>
+          <DialogTitle>Preview Email Template</DialogTitle>
+          <DialogDescription>
+            Email templates can be previewed in both desktop and mobile views. You can also download
+            the HTML or images of the previews.
+          </DialogDescription>
+        </DialogHeader>
+
+        <div className="flex h-full justify-around">
+          <div className="w-[800px] border">
             {/* <ShadowComponent html={html} /> */}
             <iframe title="Desktop View" srcDoc={html} width="100%" height="100%" />
-          </Box>
+          </div>
 
-          <Box border="1px solid" borderColor="divider" width={320}>
+          <div className="w-[320px] border">
             <iframe title="Mobile View" srcDoc={html} width="320" height="100%" />
-          </Box>
-        </Stack>
+          </div>
+        </div>
+
+        <div className="flex justify-end gap-2">
+          <DialogClose asChild>
+            <Button type="button" variant="secondary">
+              Close
+            </Button>
+          </DialogClose>
+
+          <Button variant="outline" color="primary" onClick={copyHtmlHandler}>
+            Copy HTML
+          </Button>
+
+          <Button variant="outline" color="primary" onClick={mobileImage}>
+            Download Mobile
+          </Button>
+
+          <Button variant="outline" color="primary" onClick={desktopImage}>
+            Download Desktop
+          </Button>
+        </div>
       </DialogContent>
-
-      <DialogActions>
-        <Button variant="outlined" color="inherit" onClick={onClose}>
-          Cancel
-        </Button>
-
-        <Button variant="contained" color="primary" onClick={copyHtmlHandler}>
-          Copy HTML
-        </Button>
-
-        <Button variant="contained" color="primary" onClick={mobileImage}>
-          Download Mobile
-        </Button>
-
-        <Button variant="contained" color="primary" onClick={desktopImage}>
-          Download Desktop
-        </Button>
-      </DialogActions>
     </Dialog>
   );
 }

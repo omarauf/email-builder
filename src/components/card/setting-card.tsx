@@ -1,9 +1,9 @@
-import type { SxProps, CardProps } from '@mui/material';
-import { Card, Stack, Divider, Typography, IconButton } from '@mui/material';
 import { Iconify } from '@/components/iconify';
 import { Scrollbar } from '@/components/scrollbar';
+import { Button } from '../ui/button';
+import { Separator } from '../ui/separator';
 
-const cardSx = {
+const cardStyle = {
   boxShadow:
     'rgba(0, 0, 0, 0.07) 0px 0px 0px 1px, rgba(0, 0, 0, 0.1) 0px 15px 35px -5px, rgba(0, 0, 0, 0.1) 0px 8px 10px -6px',
   transition: 'margin .15s ease-out',
@@ -13,58 +13,57 @@ const cardSx = {
 interface ActionButton {
   icon: string;
   onClick: () => void;
-  sx?: SxProps;
+  style?: React.CSSProperties;
 }
 
-interface Props extends CardProps {
+interface Props {
   title?: string;
   children: React.ReactNode;
   actionButton?: { left?: ActionButton; right?: ActionButton };
+  style?: React.CSSProperties;
+  onClick?: VoidFunction;
+  onMouseEnter?: VoidFunction;
+  onMouseLeave?: VoidFunction;
 }
 
-export function SettingCard({ title, actionButton, children, sx, ...other }: Props) {
+export function SettingCard({ title, actionButton, children, style, ...other }: Props) {
   return (
-    <Card sx={{ ...cardSx, ...sx }} {...other}>
+    <div
+      className="bg-muted overflow-hidden rounded-2xl"
+      style={{ ...cardStyle, ...style }}
+      {...other}>
       {title && (
         <>
-          <Stack
-            direction="row"
-            justifyContent="center"
-            alignItems="center"
-            sx={{ cursor: 'pointer' }}>
+          <div className="relative flex cursor-pointer items-center justify-center">
             {actionButton?.left && (
-              <IconButton
+              <Button
+                size="icon"
+                variant="ghost"
                 onClick={actionButton.left.onClick}
-                sx={{
-                  position: 'absolute',
-                  left: 10,
-                  ...actionButton.left.sx,
-                }}>
+                className="absolute left-2.5"
+                style={actionButton.left.style}>
                 <Iconify icon={actionButton.left.icon} />
-              </IconButton>
+              </Button>
             )}
 
-            <Typography variant="subtitle1" px={2.5} py={2} textAlign="center">
-              {title}
-            </Typography>
+            <p className="py-4 text-center font-semibold">{title}</p>
 
             {actionButton?.right && (
-              <IconButton
+              <Button
+                size="icon"
+                variant="ghost"
                 onClick={actionButton.right.onClick}
-                sx={{
-                  position: 'absolute',
-                  right: 10,
-                  ...actionButton.right.sx,
-                }}>
+                className="absolute right-2.5"
+                style={actionButton.right.style}>
                 <Iconify icon={actionButton.right.icon} />
-              </IconButton>
+              </Button>
             )}
-          </Stack>
-          <Divider />
+          </div>
+          <Separator />
         </>
       )}
 
       <Scrollbar>{children}</Scrollbar>
-    </Card>
+    </div>
   );
 }

@@ -12,7 +12,7 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
-  "cSpell.words": ["uuidv"],
+  "cSpell.words": ["Iconify", "uuidv"],
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,

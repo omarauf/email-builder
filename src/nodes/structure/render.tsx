@@ -1,18 +1,18 @@
-import { Stack } from '@mui/material';
 import { memo, Fragment } from 'react';
-import { MasterButton } from '@/components/floating-button/master';
-import { AddButton } from '@/components/floating-button/add';
-import { useBuilderStore } from '@/hooks/use-builder-store';
-import { Badge } from '@/components/floating-button/badge';
+import { cn } from '@/lib/utils';
 import { useNode } from '@/hooks/use-node';
-import { HiddenBadge } from '@/components/floating-button/hidden';
 import { classname } from '@/constant/classname';
+import { Badge } from '@/components/floating-button/badge';
+import { useBuilderStore } from '@/hooks/use-builder-store';
+import { AddButton } from '@/components/floating-button/add';
+import { HiddenBadge } from '@/components/floating-button/hidden';
+import { MasterButton } from '@/components/floating-button/master';
 import type { StructureTree } from './type';
 import type { StripeType, StripeIndex } from '../stripe/type';
 import { useStructureStyle } from './style';
-import { borderStyle } from '../common/style';
-import { ContainerDropZone } from '../container/drop-zone/container-drop-zone';
 import { Container } from '../container/render';
+import { useBorderStyle } from '../common/use-border-style';
+import { ContainerDropZone } from '../container/drop-zone/container-drop-zone';
 
 type Props = StructureTree & {
   stripeIdx: StripeIndex;
@@ -43,28 +43,20 @@ function StructureMemo({
 
   const screen = useBuilderStore((s) => s.screen);
 
-  const { id, idx, children, data, style } = node;
+  const { id, idx, children, data } = node;
   const { hide } = data;
 
   const { structureStyle } = useStructureStyle(structure);
 
-  // Determine direction without nested ternary
-  let direction: 'row' | 'column';
-  if (screen === 'desktop') direction = 'row';
-  else if (style.responsive) direction = 'column';
-  else direction = 'row';
+  const { classes, beforeClasses } = useBorderStyle(isHover, isSelect, isActive, isDrag);
 
   return (
-    <Stack
+    <div
       id={String(id)}
       ref={setNodeRef}
-      direction={direction}
-      position="relative"
-      className={classname.structure}
-      sx={{
-        ...structureStyle,
-        ...borderStyle(isHover, isSelect, isActive, isDrag),
-      }}
+      aria-hidden="true"
+      className={cn('relative', classname.structure, ...classes, ...beforeClasses)}
+      style={structureStyle}
       onClick={(e) => {
         e.stopPropagation();
         selectNode(node);
@@ -105,7 +97,7 @@ function StructureMemo({
       <Badge node={node} visibilityCondition={isHover || (isSelect && !isMouseInsideTree)} />
 
       <HiddenBadge hidden={hide?.[screen]} />
-    </Stack>
+    </div>
   );
 }
 

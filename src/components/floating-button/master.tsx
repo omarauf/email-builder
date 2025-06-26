@@ -1,8 +1,8 @@
 import type { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
-import { Box, Stack, Tooltip, IconButton } from '@mui/material';
-import { Iconify } from '@/components/iconify';
 import { useShallow } from 'zustand/react/shallow';
 import type { Node } from '@/types';
+import { cn } from '@/lib/utils';
+import { Iconify } from '@/components/iconify';
 import { useBuilderStore } from '@/hooks/use-builder-store';
 
 interface Props {
@@ -15,18 +15,25 @@ interface Props {
   disableDelete?: boolean;
 }
 
-export function MasterButton(props: Props) {
-  const { listeners, className, node, colorful, disableDelete, position, dragRef } = props;
+export function MasterButton({
+  listeners,
+  className,
+  node,
+  colorful,
+  disableDelete,
+  position,
+  dragRef,
+}: Props) {
   const [deleteNode, cloneNode, selectNode] = useBuilderStore(
     useShallow((s) => [s.deleteNode, s.cloneNode, s.selectNode])
   );
 
   return (
     <>
-      <Box
+      <div
         dir="ltr"
-        className={`floating-button ${className}`}
-        sx={{
+        className={cn('floating-button', className)}
+        style={{
           position: 'absolute',
           top: 0,
           height: '100%',
@@ -35,7 +42,7 @@ export function MasterButton(props: Props) {
 
           ...(position === 'inside' && {
             right: 0,
-            pr: 1,
+            paddingRight: '8px',
           }),
 
           ...(position === 'outside-right' && {
@@ -52,10 +59,10 @@ export function MasterButton(props: Props) {
         }}
       />
 
-      <Box
+      <div
         dir="ltr"
-        className={`floating-button ${className}`}
-        sx={{
+        className={cn('floating-button', className)}
+        style={{
           position: 'absolute',
           top: '50%',
           transform: 'translateY(-50%)',
@@ -64,78 +71,52 @@ export function MasterButton(props: Props) {
           zIndex: 100,
           ...(position === 'inside' && {
             right: 0,
-            pr: 1,
+            paddingRight: '8px',
           }),
 
           ...(position === 'outside-right' && {
             right: 0,
             transform: 'translateY(-50%) translateX(100%)',
-            pl: 1,
+            paddingLeft: '8px',
           }),
 
           ...(position === 'outside-left' && {
             left: 0,
             transform: 'translateY(-50%) translateX(-100%)',
-            pr: 1,
+            paddingRight: '8px',
           }),
         }}>
-        <Stack
-          direction="row"
-          className="floating-button-stack"
-          bgcolor={colorful ? 'primary.light' : 'var(--palette-grey-800)'}
-          borderRadius="15px"
-          sx={{
-            width: '38px',
-            height: '38px',
-            cursor: 'pointer',
-            '&:hover': {
-              width: 'auto',
-            },
-          }}>
-          <Stack
-            direction="row"
-            spacing={0}
-            sx={{
-              display: 'none',
-              '.floating-button-stack:hover &': {
-                display: 'flex',
-              },
-            }}>
-            <Tooltip title="Drag" arrow>
-              <IconButton ref={dragRef} {...listeners}>
-                <Iconify icon="ant-design:drag-outlined" color="white" width={22} />
-              </IconButton>
-            </Tooltip>
+        <div
+          className={cn(
+            'group flex h-9.5 w-9.5 rounded-2xl hover:w-auto',
+            colorful ? 'bg-primary' : 'bg-muted'
+          )}>
+          <div className="hidden group-hover:flex">
+            <button type="button" className="size-9 cursor-grab" ref={dragRef} {...listeners}>
+              <Iconify icon="ant-design:drag-outlined" color="white" width={22} />
+            </button>
 
-            <IconButton
+            <button
+              type="button"
+              className="size-9"
               disabled={disableDelete}
               onClick={() => {
                 selectNode(undefined);
                 deleteNode(node);
               }}>
               <Iconify icon="solar:trash-bin-trash-bold" color="white" width={22} />
-            </IconButton>
+            </button>
 
-            <IconButton onClick={() => cloneNode(node)}>
+            <button type="button" className="size-9" onClick={() => cloneNode(node)}>
               <Iconify icon="ion:duplicate" color="white" width={22} />
-            </IconButton>
-          </Stack>
+            </button>
+          </div>
 
-          <IconButton>
-            <Iconify
-              icon="tabler:dots"
-              color="white"
-              width={22}
-              // sx={{
-              //   display: "block",
-              //   ".floating-button:hover &": {
-              //     display: "none",
-              //   },
-              // }}
-            />
-          </IconButton>
-        </Stack>
-      </Box>
+          <button type="button" className="size-9">
+            <Iconify icon="tabler:dots" color="white" width={22} />
+          </button>
+        </div>
+      </div>
     </>
   );
 }

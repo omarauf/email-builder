@@ -1,5 +1,5 @@
-import { StripeTypeOptions } from '@/constant/stripe';
 import type { Css } from '@/types';
+import { StripeTypeOptions } from '@/constant/stripe';
 import type { GlobalStripeStyle } from './type';
 
 export function globalStripeStyleConverter(stripe: GlobalStripeStyle) {

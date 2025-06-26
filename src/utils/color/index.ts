@@ -1,9 +1,9 @@
+import type { HSL, HSV, RGB, RGBA, Color, ColorMap, ColorType } from './type';
 import { isHex, hexToHsl, hexToHsv, hexToRgb, hexToRgba } from './hex';
 import { isHsl, hslToHex, hslToHsv, hslToRgb, hslToRgba } from './hsl';
 import { isHsv, hsvToHex, hsvToHsl, hsvToRgb, hsvToRgba } from './hsv';
 import { isRgb, rgbToHex, rgbToHsl, rgbToHsv, rgbToRgba } from './rgb';
 import { isRgba, rgbaToHex, rgbaToHsl, rgbaToHsv, rgbaToRgb } from './rgba';
-import type { HSL, HSV, RGB, RGBA, Color, ColorMap, ColorType } from './type';
 
 // ----------------------------------------------
 
@@ -163,7 +163,7 @@ export function autoConvert<T extends keyof ColorMap>(
   return undefined;
 }
 
-export const converter = {
+export const colorConverter = {
   rgb: {
     hex: rgbToHex,
     hsl: rgbToHsl,

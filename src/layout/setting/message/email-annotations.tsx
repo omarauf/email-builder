@@ -1,8 +1,8 @@
 import { useShallow } from 'zustand/react/shallow';
-import { XField } from '@/components/input';
-import { Box, Stack, Skeleton, Typography } from '@mui/material';
+import { cn } from '@/lib/utils';
 import { Iconify } from '@/components/iconify';
-import { Label } from '@/components/label';
+import { Switch } from '@/components/ui/switch';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useBuilderStore } from '@/hooks/use-builder-store';
 import { Block, blockStyle } from '@/components/styles/block';
 
@@ -34,24 +34,24 @@ export function EmailAnnotations() {
     <>
       <Block
         title="Email annotations for Gmail"
-        control={<XField.Switch value={meta.emailAnnotations.enable} onChange={onChangeHandler} />}>
-        <Typography variant="caption" color="textSecondary">
+        control={
+          <Switch checked={meta.emailAnnotations.enable} onCheckedChange={onChangeHandler} />
+        }>
+        <p className="text-sm">
           This feature lets you showcase your deals, discounts, or offers directly in
           recipients&apos; inboxes before they open the email. Effective on mobile devices in
           Gmail’s “Promotions” folder.
-        </Typography>
+        </p>
       </Block>
 
       {meta.emailAnnotations.enable && (
-        <Stack spacing={2} sx={{ px: blockStyle.px, pb: blockStyle.py }}>
+        <div className={cn('flex flex-col gap-4', blockStyle.px, blockStyle.py)}>
           <GmailSearch />
 
-          <Typography variant="caption" ml={1} sx={{ textTransform: 'uppercase' }}>
-            Promotions
-          </Typography>
+          <p className="ml-2 uppercase">Promotions</p>
 
           <GmailProfile />
-        </Stack>
+        </div>
       )}
     </>
   );
@@ -61,69 +61,50 @@ function GmailProfile() {
   const meta = useBuilderStore((s) => s.meta);
 
   return (
-    <Stack direction="row" spacing={2}>
+    <div className="flex gap-4">
       {meta.emailAnnotations.senderLogo ? (
-        <Box
-          component="img"
+        <img
+          alt="Sender Logo"
           src={meta.emailAnnotations.senderLogo}
           width={40}
           height={40}
-          borderRadius={999}
+          className="rounded-full"
         />
       ) : (
-        <Skeleton variant="circular" width={40} height={40} />
+        <Skeleton className="bg-muted-foreground h-[40px] w-[40px] rounded-full" />
       )}
 
-      <Stack>
-        <Typography variant="subtitle2">Search in mail</Typography>
-        <Typography variant="body2">
-          {meta.subject || 'Enter subject in the field above'}
-        </Typography>
-        <Typography variant="body2">
-          {meta.preheader || 'Enter hidden preheader in the field above'}
-        </Typography>
-        <Stack direction="row" spacing={2}>
+      <div className="flex flex-col text-sm">
+        <p>Search in mail</p>
+        <p>{meta.subject || 'Enter subject in the field above'}</p>
+        <p>{meta.preheader || 'Enter hidden preheader in the field above'}</p>
+        <div className="flex items-center gap-2">
           {meta.emailAnnotations.offerBadge && (
-            <Label color="success" sx={{ px: 1 }}>
-              {meta.emailAnnotations.offerBadge}
-            </Label>
+            <p className="px-2 text-green-500">{meta.emailAnnotations.offerBadge}</p>
           )}
 
           {meta.emailAnnotations.promoCode && (
-            <Stack direction="row" alignItems="center" spacing={1}>
-              <Typography variant="caption">Code</Typography>
-              <Label color="default" sx={{ px: 1 }}>
-                {meta.emailAnnotations.promoCode}
-              </Label>
-            </Stack>
+            <div className="flex items-center gap-2">
+              <p>Code</p>
+              <p className="px-2">{meta.emailAnnotations.promoCode}</p>
+            </div>
           )}
-        </Stack>
-      </Stack>
-    </Stack>
+        </div>
+      </div>
+    </div>
   );
 }
 
 function GmailSearch() {
   return (
-    <Stack
-      direction="row"
-      alignItems="center"
-      sx={{
-        px: 2,
-        py: 1,
-        boxShadow: '0 1px 4px -2px #000',
-        borderRadius: 1,
-        bgcolor: 'background.paper',
-      }}>
+    <div className="bg-muted-foreground text-background flex items-center gap-2 rounded-lg px-4 py-2 shadow-sm">
       <Iconify icon="material-symbols:menu" />
 
-      <Typography variant="subtitle2" ml={1}>
-        Search in mail
-      </Typography>
+      <p className="ml-2">Search in mail</p>
 
-      <Box flexGrow={1} />
+      <div className="grow" />
 
-      <Skeleton variant="circular" width={24} height={24} />
-    </Stack>
+      <Skeleton className="h-6 w-6" />
+    </div>
   );
 }

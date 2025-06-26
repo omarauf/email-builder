@@ -1,7 +1,7 @@
-import { ToggleButton, ToggleButtonGroup } from '@mui/material';
-import { Iconify } from '@/components/iconify';
 import type { Alignment } from '@/types';
+import { Iconify } from '@/components/iconify';
 import { Block } from './block';
+import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group';
 
 interface Props {
   title: string;
@@ -12,27 +12,31 @@ interface Props {
 }
 
 export function AlignmentSetting({ title, value, disabled, defaultValue, onChange }: Props) {
+  const current = value || defaultValue;
+
+  const handleClick = (v: Alignment) => {
+    if (v === current) return;
+    onChange(v);
+  };
+
   return (
     <Block badge title={title}>
-      <ToggleButtonGroup
-        exclusive
+      <ToggleGroup
+        type="single"
         disabled={disabled}
-        size="small"
+        variant="outline"
         value={value || defaultValue}
-        onChange={(_, v) => {
-          if (v === null || v === value) return;
-          onChange(v);
-        }}>
-        <ToggleButton key="left" value="left">
+        onValueChange={handleClick}>
+        <ToggleGroupItem value="left">
           <Iconify icon="lucide:align-start-vertical" />
-        </ToggleButton>
-        <ToggleButton key="center" value="center">
+        </ToggleGroupItem>
+        <ToggleGroupItem value="center">
           <Iconify icon="lucide:align-center-vertical" />
-        </ToggleButton>
-        <ToggleButton key="right" value="right">
+        </ToggleGroupItem>
+        <ToggleGroupItem value="right">
           <Iconify icon="lucide:align-end-vertical" />
-        </ToggleButton>
-      </ToggleButtonGroup>
+        </ToggleGroupItem>
+      </ToggleGroup>
     </Block>
   );
 }

@@ -1,11 +1,10 @@
-import type { Theme, SxProps } from '@mui/material';
 import type { CSSProperties } from 'react';
 import { useShallow } from 'zustand/react/shallow';
-import { useBuilderStore } from '@/hooks/use-builder-store';
-import { fontFamilyOptions } from '@/constant/font';
 import { converter } from '@/utils/converter';
-import type { BlockText, HeadingType } from './type';
+import { fontFamilyOptions } from '@/constant/font';
+import { useBuilderStore } from '@/hooks/use-builder-store';
 import type { StripeType } from '../stripe/type';
+import type { BlockText, HeadingType } from './type';
 
 type HeadingStyles = Record<HeadingType, CSSProperties>;
 
@@ -56,7 +55,7 @@ export function useTextStyle(textBlock: BlockText, stripeType: StripeType) {
     headingStyles[t] = headingStyle;
   });
 
-  const paragraphStyles: SxProps<Theme> = {
+  const paragraphStyles: CSSProperties = {
     // Global Strip
     marginBottom: `${stripe[stripeType].bottomSpace?.[screen] || 0}px`,
     textAlign: textAlignment?.[screen] || textAlignment?.desktop,

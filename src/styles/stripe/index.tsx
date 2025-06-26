@@ -1,10 +1,10 @@
-import { Box, Divider } from '@mui/material';
 import { useShallow } from 'zustand/react/shallow';
-import { XField } from '@/components/input';
-import { StyleComponent } from '@/components/styles';
 import type { StripeType } from '@/nodes/stripe/type';
+import { Switch } from '@/components/ui/switch';
+import { XTabs } from '@/components/x-common/tabs';
+import { StyleComponent } from '@/components/styles';
+import { Separator } from '@/components/ui/separator';
 import { useBuilderStore } from '@/hooks/use-builder-store';
-import { XTabs } from '@/components/tabs';
 import { DEFAULT_STRIP_BOTTOM_SPACE } from './blueprint';
 
 export function StripesSetting() {
@@ -21,13 +21,13 @@ export function StripesSetting() {
   ];
 
   return (
-    <Box>
+    <div>
       <StyleComponent.FontFamily
         value={stripe.fontFamily}
         onChange={(c) => setGlobalStyleByKey('stripe.fontFamily', c)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.LineHeight
         badge
@@ -36,7 +36,7 @@ export function StripesSetting() {
         onChange={(v) => setGlobalStyleByKey(`stripe.lineHeight.${screen}`, v)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.LetterSpacing
         unit={stripe.letterSpacing.unit}
@@ -45,10 +45,10 @@ export function StripesSetting() {
         onUnitChange={(v) => setGlobalStyleByKey('stripe.letterSpacing.unit', v)}
       />
 
-      <Divider />
+      <Separator />
 
-      <XTabs tabs={TABS} styleType="custom" variant="fullWidth" />
-    </Box>
+      <XTabs tabs={TABS} defaultTab="Header" className="h-12 rounded-none py-1.5" />
+    </div>
   );
 }
 
@@ -59,14 +59,14 @@ function StripeSetting({ type }: { type: StripeType }) {
   const { stripe } = styles;
 
   return (
-    <Box>
+    <div>
       <StyleComponent.Color
         title="Stripe Background Color"
         value={stripe[type].stripeBackgroundColor || 'transparent'}
         onChange={(c) => setGlobalStyleByKey(`stripe.${type}.stripeBackgroundColor`, c)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.FontSize
         badge
@@ -75,7 +75,7 @@ function StripeSetting({ type }: { type: StripeType }) {
         onChange={(c) => setGlobalStyleByKey(`stripe.${type}.fontSize.${screen}`, c)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.Color
         title="Content Background Color"
@@ -83,7 +83,7 @@ function StripeSetting({ type }: { type: StripeType }) {
         onChange={(c) => setGlobalStyleByKey(`stripe.${type}.contentBackgroundColor`, c)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.Color
         title="Font Color"
@@ -91,7 +91,7 @@ function StripeSetting({ type }: { type: StripeType }) {
         onChange={(c) => setGlobalStyleByKey(`stripe.${type}.fontColor`, c)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.Color
         title="Link Color"
@@ -99,7 +99,7 @@ function StripeSetting({ type }: { type: StripeType }) {
         onChange={(c) => setGlobalStyleByKey(`stripe.${type}.linkColor`, c)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.Color
         title="Link Hover Color"
@@ -107,12 +107,12 @@ function StripeSetting({ type }: { type: StripeType }) {
         onChange={(c) => setGlobalStyleByKey(`stripe.${type}.linkHoverColor`, c)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.Block title="Paragraph Bottom Space">
-        <XField.Switch
-          value={stripe[type].bottomSpace !== undefined}
-          onChange={(v) => {
+        <Switch
+          checked={stripe[type].bottomSpace !== undefined}
+          onCheckedChange={(v) => {
             const defaultValue = DEFAULT_STRIP_BOTTOM_SPACE;
 
             setGlobalStyleByKey(
@@ -130,9 +130,9 @@ function StripeSetting({ type }: { type: StripeType }) {
           subTitle="The bottom space will be applied to all text paragraphs"
           value={stripe[type].bottomSpace[screen]}
           onChange={(v) => setGlobalStyleByKey(`stripe.${type}.bottomSpace.${screen}`, v)}
-          sx={{ pt: 0 }}
+          className="pt-0"
         />
       )}
-    </Box>
+    </div>
   );
 }

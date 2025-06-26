@@ -1,21 +1,22 @@
-import { Box } from '@mui/material';
-import { useShallow } from 'zustand/react/shallow';
 import { memo } from 'react';
-import { MasterButton } from '@/components/floating-button/master';
-import { useBuilderStore } from '@/hooks/use-builder-store';
-import { Badge } from '@/components/floating-button/badge';
+import { useShallow } from 'zustand/react/shallow';
+import { cn } from '@/lib/utils';
 import { useNode } from '@/hooks/use-node';
+import { classname } from '@/constant/classname';
+import { Badge } from '@/components/floating-button/badge';
+import { useBuilderStore } from '@/hooks/use-builder-store';
+import { MasterButton } from '@/components/floating-button/master';
+import type { StripeType } from '../stripe/type';
+import type { BlockTree, BlockIndex } from './type';
+import type { ContainerIndex } from '../container/type';
+import { TextBlock } from '../block-text/render';
+import { CodeBlock } from '../block-code/render';
+import { MenuBlock } from '../block-menus/render';
 import { ImageBlock } from '../block-image/render';
 import { ButtonBlock } from '../block-button/render';
 import { SpacerBlock } from '../block-spacer/render';
-import { TextBlock } from '../block-text/render';
-import { MenuBlock } from '../block-menus/render';
-import { borderStyle } from '../common/style';
-import type { BlockTree, BlockIndex } from './type';
-import type { StripeType } from '../stripe/type';
-import type { ContainerIndex } from '../container/type';
-import { CodeBlock } from '../block-code/render';
 import { DividerBlock } from '../block-divider/render';
+import { useBorderStyle } from '../common/use-border-style';
 
 type RenderBlockProps = BlockTree & {
   stripeType: StripeType;
@@ -77,16 +78,15 @@ function BlockMemo({ containerIdx, blockIndex, ...block }: Props) {
   const stripeType = getParentStripeType(node);
   const { element, style } = RenderBlock({ ...node, stripeType });
 
+  const { classes, beforeClasses } = useBorderStyle(isHover, isSelect, isActive, isDrag);
+
   return (
-    <Box
+    <div
+      aria-hidden="true"
       ref={setNodeRef}
-      className="block"
+      className={cn(classname.block, ...classes, ...beforeClasses)}
       id={`${block.id}`}
-      sx={{
-        position: 'relative',
-        ...style,
-        ...borderStyle(isHover, isSelect, isActive, isDrag),
-      }}
+      style={{ position: 'relative', ...style }}
       onClick={(e) => {
         e.stopPropagation();
         selectNode(node);
@@ -104,7 +104,7 @@ function BlockMemo({ containerIdx, blockIndex, ...block }: Props) {
       )}
 
       <Badge node={node} visibilityCondition={isHover || (isSelect && !isMouseInsideTree)} />
-    </Box>
+    </div>
   );
 }
 

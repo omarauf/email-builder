@@ -1,13 +1,17 @@
 import { Fragment, useCallback } from 'react';
-import { Stack, Divider, IconButton, Typography } from '@mui/material';
-import { XField } from '@/components/input';
 import { useShallow } from 'zustand/react/shallow';
+import { cn } from '@/lib/utils';
+import { XField } from '@/components/input';
+import { Input } from '@/components/ui/input';
 import { Iconify } from '@/components/iconify';
-import { blockStyle, StyleComponent } from '@/components/styles';
+import { Switch } from '@/components/ui/switch';
+import { Button } from '@/components/ui/button';
+import { XTabs } from '@/components/x-common/tabs';
+import { Separator } from '@/components/ui/separator';
 import { ColorPicker } from '@/components/color-picker';
-import { XToggleButtonGroup } from '@/components/buttons';
-import { XTabs } from '@/components/tabs';
+import { XToggleButtonGroup } from '@/components/x-common';
 import { useBuilderStore } from '@/hooks/use-builder-store';
+import { blockStyle, StyleComponent } from '@/components/styles';
 import type { BlockMenu } from './type';
 import type { BlockIndex } from '../block/type';
 
@@ -63,16 +67,16 @@ export function MenuSetting({ selectedBlock }: Props) {
             />
           </StyleComponent.Block> */}
 
-          <Divider />
+          <Separator />
 
           <StyleComponent.Block title="Fit to Container">
-            <XField.Switch
-              value={style.fullWidth || false}
-              onChange={(v) => setBlockByKey(idx, `style.fullWidth`, v)}
+            <Switch
+              checked={style.fullWidth || false}
+              onCheckedChange={(v) => setBlockByKey(idx, `style.fullWidth`, v)}
             />
           </StyleComponent.Block>
 
-          <Divider />
+          <Separator />
 
           <StyleComponent.Alignment
             disabled={style.fullWidth}
@@ -82,7 +86,7 @@ export function MenuSetting({ selectedBlock }: Props) {
             onChange={(v) => setBlockByKey(idx, `style.alignment.${screen}`, v)}
           />
 
-          <Divider />
+          <Separator />
 
           <StyleComponent.MarginPadding
             badge
@@ -91,7 +95,7 @@ export function MenuSetting({ selectedBlock }: Props) {
             onChange={(value) => setBlockByKey(idx, `style.padding.${screen}`, value)}
           />
 
-          <Divider />
+          <Separator />
 
           <StyleComponent.MarginPadding
             badge
@@ -100,7 +104,7 @@ export function MenuSetting({ selectedBlock }: Props) {
             onChange={(value) => setBlockByKey(idx, `style.margin.${screen}`, value)}
           />
 
-          <Divider />
+          <Separator />
 
           <StyleComponent.Hide
             value={data.hide}
@@ -116,7 +120,6 @@ export function MenuSetting({ selectedBlock }: Props) {
         <>
           <StyleComponent.Block title="Number of Menus">
             <XField.Number
-              size="small"
               value={data.menus.length}
               onChange={(v) => {
                 const oldLength = data.menus.length;
@@ -136,52 +139,52 @@ export function MenuSetting({ selectedBlock }: Props) {
               steps={1}
               min={1}
               max={8}
-              sx={{ width: 120 }}
+              className="w-[120px]"
             />
           </StyleComponent.Block>
 
-          <Divider />
+          <Separator />
 
-          <Stack>
+          <div className="flex flex-col">
             {data.menus.map((menu, i) => (
               <Fragment key={i}>
-                <Stack sx={{ ...blockStyle, py: 1.5 }}>
-                  <Stack
-                    direction="row"
-                    spacing={2}
-                    alignItems="center"
-                    justifyContent="space-between">
-                    <Typography variant="body2">Menu {i + 1}</Typography>
+                <div className={cn('flex flex-col', blockStyle.px, blockStyle.py)}>
+                  <div className="flex items-center justify-between gap-4">
+                    <p>Menu {i + 1}</p>
 
-                    <Stack direction="row" spacing={1}>
-                      <IconButton
+                    <div className="flex gap-2">
+                      <Button
+                        size="icon"
+                        variant="ghost"
                         disabled={i === data.menus.length - 1}
                         onClick={() => shiftMenuForward(i, 1)}>
                         <Iconify icon="iconamoon:arrow-down-2-duotone" />
-                      </IconButton>
-                      <IconButton disabled={i === 0} onClick={() => shiftMenuForward(i, -1)}>
+                      </Button>
+                      <Button
+                        size="icon"
+                        variant="ghost"
+                        disabled={i === 0}
+                        onClick={() => shiftMenuForward(i, -1)}>
                         <Iconify icon="iconamoon:arrow-up-2-duotone" />
-                      </IconButton>
-                    </Stack>
-                  </Stack>
+                      </Button>
+                    </div>
+                  </div>
 
-                  <Stack direction="row" spacing={2} alignItems="center" mt={1}>
-                    <Typography variant="body2">Text</Typography>
-                    <XField.Text
+                  <div className="mt-2 flex items-center gap-4">
+                    <p>Text</p>
+                    <Input
                       value={menu.text}
-                      onChange={(v) => setBlockByKey(idx, `data.menus.${i}.text`, v)}
-                      size="small"
+                      onChange={(e) => setBlockByKey(idx, `data.menus.${i}.text`, e.target.value)}
                     />
-                  </Stack>
+                  </div>
 
-                  <Stack direction="row" spacing={2} alignItems="center" mt={1}>
-                    <Typography variant="body2">Link</Typography>
-                    <XField.Text
+                  <div className="mt-2 flex items-center gap-4">
+                    <p>Link</p>
+                    <Input
                       value={menu.link}
-                      onChange={(v) => setBlockByKey(idx, `data.menus.${i}.link`, v)}
-                      size="small"
+                      onChange={(e) => setBlockByKey(idx, `data.menus.${i}.link`, e.target.value)}
                     />
-                  </Stack>
+                  </div>
 
                   {/* TODO: Implement this */}
                   {/* <Stack direction="row" justifyContent="space-between" alignItems="center" mt={1}>
@@ -191,12 +194,12 @@ export function MenuSetting({ selectedBlock }: Props) {
                       onChange={(v) => setBlockByKey(idx, `data.menus.${i}.hide.${screen}`, v)}
                     />
                   </Stack> */}
-                </Stack>
+                </div>
 
-                <Divider />
+                <Separator />
               </Fragment>
             ))}
-          </Stack>
+          </div>
         </>
       ),
     },
@@ -205,65 +208,47 @@ export function MenuSetting({ selectedBlock }: Props) {
       label: 'Styles',
       content: (
         <>
-          <Stack sx={blockStyle}>
-            <Stack direction="row" justifyContent="space-between">
-              <Typography sx={{ width: 0.3 }} variant="body2">
-                Separator
-              </Typography>
-              <Typography sx={{ width: 0.3 }} variant="body2">
-                Style
-              </Typography>
-              <Typography sx={{ width: 0.3 }} variant="body2">
-                Color
-              </Typography>
-            </Stack>
-            <Stack direction="row" justifyContent="space-between">
+          <div className={cn('flex flex-col', blockStyle.px, blockStyle.py)}>
+            <div className="flex justify-between gap-4">
+              <p className="w-1/3">Separator</p>
+              <p className="w-1/3">Style</p>
+              <p className="w-1/3">Color</p>
+            </div>
+            <div className="mt-0.5 flex justify-between gap-4">
               <XField.Number
-                size="small"
                 value={style.divider || 0}
                 onChange={(v) => setBlockByKey(idx, 'style.divider', v)}
                 steps={1}
                 min={1}
-                sx={{ width: 0.3 }}
+                className="w-1/3"
               />
               <XToggleButtonGroup
+                type="single"
                 value={style.dividerStyle || 'solid'}
                 onChange={(v) => setBlockByKey(idx, 'style.dividerStyle', v)}
-                sx={{ width: 0.3 }}
+                className="w-1/3"
                 buttons={[
-                  {
-                    value: 'solid',
-                    icon: 'gg:border-style-solid',
-                    title: 'Solid',
-                  },
-                  {
-                    value: 'dashed',
-                    icon: 'gg:border-style-dashed',
-                    title: 'Dashed',
-                  },
-                  {
-                    value: 'dotted',
-                    icon: 'gg:border-style-dotted',
-                    title: 'Dotted',
-                  },
+                  { value: 'solid', icon: 'gg:border-style-solid' },
+                  { value: 'dashed', icon: 'gg:border-style-dashed' },
+                  { value: 'dotted', icon: 'gg:border-style-dotted' },
                 ]}
               />
               <ColorPicker
                 value={style.dividerColor || '#000000'}
                 onChange={(v) => setBlockByKey(idx, 'style.dividerColor', v)}
-                sx={{ width: 0.3 }}
+                className="w-1/3"
               />
-            </Stack>
-          </Stack>
+            </div>
+          </div>
 
-          <Divider />
+          <Separator />
 
           <StyleComponent.FontFamily
             value={style.fontFamily || globalStripeStyles.fontFamily}
             onChange={(v) => setBlockByKey(idx, 'style.fontFamily', v)}
           />
 
-          <Divider />
+          <Separator />
 
           <StyleComponent.FontSize
             badge
@@ -272,14 +257,14 @@ export function MenuSetting({ selectedBlock }: Props) {
             onChange={(v) => setBlockByKey(idx, `style.fontSize.${screen}`, v)}
           />
 
-          <Divider />
+          <Separator />
 
           <StyleComponent.TextStyles
             value={style.textStyle || []}
             onChange={(v) => setBlockByKey(idx, `style.textStyle`, v)}
           />
 
-          <Divider />
+          <Separator />
 
           <StyleComponent.Color
             title={`Link Color (${screen})`}
@@ -287,11 +272,11 @@ export function MenuSetting({ selectedBlock }: Props) {
             onChange={(v) => setBlockByKey(idx, 'style.linkColor', v)}
           />
 
-          <Divider />
+          <Separator />
         </>
       ),
     },
   ];
 
-  return <XTabs tabs={tabs} styleType="custom" variant="fullWidth" />;
+  return <XTabs tabs={tabs} defaultTab="Settings" />;
 }

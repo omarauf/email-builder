@@ -1,7 +1,8 @@
-import { Box, Divider } from '@mui/material';
-import { XField } from '@/components/input';
 import { useShallow } from 'zustand/react/shallow';
+import { XField } from '@/components/input';
+import { Switch } from '@/components/ui/switch';
 import { StyleComponent } from '@/components/styles';
+import { Separator } from '@/components/ui/separator';
 import { useBuilderStore } from '@/hooks/use-builder-store';
 
 export function GeneralSetting() {
@@ -11,29 +12,28 @@ export function GeneralSetting() {
   const { general } = styles;
 
   return (
-    <Box>
+    <div>
       <StyleComponent.Color
         title="General Background Color"
         value={general.backgroundColor}
         onChange={(c) => setGlobalStyleByKey('general.backgroundColor', c)}
       />
 
-      <Divider />
+      <Separator />
 
       {screen === 'desktop' && (
         <>
           <StyleComponent.Block title="Message Content Width">
             <XField.Number
-              size="small"
               value={general.width}
               onChange={(v) => setGlobalStyleByKey('general.width', v)}
-              sx={{ width: 120 }}
+              className="w-32"
               min={320}
               max={900}
             />
           </StyleComponent.Block>
 
-          <Divider />
+          <Separator />
 
           <StyleComponent.Alignment
             title="Message Alignment"
@@ -42,20 +42,18 @@ export function GeneralSetting() {
             onChange={(v) => setGlobalStyleByKey('general.alignment', v)}
           />
 
-          <Divider />
+          <Separator />
         </>
       )}
 
       <StyleComponent.Block title="RTL">
-        {/* <XField.Switch sx={{ m: 0 }} value={general.rtl} onChange={(v) => setGlobalStyleByKey("general.rtl", v)} /> */}
-        <XField.Switch
-          sx={{ m: 0 }}
-          value={general.rtl}
-          onChange={(v) => onGeneralDirChange(v ? 'rtl' : 'ltr')}
+        <Switch
+          checked={general.rtl}
+          onCheckedChange={(v) => onGeneralDirChange(v ? 'rtl' : 'ltr')}
         />
       </StyleComponent.Block>
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.MarginPadding
         badge
@@ -64,7 +62,7 @@ export function GeneralSetting() {
         onChange={(value) => setGlobalStyleByKey(`general.structurePadding.${screen}`, value)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.MarginPadding
         badge
@@ -72,6 +70,6 @@ export function GeneralSetting() {
         value={general.margin[screen]}
         onChange={(value) => setGlobalStyleByKey(`general.margin.${screen}`, value)}
       />
-    </Box>
+    </div>
   );
 }

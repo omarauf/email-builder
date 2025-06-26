@@ -1,6 +1,14 @@
+import type { EmailTemplateData } from '@/types';
 import * as Thumbnail from '@/assets';
 import * as _default from './default';
-import type { DefaultTemplate } from '../types';
+
+interface DefaultTemplate<T extends string = string> {
+  name: T;
+  data: EmailTemplateData;
+  thumbnail: string;
+  language: string;
+  description: string;
+}
 
 type DefaultTemplateName = 'default';
 
@@ -18,7 +26,7 @@ export const DEFAULT_TEMPLATES: DefaultTemplateClass = {
   templates: {
     default: {
       name: 'default',
-      params: _default,
+      data: _default,
       thumbnail: Thumbnail.Default,
       language: 'en',
       description: 'Default email template',

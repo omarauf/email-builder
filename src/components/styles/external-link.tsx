@@ -1,7 +1,8 @@
-import { Stack, IconButton, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { Iconify } from '@/components/iconify';
-import { XField } from '@/components/input';
+import { Button } from '@/components/ui/button';
+import { ToggleGroup, ToggleGroupItem } from '@/components/ui/toggle-group';
 import { Block } from './block';
+import { Input } from '../ui/input';
 
 interface Props {
   title?: string;
@@ -17,7 +18,7 @@ const isValidLink = (link: string) => {
 export function ExternalLink({ title, value, onChange }: Props) {
   const show = value !== undefined;
 
-  const handleClick = (_: React.MouseEvent<HTMLDivElement>) => {
+  const handleClick = () => {
     if (value) {
       onChange(undefined);
     } else {
@@ -33,25 +34,31 @@ export function ExternalLink({ title, value, onChange }: Props) {
     <Block
       title={title || 'External Link'}
       control={
-        <ToggleButtonGroup exclusive size="small" onClick={handleClick} value={value ? 'link' : ''}>
-          <ToggleButton key="link" value="link">
+        <ToggleGroup
+          type="single"
+          className="gap-0"
+          value={value ? 'link' : ''}
+          onValueChange={handleClick}>
+          <ToggleGroupItem value="link" aria-label="Toggle link">
             <Iconify icon="ph:link" />
-          </ToggleButton>
-        </ToggleButtonGroup>
+          </ToggleGroupItem>
+        </ToggleGroup>
       }>
       {show && (
-        <Stack direction="row" spacing={2}>
-          <XField.Text
+        <div className="flex flex-row items-center gap-2">
+          <Input
             value={value || ''}
-            size="small"
             placeholder="Enter URL here"
-            onChange={handleChange}
-            sx={{ p: 0 }}
+            onChange={(e) => handleChange(e.target.value)}
           />
-          <IconButton disabled={!isValidLink(value)} onClick={() => window.open(value, '_blank')}>
+          <Button
+            variant="ghost"
+            size="icon"
+            disabled={!isValidLink(value)}
+            onClick={() => window.open(value, '_blank')}>
             <Iconify icon="majesticons:open" />
-          </IconButton>
-        </Stack>
+          </Button>
+        </div>
       )}
     </Block>
   );

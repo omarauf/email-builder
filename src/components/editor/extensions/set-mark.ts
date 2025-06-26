@@ -1,6 +1,6 @@
-import { Extension, getMarkType, isTextSelection, getMarkAttributes } from '@tiptap/react';
 import type { MarkType, ResolvedPos } from '@tiptap/pm/model';
 import type { EditorState, Transaction } from '@tiptap/pm/state';
+import { Extension, getMarkType, isTextSelection, getMarkAttributes } from '@tiptap/react';
 
 declare module '@tiptap/react' {
   interface Commands<ReturnType> {

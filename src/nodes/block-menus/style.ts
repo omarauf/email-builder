@@ -1,9 +1,8 @@
-import { useShallow } from 'zustand/react/shallow';
 import type { CSSProperties } from 'react';
-import type { Theme, SxProps } from '@mui/material';
-import { useBuilderStore } from '@/hooks/use-builder-store';
-import { fontFamilyOptions } from '@/constant/font';
+import { useShallow } from 'zustand/react/shallow';
 import { converter } from '@/utils/converter';
+import { fontFamilyOptions } from '@/constant/font';
+import { useBuilderStore } from '@/hooks/use-builder-store';
 import type { BlockMenu } from './type';
 import type { StripeType } from '../stripe/type';
 
@@ -28,16 +27,10 @@ export function useMenuStyle(menuBlock: BlockMenu, stripeType: StripeType) {
 
   const menuStyle: CSSProperties = {
     color: style.linkColor || globalStripeStyles[stripeType].linkColor,
-  };
-
-  const menuSx: SxProps<Theme> = {
     textAlign: 'center',
     width: style.fullWidth ? `${(1 / data.menus.length) * 100}%` : 'auto',
     padding: converter.inset(style.margin?.[screen], 'px'),
-    ':not(:first-child)': {
-      borderLeft: `${style.divider}px ${style.dividerStyle} ${style.dividerColor}`,
-    },
   };
 
-  return { menuWrapperStyle, menuSx, menuStyle };
+  return { menuWrapperStyle, menuStyle };
 }

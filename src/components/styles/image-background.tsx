@@ -1,11 +1,11 @@
-import { XField } from '@/components/input';
-import { Box, Stack, Button, Typography } from '@mui/material';
 import type { ImageBackground } from '@/types';
-import { Image as ImageElement } from '@/components/image';
+import { cn } from '@/lib/utils';
 import { useBoolean } from '@/hooks/use-boolean';
-import { fSize } from '@/utils/format-number';
 import { Block } from './block';
-import { XToggleButtonGroup } from '../buttons';
+import { Input } from '../ui/input';
+import { Switch } from '../ui/switch';
+import { ImageChanger } from './image-changer';
+import { XSelect, XToggleButtonGroup } from '../x-common';
 
 interface Props {
   title: string;
@@ -33,7 +33,7 @@ export function ImageBackgroundSetting({ title, value, onSrcChange, onChange }: 
   };
 
   return (
-    <Block title={title} control={<XField.Switch value={enable} onChange={handleEnableChange} />}>
+    <Block title={title} control={<Switch checked={enable} onCheckedChange={handleEnableChange} />}>
       {enable && <Content value={value} onChange={onChange} onSrcChange={onSrcChange} />}
     </Block>
   );
@@ -65,98 +65,61 @@ function Content({ value, onChange, onSrcChange }: ContentProps) {
   };
 
   const renderText = (
-    <XField.Text label="Image URL" value={src} onChange={onSrcChange} size="small" />
+    <Input
+      placeholder="Image URL"
+      value={src}
+      onChange={(v) => onSrcChange(v.target.value)}
+      className="mt-4"
+    />
   );
 
   const renderProperties = metaData && (
-    <Stack spacing={2}>
-      <Stack direction="row" spacing={2}>
-        <ImageElement
-          src={src}
-          sx={{
-            width: 120,
-            aspectRatio: 1,
-            borderRadius: 1,
-            backgroundPosition: '0 0, 10px 10px',
-            backgroundSize: '20px 20px',
-            backgroundImage:
-              'linear-gradient(45deg, rgba(0, 0, 0, 0.07) 25%, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0.07) 0px), linear-gradient(45deg, rgba(0, 0, 0, 0.07) 25%, rgba(0, 0, 0, 0) 0px, rgba(0, 0, 0, 0) 75%, rgba(0, 0, 0, 0.07) 0px)',
-            boxShadow: '0 0 0 1px rgba(0, 0, 0, 0.1)',
-          }}
-          slotProps={{
-            image: { objectFit: 'contain' },
-          }}
-        />
+    <div className="mt-4 flex flex-col gap-4">
+      <ImageChanger
+        src={src}
+        metaData={metaData}
+        onChange={() => onChange({ ...value, src: '', metaData: undefined })}
+        className="p-0"
+      />
 
-        <Stack>
-          <Typography>{metaData.name}</Typography>
-
-          <Typography variant="body2">
-            {metaData.width} x {metaData.height} px
-          </Typography>
-
-          {metaData.size !== 0 && <Typography variant="body2">{fSize(metaData.size)}</Typography>}
-
-          <Box flexGrow={1} />
-
-          <Button
-            variant="outlined"
-            onClick={() => onChange({ ...value, src: '', metaData: undefined })}>
-            Change Image
-          </Button>
-        </Stack>
-      </Stack>
-
-      <Block title="Background Repeat" sx={{ px: 0, py: 0 }}>
-        <XField.Switch
-          value={value.repeat === 'repeat'}
-          onChange={(v) => onChange({ ...value, repeat: v ? 'repeat' : 'no-repeat' })}
+      <Block title="Background Repeat" className="p-0">
+        <Switch
+          checked={value.repeat === 'repeat'}
+          onCheckedChange={(v) => onChange({ ...value, repeat: v ? 'repeat' : 'no-repeat' })}
         />
       </Block>
 
-      <Stack spacing={1}>
-        <Block title="Horizontal Position" sx={{ px: 0, py: 0 }}>
+      <div className="flex flex-col gap-2">
+        <Block title="Horizontal Position" className="p-0">
           <XToggleButtonGroup
+            type="single"
             value={value.positionH.value}
             buttons={[
-              {
-                title: 'Left',
-                value: 'left',
-                icon: 'lucide:align-start-vertical',
-              },
-              {
-                title: 'Center',
-                value: 'center',
-                icon: 'lucide:align-center-vertical',
-              },
-              {
-                title: 'Right',
-                value: 'right',
-                icon: 'lucide:align-end-vertical',
-              },
-              {
-                title: 'Custom',
-                value: 'custom',
-                icon: 'akar-icons:settings-horizontal',
-              },
+              { value: 'left', icon: 'lucide:align-start-vertical' },
+              { value: 'center', icon: 'lucide:align-center-vertical' },
+              { value: 'right', icon: 'lucide:align-end-vertical' },
+              { value: 'custom', icon: 'akar-icons:settings-horizontal' },
             ]}
             onChange={handleCustomPositionH}
           />
         </Block>
+
         {value.positionH.value === 'custom' && (
-          <Stack direction="row" justifyContent="end" alignItems="center">
-            <XField.Number
+          <div className="flex items-center justify-end gap-2">
+            <Input
               value={value.positionH.customValue}
+              type="number"
               onChange={(v) =>
                 onChange({
                   ...value,
-                  positionH: { ...value.positionH, customValue: v },
+                  positionH: { ...value.positionH, customValue: v.target.valueAsNumber },
                 })
               }
-              size="small"
-              sx={{ width: 110 }}
+              className="w-28"
             />
+
             <XToggleButtonGroup
+              type="single"
               value={value.positionH.customUnit}
               buttons={[
                 { value: 'px', title: 'px' },
@@ -169,53 +132,41 @@ function Content({ value, onChange, onSrcChange }: ContentProps) {
                 })
               }
             />
-          </Stack>
+          </div>
         )}
-      </Stack>
+      </div>
 
-      <Stack spacing={1}>
-        <Block title="Vertical Position" sx={{ px: 0, py: 0 }}>
+      <div className="flex flex-col gap-2">
+        <Block title="Vertical Position" className="p-0">
           <XToggleButtonGroup
+            type="single"
             value={value.positionV.value}
             buttons={[
-              {
-                title: 'Top',
-                value: 'top',
-                icon: 'lucide:align-start-horizontal',
-              },
-              {
-                title: 'Center',
-                value: 'center',
-                icon: 'lucide:align-center-horizontal',
-              },
-              {
-                title: 'Bottom',
-                value: 'bottom',
-                icon: 'lucide:align-end-horizontal',
-              },
-              {
-                title: 'Custom',
-                value: 'custom',
-                icon: 'akar-icons:settings-vertical',
-              },
+              { value: 'top', icon: 'lucide:align-start-horizontal' },
+              { value: 'center', icon: 'lucide:align-center-horizontal' },
+              { value: 'bottom', icon: 'lucide:align-end-horizontal' },
+              { value: 'custom', icon: 'akar-icons:settings-vertical' },
             ]}
             onChange={handleCustomPositionV}
           />
         </Block>
+
         {value.positionV.value === 'custom' && (
-          <Stack direction="row" justifyContent="end" alignItems="center">
-            <XField.Number
+          <div className="flex items-center justify-end gap-2">
+            <Input
               value={value.positionV.customValue}
+              type="number"
               onChange={(v) =>
                 onChange({
                   ...value,
-                  positionV: { ...value.positionV, customValue: v },
+                  positionV: { ...value.positionV, customValue: v.target.valueAsNumber },
                 })
               }
-              size="small"
-              sx={{ width: 110 }}
+              className="w-28"
             />
+
             <XToggleButtonGroup
+              type="single"
               value={value.positionV.customUnit}
               buttons={[
                 { value: 'px', title: 'px' },
@@ -228,21 +179,24 @@ function Content({ value, onChange, onSrcChange }: ContentProps) {
                 })
               }
             />
-          </Stack>
+          </div>
         )}
-      </Stack>
+      </div>
 
-      <Block title="Background Width" sx={{ px: 0, py: 0 }}>
-        <XField.Number
+      <Block title="Background Width" className="p-0">
+        <Input
           value={value.width.customValue}
-          onChange={(v) => onChange({ ...value, width: { ...value.width, customValue: v } })}
-          size="small"
-          sx={{
-            width: 110,
-            display: value.width.value === 'px' || value.width.value === '%' ? 'block' : 'none',
-          }}
+          type="number"
+          onChange={(v) =>
+            onChange({ ...value, width: { ...value.width, customValue: v.target.valueAsNumber } })
+          }
+          className={cn(
+            'w-24',
+            value.width.value === 'px' || value.width.value === '%' ? 'block' : 'hidden'
+          )}
         />
-        <XField.Select
+
+        <XSelect
           value={value.width.value}
           options={[
             { id: 'px', name: 'px' },
@@ -252,22 +206,24 @@ function Content({ value, onChange, onSrcChange }: ContentProps) {
             { id: 'contain', name: 'Contain' },
           ]}
           onChange={(v) => v && onChange({ ...value, width: { ...value.width, value: v } })}
-          size="small"
-          sx={{ width: 80 }}
+          className="w-28"
         />
       </Block>
 
-      <Block title="Background Height" sx={{ px: 0, py: 0 }}>
-        <XField.Number
+      <Block title="Background Height" className="p-0">
+        <Input
           value={value.height.customValue}
-          onChange={(v) => onChange({ ...value, height: { ...value.height, customValue: v } })}
-          size="small"
-          sx={{
-            width: 110,
-            display: value.height.value === 'px' || value.height.value === '%' ? 'block' : 'none',
-          }}
+          type="number"
+          onChange={(v) =>
+            onChange({ ...value, height: { ...value.height, customValue: v.target.valueAsNumber } })
+          }
+          className={cn(
+            'w-24',
+            value.height.value === 'px' || value.height.value === '%' ? 'block' : 'hidden'
+          )}
         />
-        <XField.Select
+
+        <XSelect
           value={value.height.value}
           options={[
             { id: 'px', name: 'px' },
@@ -277,11 +233,10 @@ function Content({ value, onChange, onSrcChange }: ContentProps) {
             { id: 'contain', name: 'Contain' },
           ]}
           onChange={(v) => v && onChange({ ...value, height: { ...value.height, value: v } })}
-          size="small"
-          sx={{ width: 80 }}
+          className="w-28"
         />
       </Block>
-    </Stack>
+    </div>
   );
 
   return metaData ? renderProperties : renderText;

@@ -1,10 +1,10 @@
-import { Stack, Typography } from '@mui/material';
 import type { RefObject } from 'react';
-import { useRef, useEffect } from 'react';
-import { Iconify } from '@/components/iconify';
 import type { UniqueIdentifier } from '@dnd-kit/core';
-import { useBuilderStore } from '@/hooks/use-builder-store';
+import { useRef, useEffect } from 'react';
 import type { Responsive } from '@/types';
+import { cn } from '@/lib/utils';
+import { Iconify } from '@/components/iconify';
+import { useBuilderStore } from '@/hooks/use-builder-store';
 
 interface Props {
   id: UniqueIdentifier;
@@ -23,8 +23,6 @@ export function ResizeHandler({ id, value, screen, ref, onChange }: Props) {
   useEffect(() => {
     if (!ref.current || !labelRef.current || !selected) return;
 
-    // if (type === "line") elementRef.current.style.height = `auto`;
-    // else elementRef.current.style.height = `${value}px`;
     ref.current.style.height = `${value[screen]}px`;
   }, [ref, selected, screen, value]);
 
@@ -60,29 +58,15 @@ export function ResizeHandler({ id, value, screen, ref, onChange }: Props) {
   };
 
   return (
-    <Stack
-      direction="row"
-      position="absolute"
-      justifyContent="center"
-      alignItems="center"
-      spacing={1}
-      className="floating-button"
-      onMouseDown={handleMouseDown}
-      sx={{
-        bottom: 0,
-        bgcolor: 'primary.main',
-        transform: 'translateY(50%)',
-        zIndex: 10,
-        color: 'white',
-        px: 1,
-        py: 0.5,
-        borderRadius: 1,
-        userSelect: 'none',
-        cursor: 's-resize',
-        // display: type === "line" ? "none" : "flex",
-      }}>
-      <Typography variant="body2" ref={labelRef}>{`${value[screen]}px`}</Typography>
+    <div
+      aria-hidden="true"
+      className={cn(
+        'floating-button',
+        'bg-primary absolute bottom-0 left-1/2 z-10 flex -translate-x-1/2 translate-y-1/2 cursor-s-resize items-center justify-center gap-2 rounded-md px-2 py-1 text-white select-none'
+      )}
+      onMouseDown={handleMouseDown}>
+      <p ref={labelRef}>{`${value[screen]}px`}</p>
       <Iconify icon="vaadin:resize-h" width={16} />
-    </Stack>
+    </div>
   );
 }

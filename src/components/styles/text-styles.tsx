@@ -1,6 +1,6 @@
-import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { Iconify } from '@/components/iconify';
 import { Block } from './block';
+import { ToggleGroup, ToggleGroupItem } from '../ui/toggle-group';
 
 type Value = 'bold' | 'italic' | 'underline';
 
@@ -12,17 +12,21 @@ interface Props {
 export function TextStyles({ value, onChange }: Props) {
   return (
     <Block title="Text Styles">
-      <ToggleButtonGroup size="small" value={value} onChange={(_, v) => onChange(v)}>
-        <ToggleButton key="bold" value="bold">
+      <ToggleGroup
+        type="multiple"
+        variant="outline"
+        value={value}
+        onValueChange={(v) => onChange(v as Value[])}>
+        <ToggleGroupItem key="bold" value="bold">
           <Iconify icon="ooui:bold-b" />
-        </ToggleButton>
-        <ToggleButton key="italic" value="italic">
+        </ToggleGroupItem>
+        <ToggleGroupItem key="italic" value="italic">
           <Iconify icon="ooui:italic-i" />
-        </ToggleButton>
-        <ToggleButton key="underline" value="underline">
+        </ToggleGroupItem>
+        <ToggleGroupItem key="underline" value="underline">
           <Iconify icon="ooui:underline-u" />
-        </ToggleButton>
-      </ToggleButtonGroup>
+        </ToggleGroupItem>
+      </ToggleGroup>
     </Block>
   );
 }

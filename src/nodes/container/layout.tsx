@@ -1,5 +1,6 @@
-import { Box, Stack } from '@mui/material';
+/* eslint-disable jsx-a11y/control-has-associated-label */
 import type { SyntheticListenerMap } from '@dnd-kit/core/dist/hooks/utilities';
+import { cn } from '@/lib/utils';
 import { parseLayouts, getLayoutTotal } from '@/utils/layout';
 import type { Layout } from '../structure/type';
 
@@ -18,38 +19,29 @@ export function LayoutContainer({ layout, size = 'small', onClick, itemRef, list
   const isSmall = size === 'small';
 
   return (
-    <Stack
+    <div
       ref={itemRef}
-      direction="row"
-      spacing={isSmall ? 1 : 1.5}
-      bgcolor="background.paper"
-      sx={{
-        p: isSmall ? 0.75 : 1,
-        borderRadius: 0.75,
+      className={cn(
+        'bg-foreground flex rounded hover:shadow-amber-600',
+        isSmall ? 'h-8 gap-1 p-[3px]' : 'h-10 gap-1.5 p-1'
+      )}
+      style={{
+        // TODO: use theme palette
         boxShadow: `0 0 0 2px var(--palette-divider)`,
         cursor: onClick ? 'pointer' : 'grab',
-        '&:hover': {
-          boxShadow: `0 0 0 2px var(--palette-primary-main)`,
-        },
-        height: isSmall ? 30 : 40,
       }}
       {...listeners}>
       {layouts.map((l, i) => (
-        <Box
+        <button
+          type="button"
           key={i}
           onClick={onClick}
-          sx={{
-            textAlign: 'center',
-            bgcolor: 'primary.lighter',
-            color: 'primary.main',
-            py: 1,
-            borderRadius: 0.5,
-            border: '1px dashed',
-            borderColor: 'primary.main',
+          className="bg-primary/60 border-primary rounded border border-dashed py-0.5"
+          style={{
             width: `${(l / total) * 100}%`,
           }}
         />
       ))}
-    </Stack>
+    </div>
   );
 }

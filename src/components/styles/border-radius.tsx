@@ -1,9 +1,10 @@
-import { Box, Stack, Typography, ToggleButton } from '@mui/material';
-import { XField } from '@/components/input';
 import { useState } from 'react';
-import { Iconify } from '@/components/iconify';
 import type { Inset } from '@/types';
+import { cn } from '@/lib/utils';
+import { Iconify } from '@/components/iconify';
+import { Input } from '../ui/input';
 import { blockStyle } from './block';
+import { Toggle } from '../ui/toggle';
 
 interface Props {
   value?: Inset;
@@ -20,25 +21,22 @@ export function BorderRadiusSetting({ value, onChange }: Props) {
   };
 
   return (
-    <Stack {...blockStyle} py={2}>
-      <Stack
-        direction="row"
-        display="grid"
-        gridTemplateColumns="1fr 1fr 1fr"
-        gap={2}
-        alignItems="center">
-        <Typography variant="body2">Border Radius</Typography>
+    <div className={cn('space-y-2', blockStyle.px, blockStyle.py)}>
+      <div className="grid grid-cols-3 items-center gap-2">
+        <span className="text-muted-foreground text-sm">Border Radius</span>
+
         {sync ? (
-          <XField.Number size="small" value={value?.[0] || 0} onChange={onChangeHandler(0)} />
+          <Input
+            type="number"
+            value={value?.[0] ?? 0}
+            onChange={(e) => onChangeHandler(0)(+e.target.value)}
+          />
         ) : (
-          <Box />
+          <div />
         )}
-        <Stack direction="row" justifyContent="end">
-          <ToggleButton
-            value={sync}
-            size="small"
-            selected={sync}
-            onChange={() => setSync((prv) => !prv)}>
+
+        <div className="flex justify-end">
+          <Toggle pressed={sync} onPressedChange={() => setSync(!sync)} variant="outline">
             <Iconify
               icon={
                 sync
@@ -46,19 +44,36 @@ export function BorderRadiusSetting({ value, onChange }: Props) {
                   : 'solar:lock-keyhole-minimalistic-unlocked-bold-duotone'
               }
             />
-          </ToggleButton>
-        </Stack>
+          </Toggle>
+        </div>
+
         {!sync && (
           <>
-            <XField.Number size="small" value={value?.[0] || 0} onChange={onChangeHandler(0)} />
-            <Box />
-            <XField.Number size="small" value={value?.[1] || 0} onChange={onChangeHandler(1)} />
-            <XField.Number size="small" value={value?.[2] || 0} onChange={onChangeHandler(2)} />
-            <Box />
-            <XField.Number size="small" value={value?.[3] || 0} onChange={onChangeHandler(3)} />
+            <Input
+              type="number"
+              value={value?.[0] ?? 0}
+              onChange={(e) => onChangeHandler(0)(+e.target.value)}
+            />
+            <div />
+            <Input
+              type="number"
+              value={value?.[1] ?? 0}
+              onChange={(e) => onChangeHandler(1)(+e.target.value)}
+            />
+            <Input
+              type="number"
+              value={value?.[2] ?? 0}
+              onChange={(e) => onChangeHandler(2)(+e.target.value)}
+            />
+            <div />
+            <Input
+              type="number"
+              value={value?.[3] ?? 0}
+              onChange={(e) => onChangeHandler(3)(+e.target.value)}
+            />
           </>
         )}
-      </Stack>
-    </Stack>
+      </div>
+    </div>
   );
 }

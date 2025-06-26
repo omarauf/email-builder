@@ -1,9 +1,9 @@
 import type { CSSProperties } from 'react';
+import type { Css } from '@/types';
 import type { Styles } from '@/styles/type';
 import { converter } from '@/utils/converter';
-import type { Css } from '@/types';
-import { StructureConverter } from '../structure/converter';
 import type { StripeTree } from './type';
+import { StructureConverter } from '../structure/converter';
 
 export function StripeConverter({ stripe, styles }: { stripe: StripeTree; styles: Styles }) {
   const { data, children, style, id } = stripe;

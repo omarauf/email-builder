@@ -1,7 +1,7 @@
-import type { Theme, SxProps } from '@mui/material';
+import type { CSSProperties } from 'react';
 import { useShallow } from 'zustand/react/shallow';
-import { useBuilderStore } from '@/hooks/use-builder-store';
 import { converter } from '@/utils/converter';
+import { useBuilderStore } from '@/hooks/use-builder-store';
 import type { StructureTree } from './type';
 
 export function useStructureStyle(structure: StructureTree) {
@@ -10,13 +10,20 @@ export function useStructureStyle(structure: StructureTree) {
   );
 
   const { style } = structure;
-  const { gap, padding, backgroundImage, borderRadius, backgroundColor } = style;
+  const { gap, padding, backgroundImage, borderRadius, backgroundColor, responsive } = style;
 
-  const structureStyle: SxProps<Theme> = {
+  let direction: 'row' | 'column';
+  if (screen === 'desktop') direction = 'row';
+  else if (responsive) direction = 'column';
+  else direction = 'row';
+
+  const structureStyle: CSSProperties = {
+    display: 'flex',
     backgroundColor,
     borderRadius: converter.inset(borderRadius, 'px'),
     padding: converter.inset(padding?.[screen] || padding?.desktop || generalPadding[screen], 'px'),
     gap: `${gap?.[screen]}px`,
+    flexDirection: direction,
     ...converter.image(backgroundImage),
   };
 

@@ -1,6 +1,6 @@
 import { useRef, useEffect } from 'react';
 import type { HSL } from '@/utils/color/type';
-import { converter, validator } from '@/utils/color';
+import { validator, colorConverter } from '@/utils/color';
 
 const MAX_HUE = 360;
 
@@ -31,8 +31,8 @@ export function useColorPicker({ onChange, innerValue, setInnerValue }: Props) {
     if (!inputRRef.current || !inputGRef.current || !inputBRef.current) return;
 
     inputHexRef.current.value = innerValue;
-    const hsl = converter.hex.hsl(innerValue);
-    const rgb = converter.hex.rgb(innerValue);
+    const hsl = colorConverter.hex.hsl(innerValue);
+    const rgb = colorConverter.hex.rgb(innerValue);
 
     hslColor.current = hsl;
     saturationRef.current.style.background = `hsl(${hsl.h},100%,50%)`;
@@ -74,8 +74,8 @@ export function useColorPicker({ onChange, innerValue, setInnerValue }: Props) {
     hslColor.current.h = hue;
     saturationRef.current.style.background = `hsl(${hue},100%,50%)`;
 
-    const hex = converter.hsl.hex(hslColor.current);
-    const rgb = converter.hex.rgb(hex);
+    const hex = colorConverter.hsl.hex(hslColor.current);
+    const rgb = colorConverter.hex.rgb(hex);
 
     inputHexRef.current.value = hex;
     inputRRef.current.value = `${rgb.r}`;
@@ -123,8 +123,8 @@ export function useColorPicker({ onChange, innerValue, setInnerValue }: Props) {
       (mousePosition.current.y * 100) / saturationHeight
     );
 
-    const hex = converter.hsl.hex(hslColor.current);
-    const rgb = converter.hex.rgb(hex);
+    const hex = colorConverter.hsl.hex(hslColor.current);
+    const rgb = colorConverter.hex.rgb(hex);
 
     inputHexRef.current.value = hex;
     inputRRef.current.value = `${rgb.r}`;
@@ -141,7 +141,7 @@ export function useColorPicker({ onChange, innerValue, setInnerValue }: Props) {
     else if (optionActive.current === 'hue') handleHueCursorPosition(e);
 
     // onChange(converter.hsl.hex(hslColor.current));
-    setInnerValue(converter.hsl.hex(hslColor.current));
+    setInnerValue(colorConverter.hsl.hex(hslColor.current));
   };
 
   const handleMouseDown = (
@@ -166,7 +166,7 @@ export function useColorPicker({ onChange, innerValue, setInnerValue }: Props) {
 
     optionActive.current = undefined;
 
-    const hex = converter.hsl.hex(hslColor.current);
+    const hex = colorConverter.hsl.hex(hslColor.current);
 
     onChange(hex);
     setInnerValue(hex);
@@ -199,7 +199,7 @@ export function useColorPicker({ onChange, innerValue, setInnerValue }: Props) {
 
     if (!validator.hex(input)) return;
 
-    const hsl = converter.hex.hsl(input);
+    const hsl = colorConverter.hex.hsl(input);
 
     calculateCoordinatesFromHsl(hsl);
 
@@ -224,8 +224,8 @@ export function useColorPicker({ onChange, innerValue, setInnerValue }: Props) {
       const g = channel === 'g' ? v : parseInt(inputGRef.current?.value || '0', 10);
       const b = channel === 'b' ? v : parseInt(inputBRef.current?.value || '0', 10);
 
-      const hsl = converter.rgb.hsl({ r, g, b });
-      const hex = converter.rgb.hex({ r, g, b });
+      const hsl = colorConverter.rgb.hsl({ r, g, b });
+      const hex = colorConverter.rgb.hex({ r, g, b });
 
       calculateCoordinatesFromHsl(hsl);
 
@@ -241,11 +241,11 @@ export function useColorPicker({ onChange, innerValue, setInnerValue }: Props) {
     if (!inputHexRef.current || !inputRRef.current || !inputGRef.current || !inputBRef.current)
       return;
 
-    const hsl = converter.hex.hsl(hexColor);
+    const hsl = colorConverter.hex.hsl(hexColor);
 
     calculateCoordinatesFromHsl(hsl);
 
-    const rgb = converter.hex.rgb(hexColor);
+    const rgb = colorConverter.hex.rgb(hexColor);
 
     inputHexRef.current.value = hexColor;
     inputRRef.current.value = `${rgb.r}`;

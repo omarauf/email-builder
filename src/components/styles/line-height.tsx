@@ -1,7 +1,7 @@
-import { Stack, ToggleButton, ToggleButtonGroup } from '@mui/material';
 import { useMemo, useState, useEffect } from 'react';
-import { XField } from '@/components/input';
 import { Block } from './block';
+import { Input } from '../ui/input';
+import { XToggleButtonGroup } from '../x-common';
 
 interface Props {
   badge?: boolean;
@@ -39,28 +39,26 @@ export function LineHeight({ badge, title, value, onChange }: Props) {
 
   return (
     <Block badge={badge} title={title} control>
-      <Stack direction="row" spacing={1} alignItems="center">
-        <ToggleButtonGroup
+      <div className="flex items-center gap-2 pt-2">
+        <XToggleButtonGroup
+          type="single"
           value={preset}
-          exclusive
-          size="small"
-          fullWidth
-          onChange={(_, a) => a && presetHandler(a)}>
-          {options.map((o) => (
-            <ToggleButton key={o.value} value={o.title}>
-              {o.title}
-            </ToggleButton>
-          ))}
-        </ToggleButtonGroup>
-
-        <XField.Number
-          size="small"
-          value={Math.round(value * 100) / 100}
-          onChange={onChange}
-          sx={{ width: 200 }}
-          steps={0.1}
+          onChange={(v) => presetHandler(v)}
+          buttons={options.map((v) => ({
+            title: v.title,
+            value: v.title,
+          }))}
+          className="flex-1"
         />
-      </Stack>
+
+        <Input
+          value={Math.round(value * 100) / 100}
+          type="number"
+          onChange={(v) => onChange(v.target.valueAsNumber)}
+          className="w-32"
+          step={0.1}
+        />
+      </div>
     </Block>
   );
 }

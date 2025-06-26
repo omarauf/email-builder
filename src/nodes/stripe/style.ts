@@ -1,8 +1,7 @@
-import type { Theme, SxProps } from '@mui/material';
 import { useShallow } from 'zustand/react/shallow';
-import { useBuilderStore } from '@/hooks/use-builder-store';
-import { fontFamilyOptions } from '@/constant/font';
 import { converter } from '@/utils/converter';
+import { fontFamilyOptions } from '@/constant/font';
+import { useBuilderStore } from '@/hooks/use-builder-store';
 import type { StripeTree } from './type';
 
 export function useStripeStyle(stripe: StripeTree) {
@@ -14,13 +13,13 @@ export function useStripeStyle(stripe: StripeTree) {
   const { stripeType } = data;
   const { backgroundColor, backgroundImage, border, contentBackColor } = style;
 
-  const stripeWrapper: SxProps<Theme> = {
+  const stripeWrapper: React.CSSProperties = {
     alignItems: screen === 'desktop' ? converter.textAlignment(generalStyle.alignment) : 'center',
     backgroundColor: backgroundColor || globalStripe[stripeType].stripeBackgroundColor,
     ...converter.image(backgroundImage),
   };
 
-  const stripeStyle: SxProps<Theme> = {
+  const stripeStyle: React.CSSProperties = {
     ...converter.border(border),
     backgroundColor: contentBackColor || globalStripe[stripeType].contentBackgroundColor,
 
@@ -29,15 +28,13 @@ export function useStripeStyle(stripe: StripeTree) {
     color: globalStripe[stripeType].fontColor,
 
     // this is the global link style for stripe
-    a: { color: globalStripe[stripeType].linkColor, textDecoration: 'none' },
-    'a:hover': { color: globalStripe[stripeType].linkHoverColor },
+    '--link-color': globalStripe[stripeType].linkColor,
+    '--link-hover-color': globalStripe[stripeType].linkHoverColor,
 
     // we have to apply line height to p tag so it get affected by font size of stripe
     // if we apply line height to wrapper it will not get affected by font size of stripe
-    ' p': {
-      letterSpacing: `${globalStripe.letterSpacing.value}${globalStripe.letterSpacing.unit}`,
-      lineHeight: `${globalStripe.lineHeight[screen] * 100}%`,
-    },
+    '--letter-spacing': `${globalStripe.letterSpacing.value}${globalStripe.letterSpacing.unit}`,
+    '--line-height': `${globalStripe.lineHeight[screen] * 100}%`,
   };
 
   return { stripeStyle, stripeWrapper };

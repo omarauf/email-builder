@@ -6,8 +6,6 @@ export function useDragHandler() {
   const allNode = useRef<Element[]>([]);
   const previousHover = useRef<HTMLElement | null>(null);
 
-  // console.log("useDragHandler");
-
   const [frameRef, active, setHoverEle] = useBuilderStore(
     useShallow((s) => [s.frameRef, s.active, s.setHoverEle])
   );
@@ -57,11 +55,6 @@ export function useDragHandler() {
       }
       if (isElementChildOfAny(element, floatingButtons)) return;
 
-      // if (element?.className.includes("floating-button")) return;
-      // const hoverNode = getHoverNode(frameRef.current, ev.clientX, ev.clientY);
-      // if (hoverNode) {
-      //   setHoverEle(hoverNode.id);
-      // }
       const tree = frameRef?.current?.querySelector('#tree');
       const isInsideTree = tree?.contains(element) || false;
 
@@ -72,44 +65,25 @@ export function useDragHandler() {
     [active, frameRef, setHoverEle]
   );
 
-  //   const handleMouseOver = useCallback(
-  //     (ev: MouseEvent) => {
-  //       const hoverNode = getHoverNode(allNode.current, ev.clientX, ev.clientY);
-  //       if (hoverNode) setHoverEle(hoverNode);
-  //     },
-  //     [setHoverEle]
-  //   );
-
   const handleMouseLeave = useCallback(() => {
     setHoverEle(undefined, false);
   }, [setHoverEle]);
-
-  const handleMouseEnter = useCallback(() => {
-    // const target = ev.target as HTMLElement;
-    // const newElement = document.createElement("div");
-    // newElement.id = "lkdmsdflkmvlkdfbdflkbmdflk";
-    // target.insertBefore(newElement, target.previousSibling);
-  }, []);
 
   useEffect(() => {
     const copyFrameRef = frameRef;
 
     if (frameRef?.current) {
       frameRef.current.addEventListener('mousemove', handleMouseMove);
-      // frameRef.current.addEventListener("mouseover", handleMouseOver);
-      // frameRef.current.addEventListener("mouseenter", handleMouseEnter);
       frameRef.current.addEventListener('mouseleave', handleMouseLeave);
     }
 
     return () => {
       if (copyFrameRef?.current) {
         copyFrameRef.current.removeEventListener('mousemove', handleMouseMove);
-        // copyFrameRef.current.removeEventListener("mouseover", handleMouseOver);
-        copyFrameRef.current.removeEventListener('mouseenter', handleMouseEnter);
-        // copyFrameRef.current.removeEventListener("mouseleave", handleMouseLeave);
+        copyFrameRef.current.removeEventListener('mouseleave', handleMouseLeave);
       }
     };
-  }, [frameRef, handleMouseEnter, handleMouseLeave, handleMouseMove]);
+  }, [frameRef, handleMouseLeave, handleMouseMove]);
 }
 
 const getHoverNode = (elements: Element[], x: number, y: number) => {
@@ -123,9 +97,6 @@ const getHoverNode = (elements: Element[], x: number, y: number) => {
   }
 
   return onHavering[onHavering.length - 1] as HTMLElement;
-
-  // const element = document.elementFromPoint(x, y);
-  // return element;
 };
 
 function isElementChildOfAny(element: Element | null, elements: NodeListOf<Element> | undefined) {

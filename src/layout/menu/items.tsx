@@ -1,31 +1,15 @@
-import { Stack } from '@mui/material';
+import { menuItems } from './menu';
 import { DraggableElementItem } from './draggable-element';
 import { DraggableStructure } from './draggable-structure';
-import { menuItems } from './menu';
 
 export function ElementItemsMenu() {
   return (
-    <Stack spacing={2} sx={{ position: 'absolute', left: 0, zIndex: 2, p: 2 }}>
-      <Stack
-        position="relative"
-        sx={{
-          bgcolor: 'background.default',
-          p: 1,
-          borderRadius: 2,
-          boxShadow: 16,
-        }}
-        spacing={2}>
+    <div className="absolute left-0 z-10 flex flex-col gap-2 p-4">
+      <div className="bg-muted relative rounded-lg p-2 shadow-lg">
         <DraggableStructure />
-      </Stack>
+      </div>
 
-      <Stack
-        sx={{
-          bgcolor: 'background.default',
-          p: 1,
-          borderRadius: 2,
-          boxShadow: 16,
-        }}
-        spacing={2}>
+      <div className="bg-muted relative flex flex-col gap-2 rounded-lg p-2 shadow-lg">
         {menuItems.map((i) => (
           <DraggableElementItem
             key={i.title}
@@ -35,7 +19,7 @@ export function ElementItemsMenu() {
             title={i.title}
           />
         ))}
-      </Stack>
-    </Stack>
+      </div>
+    </div>
   );
 }

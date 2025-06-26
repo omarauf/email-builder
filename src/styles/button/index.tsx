@@ -1,7 +1,7 @@
-import { Box, Divider } from '@mui/material';
-import { XField } from '@/components/input';
 import { useShallow } from 'zustand/react/shallow';
+import { Switch } from '@/components/ui/switch';
 import { StyleComponent } from '@/components/styles';
+import { Separator } from '@/components/ui/separator';
 import { useBuilderStore } from '@/hooks/use-builder-store';
 
 export function ButtonsSetting() {
@@ -12,13 +12,13 @@ export function ButtonsSetting() {
   const { button } = styles;
 
   return (
-    <Box>
+    <div>
       <StyleComponent.FontFamily
         value={button.fontFamily}
         onChange={(v) => setGlobalStyleByKey(`button.fontFamily`, v)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.FontSize
         badge
@@ -26,7 +26,7 @@ export function ButtonsSetting() {
         onChange={(v) => setGlobalStyleByKey(`button.fontSize.${screen}`, v)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.Color
         title="Font Color"
@@ -34,14 +34,14 @@ export function ButtonsSetting() {
         onChange={(c) => setGlobalStyleByKey('button.fontColor', c)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.TextStyles
         value={button.textStyles}
         onChange={(v) => setGlobalStyleByKey(`button.textStyles`, v)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.LetterSpacing
         unit={button.letterSpacing.unit}
@@ -50,7 +50,7 @@ export function ButtonsSetting() {
         onUnitChange={(v) => setGlobalStyleByKey('button.letterSpacing.unit', v)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.Color
         title="Button Color"
@@ -58,14 +58,14 @@ export function ButtonsSetting() {
         onChange={(c) => setGlobalStyleByKey('button.buttonColor', c)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.Border
         value={button.border}
         onChange={(value) => setGlobalStyleByKey(`button.border`, value)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.ButtonHover
         value={{
@@ -76,23 +76,23 @@ export function ButtonsSetting() {
         onChange={(k, v) => setGlobalStyleByKey(`button.hover.${k}`, v)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.BorderRadius
         value={button.borderRadius}
         onChange={(v) => setGlobalStyleByKey('button.borderRadius', v)}
       />
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.Block title={`Fit on ${screen}`} badge>
-        <XField.Switch
-          value={button.fullWidth[screen]}
-          onChange={(v) => setGlobalStyleByKey(`button.fullWidth.${screen}`, v)}
+        <Switch
+          checked={button.fullWidth[screen]}
+          onCheckedChange={(v) => setGlobalStyleByKey(`button.fullWidth.${screen}`, v)}
         />
       </StyleComponent.Block>
 
-      <Divider />
+      <Separator />
 
       <StyleComponent.MarginPadding
         badge
@@ -100,6 +100,15 @@ export function ButtonsSetting() {
         value={button.padding[screen]}
         onChange={(v) => setGlobalStyleByKey(`button.padding.${screen}`, v)}
       />
-    </Box>
+
+      <Separator />
+
+      <StyleComponent.Block title={`Fit on ${screen}`} badge>
+        <Switch
+          checked={button.fullWidth[screen]}
+          onCheckedChange={(v) => setGlobalStyleByKey(`button.fullWidth.${screen}`, v)}
+        />
+      </StyleComponent.Block>
+    </div>
   );
 }
