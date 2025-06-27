@@ -56,7 +56,6 @@ interface Props {
 
 export function DraggableOverlay({ dropAnimation = dropAnimationConfig }: Props) {
   const { active } = useDndContext();
-  // const { selectedNode } = useBuilderContextx();
 
   let elementToRender: null | JSX.Element = null;
   let animation: DropAnimation | null = dropAnimation;
@@ -66,17 +65,15 @@ export function DraggableOverlay({ dropAnimation = dropAnimationConfig }: Props)
   if (active) {
     const activeData = getNodeDragData(active);
 
-    // if (selectedNode) {
-    //   elementToRender = <RenderElement element={selectedNode} />;
-    // }
+    let icon = '';
 
-    const menuItem = [...menuItems, ...structureItems].find(
-      (item) => item.type === activeData?.type
-    );
+    if (activeData.type === 'block')
+      icon = menuItems.find((item) => item.blockType === activeData.blockType)?.icon || '';
+    else icon = structureItems.find((item) => item.type === activeData.type)?.icon || '';
 
-    if (menuItem) {
+    if (icon) {
       animation = null;
-      elementToRender = <ElementItem icon={menuItem.icon} className="w-11" />;
+      elementToRender = <ElementItem icon={icon} className="w-11" />;
     }
   }
 

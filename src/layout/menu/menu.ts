@@ -30,7 +30,7 @@ export const menuItems: MenuItem[] = [
   {
     type: 'block',
     blockType: 'divider',
-    icon: 'fluent-mdl2:divider',
+    icon: 'cuida:divider-outline',
     title: 'Divider',
   },
   {

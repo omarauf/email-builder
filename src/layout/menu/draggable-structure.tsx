@@ -37,16 +37,18 @@ export function DraggableStructure() {
 
   return (
     <Popover open={open.value} onOpenChange={open.setValue}>
-      <PopoverTrigger asChild>
-        <ElementItem icon={icon} />
+      <PopoverTrigger>
+        <ElementItem icon={icon} onClick={open.onTrue} />
       </PopoverTrigger>
       <PopoverContent
-        className="flex w-[500px] flex-col gap-2 p-2"
+        className="w-[500px]"
         style={{
           display: isDragging ? 'none' : 'block',
         }}>
-        {(['1', '2', '3', '4', '6', '7', '8', '9', '10', '1:2', '1:3', '2:1', '3:1'] as const).map(
-          (layout) => (
+        <div className="flex flex-col gap-5">
+          {(
+            ['1', '2', '3', '4', '6', '7', '8', '9', '10', '1:2', '1:3', '2:1', '3:1'] as const
+          ).map((layout) => (
             <DraggableLayoutContainer
               key={layout}
               layout={layout}
@@ -54,8 +56,8 @@ export function DraggableStructure() {
               type={type}
               setIsDragging={setIsDragging}
             />
-          )
-        )}
+          ))}
+        </div>
       </PopoverContent>
     </Popover>
   );
@@ -84,7 +86,7 @@ function DraggableLayoutContainer({ layout, type, onClose, setIsDragging }: Prop
 
     if (!active && started) {
       onClose();
-      setTimeout(() => setIsDragging(false), 100); // TODO: fix this code later 2024/09/04 remove the timeout function
+      setTimeout(() => setIsDragging(false), 100);
       setStarted(false);
     }
   }, [onClose, isDragging, active, started, setIsDragging]);
@@ -96,9 +98,6 @@ function DraggableLayoutContainer({ layout, type, onClose, setIsDragging }: Prop
       layout={layout}
       itemRef={setNodeRef}
       listeners={listeners}
-      onClick={() => {
-        // TODO: complete this part
-      }}
     />
   );
 }

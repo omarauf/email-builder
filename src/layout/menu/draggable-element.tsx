@@ -1,6 +1,7 @@
 import { useDraggable } from '@dnd-kit/core';
 import type { NodeType } from '@/types';
 import type { BlockType } from '@/nodes/block/type';
+import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip';
 import { ElementItem } from './element-item';
 
 interface Props {
@@ -16,5 +17,16 @@ export function DraggableElementItem({ icon, title, type, blockType }: Props) {
     data: { type, blockType },
   });
 
-  return <ElementItem icon={icon} tooltip={title} itemRef={setNodeRef} listeners={listeners} />;
+  return (
+    <TooltipProvider>
+      <Tooltip>
+        <TooltipTrigger>
+          <ElementItem icon={icon} tooltip={title} itemRef={setNodeRef} listeners={listeners} />
+        </TooltipTrigger>
+        <TooltipContent className="text-foreground">
+          <p>{title}</p>
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
+  );
 }

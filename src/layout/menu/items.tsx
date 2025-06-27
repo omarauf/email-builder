@@ -4,7 +4,7 @@ import { DraggableStructure } from './draggable-structure';
 
 export function ElementItemsMenu() {
   return (
-    <div className="absolute left-0 z-10 flex flex-col gap-2 p-4">
+    <div className="absolute left-0 z-10 flex flex-col gap-2 p-4 select-none">
       <div className="bg-muted relative rounded-lg p-2 shadow-lg">
         <DraggableStructure />
       </div>
