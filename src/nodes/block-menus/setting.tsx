@@ -67,8 +67,6 @@ export function MenuSetting({ selectedBlock }: Props) {
             />
           </StyleComponent.Block> */}
 
-          <Separator />
-
           <StyleComponent.Block title="Fit to Container">
             <Switch
               checked={style.fullWidth || false}
@@ -278,5 +276,5 @@ export function MenuSetting({ selectedBlock }: Props) {
     },
   ];
 
-  return <XTabs tabs={tabs} defaultTab="Settings" />;
+  return <XTabs tabs={tabs} defaultTab="Settings" className="h-12 rounded-none border-b py-1.5" />;
 }

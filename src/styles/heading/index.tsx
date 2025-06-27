@@ -58,7 +58,7 @@ export function HeadingsSetting() {
 
       <Separator />
 
-      <XTabs tabs={TABS} defaultTab="h1" className="h-12 rounded-none py-1.5" />
+      <XTabs tabs={TABS} defaultTab="h1" className="h-12 rounded-none border-b py-1.5" />
     </div>
   );
 }

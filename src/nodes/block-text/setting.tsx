@@ -239,5 +239,5 @@ export function TextSetting({ selectedBlock }: Props) {
     },
   ];
 
-  return <XTabs tabs={tabs} defaultTab="Settings" />;
+  return <XTabs tabs={tabs} defaultTab="Settings" className="h-12 rounded-none border-b py-1.5" />;
 }

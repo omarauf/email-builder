@@ -47,7 +47,7 @@ export function StripesSetting() {
 
       <Separator />
 
-      <XTabs tabs={TABS} defaultTab="Header" className="h-12 rounded-none py-1.5" />
+      <XTabs tabs={TABS} defaultTab="Header" className="h-12 rounded-none border-b py-1.5" />
     </div>
   );
 }
