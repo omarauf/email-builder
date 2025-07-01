@@ -29,7 +29,7 @@ interface Props {
 export function SettingCard({ title, actionButton, children, style, ...other }: Props) {
   return (
     <div
-      className="bg-muted overflow-hidden rounded-2xl"
+      className="bg-card overflow-hidden rounded-2xl"
       style={{ ...cardStyle, ...style }}
       {...other}>
       {title && (

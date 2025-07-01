@@ -23,7 +23,7 @@ export function DraggableElementItem({ icon, title, type, blockType }: Props) {
         <TooltipTrigger>
           <ElementItem icon={icon} tooltip={title} itemRef={setNodeRef} listeners={listeners} />
         </TooltipTrigger>
-        <TooltipContent className="text-foreground">
+        <TooltipContent className="text-foreground select-none">
           <p>{title}</p>
         </TooltipContent>
       </Tooltip>
