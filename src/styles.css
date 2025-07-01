@@ -5,6 +5,8 @@
 @import './components/scrollbar/styles.css';
 @import './components/editor/style/Tiptap.css';
 
+@import './nodes/tree/style.css';
+
 @custom-variant dark (&:is(.dark *));
 
 body {
@@ -160,26 +162,4 @@ code {
   [role='button']:not([disabled]) {
     cursor: pointer;
   }
-}
-
-/* Stripe Global Style */
-.stripe a {
-  @apply no-underline;
-  color: var(--link-color);
-}
-
-.stripe a:hover {
-  color: var(--link-hover-color);
-}
-
-.stripe p {
-  letter-spacing: var(--letter-spacing);
-  line-height: var(--line-height);
-}
-
-/* Button Color Style */
-.stripe .block span.button a:hover {
-  color: var(--hover-color) !important;
-  background-color: var(--hover-background) !important;
-  border-color: var(--hover-border-color) !important;
 }

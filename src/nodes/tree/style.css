@@ -1,0 +1,232 @@
+/* Common Stripe Styles */
+.stripe .block-content p,
+.stripe .block-content a {
+  letter-spacing: var(--stripe-letter-spacing);
+  font-family: var(--stripe-font-family);
+  line-height: var(--stripe-line-height);
+}
+
+/* Stripe for Header type */
+.stripe.stripe-header {
+  background-color: var(--stripe-header-background-color);
+
+  .stripe-header-body {
+    background-color: var(--stripe-header-content-background-color);
+
+    .block-content {
+      p,
+      a {
+        font-size: var(--stripe-header-font-size);
+        color: var(--stripe-header-font-color);
+        margin-bottom: var(--stripe-header-bottom-space);
+      }
+
+      a {
+        text-decoration-line: none;
+        color: var(--stripe-header-link-color);
+      }
+
+      a:hover {
+        color: var(--stripe-header-link-hover-color) !important;
+      }
+    }
+  }
+}
+
+/* Stripe for Content type */
+.stripe.stripe-content {
+  background-color: var(--stripe-content-background-color);
+
+  .stripe-content-body {
+    background-color: var(--stripe-content-content-background-color);
+
+    .block-content {
+      p,
+      a {
+        font-size: var(--stripe-content-font-size);
+        color: var(--stripe-content-font-color);
+        margin-bottom: var(--stripe-content-bottom-space);
+      }
+
+      a {
+        text-decoration-line: none;
+        color: var(--stripe-content-link-color);
+      }
+
+      a:hover {
+        color: var(--stripe-content-link-hover-color) !important;
+      }
+    }
+  }
+}
+
+/* Stripe for Footer type */
+.stripe.stripe-footer {
+  background-color: var(--stripe-footer-background-color);
+
+  .stripe-footer-body {
+    background-color: var(--stripe-footer-content-background-color);
+
+    .block-content {
+      p,
+      a {
+        font-size: var(--stripe-footer-font-size);
+        color: var(--stripe-footer-font-color);
+        margin-bottom: var(--stripe-footer-bottom-space);
+      }
+
+      a {
+        text-decoration-line: none;
+        color: var(--stripe-footer-link-color);
+      }
+
+      a:hover {
+        color: var(--stripe-footer-link-hover-color) !important;
+      }
+    }
+  }
+}
+
+/* Stripe for Info Area type */
+.stripe.stripe-infoArea {
+  background-color: var(--stripe-infoArea-background-color);
+
+  .stripe-infoArea-body {
+    background-color: var(--stripe-infoArea-content-background-color);
+
+    .block-content {
+      p,
+      a {
+        font-size: var(--stripe-infoArea-font-size);
+        color: var(--stripe-infoArea-font-color);
+        margin-bottom: var(--stripe-infoArea-bottom-space);
+      }
+
+      a {
+        text-decoration-line: none;
+        color: var(--stripe-infoArea-link-color);
+      }
+
+      a:hover {
+        color: var(--stripe-infoArea-link-hover-color) !important;
+      }
+    }
+  }
+}
+
+.stripe .block-content {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--heading-font-family);
+    letter-spacing: var(--heading-letter-spacing);
+  }
+
+  h1 {
+    font-size: var(--heading-h1-font-size);
+    color: var(--heading-h1-font-color);
+    line-height: var(--heading-h1-line-height);
+    text-align: var(--heading-h1-text-alignment);
+    font-weight: var(--heading-h1-font-weight);
+    font-style: var(--heading-h1-font-style);
+    text-decoration: var(--heading-h1-text-decoration);
+    margin-bottom: var(--heading-h1-bottom-space);
+  }
+
+  h2 {
+    font-size: var(--heading-h2-font-size);
+    color: var(--heading-h2-font-color);
+    line-height: var(--heading-h2-line-height);
+    text-align: var(--heading-h2-text-alignment);
+    font-weight: var(--heading-h2-font-weight);
+    font-style: var(--heading-h2-font-style);
+    text-decoration: var(--heading-h2-text-decoration);
+    margin-bottom: var(--heading-h2-bottom-space);
+  }
+
+  h3 {
+    font-size: var(--heading-h3-font-size);
+    color: var(--heading-h3-font-color);
+    line-height: var(--heading-h3-line-height);
+    text-align: var(--heading-h3-text-alignment);
+    font-weight: var(--heading-h3-font-weight);
+    font-style: var(--heading-h3-font-style);
+    text-decoration: var(--heading-h3-text-decoration);
+    margin-bottom: var(--heading-h3-bottom-space);
+  }
+
+  h4 {
+    font-size: var(--heading-h4-font-size);
+    color: var(--heading-h4-font-color);
+    line-height: var(--heading-h4-line-height);
+    text-align: var(--heading-h4-text-alignment);
+    font-weight: var(--heading-h4-font-weight);
+    font-style: var(--heading-h4-font-style);
+    text-decoration: var(--heading-h4-text-decoration);
+    margin-bottom: var(--heading-h4-bottom-space);
+  }
+
+  h5 {
+    font-size: var(--heading-h5-font-size);
+    color: var(--heading-h5-font-color);
+    line-height: var(--heading-h5-line-height);
+    text-align: var(--heading-h5-text-alignment);
+    font-weight: var(--heading-h5-font-weight);
+    font-style: var(--heading-h5-font-style);
+    text-decoration: var(--heading-h5-text-decoration);
+    margin-bottom: var(--heading-h5-bottom-space);
+  }
+
+  h6 {
+    font-size: var(--heading-h6-font-size);
+    color: var(--heading-h6-font-color);
+    line-height: var(--heading-h6-line-height);
+    text-align: var(--heading-h6-text-alignment);
+    font-weight: var(--heading-h6-font-weight);
+    font-style: var(--heading-h6-font-style);
+    text-decoration: var(--heading-h6-text-decoration);
+    margin-bottom: var(--heading-h6-bottom-space);
+  }
+}
+
+/* Button Color Style */
+.stripe.stripe-header .stripe-header-body .block .block-content span.button,
+.stripe.stripe-content .stripe-content-body .block .block-content span.button,
+.stripe.stripe-footer .stripe-footer-body .block .block-content span.button,
+.stripe.stripe-infoArea .stripe-infoArea-body .block .block-content span.button {
+  width: var(--button-full-width);
+}
+
+.stripe.stripe-header .stripe-header-body .block .block-content span.button a,
+.stripe.stripe-content .stripe-content-body .block .block-content span.button a,
+.stripe.stripe-footer .stripe-footer-body .block .block-content span.button a,
+.stripe.stripe-infoArea .stripe-infoArea-body .block .block-content span.button a {
+  width: var(--button-full-width);
+  background: var(--button-background-color);
+  font-family: var(--button-font-family);
+  font-size: var(--button-font-size);
+  color: var(--button-font-color);
+  font-weight: var(--button-font-weight);
+  font-style: var(--button-font-style);
+  text-decoration: var(--button-text-decoration);
+  padding: var(--button-padding);
+  border-radius: var(--button-border-radius);
+  border: var(--button-border);
+  border-top: var(--button-border-top);
+  border-right: var(--button-border-right);
+  border-bottom: var(--button-border-bottom);
+  border-left: var(--button-border-left);
+  letter-spacing: var(--button-letter-spacing);
+}
+
+.stripe.stripe-header .stripe-header-body .block .block-content span.button a:hover,
+.stripe.stripe-content .stripe-content-body .block .block-content span.button a:hover,
+.stripe.stripe-footer .stripe-footer-body .block .block-content span.button a:hover,
+.stripe.stripe-infoArea .stripe-infoArea-body .block .block-content span.button a:hover {
+  color: var(--button-hover-font-color) !important;
+  background-color: var(--button-hover-background-color) !important;
+  border-color: var(--button-hover-border-color) !important;
+}
