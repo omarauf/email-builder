@@ -92,7 +92,9 @@ function BlockMemo({ containerIdx, blockIndex, ...block }: Props) {
         selectNode(node);
       }}
       dir={rtl ? 'rtl' : 'ltr'}>
-      {element}
+      <div className={classname.blockContent} style={{ width: '100%' }}>
+        {element}
+      </div>
 
       {(isHover || (isSelect && !isMouseInsideTree)) && (
         <MasterButton

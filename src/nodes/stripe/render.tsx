@@ -63,6 +63,7 @@ export function StripeMemo({ stripeIndex, ...stripe }: Props) {
       className={cn(
         'relative flex flex-col',
         classname.stripeWrapper,
+        classname.stripeWrapperType(stripeType),
         ...classes,
         ...beforeClasses
       )}
@@ -72,6 +73,7 @@ export function StripeMemo({ stripeIndex, ...stripe }: Props) {
         selectNode(node);
       }}>
       <div
+        className={classname.stripeBody(stripeType)}
         style={{
           width: adjustedGeneralWidth,
           ...stripeStyle,

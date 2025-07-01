@@ -7,4 +7,5 @@ export const classname = {
   stripeBody: (type: StripeType) => `stripe-${type}-body`,
   container: 'container',
   block: 'block',
+  blockContent: 'block-content',
 };
