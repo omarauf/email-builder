@@ -1,8 +1,9 @@
 import type { CSSProperties } from 'react';
+import type { Screen } from '@/types';
 import { converter } from '@/utils/converter';
 import type { BlockImage } from './type';
 
-export function useImageStyle(imageBlock: BlockImage, screen: 'mobile' | 'desktop') {
+export function useImageStyle(imageBlock: BlockImage, screen: Screen) {
   const { style, data } = imageBlock;
   const { sizeType } = data;
   const { align, height, padding, width, responsive, borderRadius } = style;

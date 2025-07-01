@@ -10,6 +10,7 @@ import type {
 import type { Meta } from './meta';
 import type { Index } from './idx';
 import type { Node } from './node';
+import type { Screen } from './styles';
 import type { Styles } from '../styles/type';
 import type { Tree } from '../nodes/tree/type';
 import type { DragData, OverData } from '../utils/node-utils';
@@ -35,7 +36,7 @@ export interface BuilderState {
 
   // Editor
   // mode: BuilderMode;
-  screen: 'mobile' | 'desktop';
+  screen: Screen;
   frameRef: RefObject<HTMLDivElement | null>;
   changeStack: { command: ChangeCommand; tree: Tree }[];
   hasChanges: boolean;
@@ -46,7 +47,7 @@ export interface BuilderState {
   reset: VoidFunction;
 
   // Setter
-  setScreen: (screen: 'mobile' | 'desktop') => void;
+  setScreen: (screen: Screen) => void;
   setWasmLoading: (value: boolean) => void;
   setEditor: (editor: Editor | undefined) => void;
   setRef(ref: HTMLDivElement | null): void;
@@ -122,7 +123,7 @@ export interface BuilderState {
   getAsText: () => string;
   getAsCode: () => string;
   getAsParams: () => { tree: Tree; styles: Styles; meta: Meta };
-  getAsImage: (type: 'mobile' | 'desktop', filename?: string) => Promise<void>;
+  getAsImage: (type: Screen, filename?: string) => Promise<void>;
 
   // Other Utils
   onGeneralDirChange: (dir: 'ltr' | 'rtl') => void;

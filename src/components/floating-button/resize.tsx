@@ -1,7 +1,7 @@
 import type { RefObject } from 'react';
 import type { UniqueIdentifier } from '@dnd-kit/core';
 import { useRef, useEffect } from 'react';
-import type { Responsive } from '@/types';
+import type { Screen, Responsive } from '@/types';
 import { cn } from '@/lib/utils';
 import { Iconify } from '@/components/iconify';
 import { useBuilderStore } from '@/hooks/use-builder-store';
@@ -9,7 +9,7 @@ import { useBuilderStore } from '@/hooks/use-builder-store';
 interface Props {
   id: UniqueIdentifier;
   value: Responsive<number | undefined>;
-  screen: 'mobile' | 'desktop';
+  screen: Screen;
   ref: RefObject<HTMLDivElement | null>;
   onChange: (value: number) => void;
 }

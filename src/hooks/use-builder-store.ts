@@ -11,7 +11,7 @@ import { subscribeWithSelector } from 'zustand/middleware';
 import { closestCenter, rectIntersection } from '@dnd-kit/core';
 import { distributeValue } from '@/utils/distribute-value';
 import { emailTemplateThumbnail } from '@/utils/thumbnail';
-import type { BuilderState } from '../types';
+import type { Screen, BuilderState } from '../types';
 import type { BlockImage } from '../nodes/block-image/type';
 import type { StructureTree } from '../nodes/structure/type';
 import type { BlockTree, BlockIndex } from '../nodes/block/type';
@@ -933,7 +933,7 @@ const builderStore: StateCreator<BuilderState> = (set, get, store) => {
       return { tree, styles, meta };
     },
 
-    getAsImage: async (type: 'mobile' | 'desktop', filename?: string) => {
+    getAsImage: async (type: Screen, filename?: string) => {
       const { tree, styles, meta } = get();
       const html = HTMLTreeConverter(styles, tree, meta);
 

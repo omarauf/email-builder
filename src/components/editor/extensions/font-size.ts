@@ -1,5 +1,6 @@
 import { Extension } from '@tiptap/react';
 import '@tiptap/extension-text-style';
+import type { Screen } from '@/types';
 import { updateNodeStyle } from '../utils/node';
 
 interface FontSizeOptions {
@@ -13,11 +14,11 @@ declare module '@tiptap/react' {
       /**
        * Set the font size attribute
        */
-      setFontSize: (size: string, lineHeight: number, screen: 'desktop' | 'mobile') => ReturnType;
+      setFontSize: (size: string, lineHeight: number, screen: Screen) => ReturnType;
       /**
        * Set the font size based on the screen
        */
-      setFontSizeScreen: (screen: 'desktop' | 'mobile') => ReturnType;
+      setFontSizeScreen: (screen: Screen) => ReturnType;
       /**
        * Unset the font size attribute
        */

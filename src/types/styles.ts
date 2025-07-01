@@ -3,6 +3,8 @@ import type { fontFamilyOptions } from '../constant/font';
 
 export type FontFamily = (typeof fontFamilyOptions)[number]['id'];
 
+export type Screen = 'desktop' | 'mobile';
+
 // [top, right, bottom, left]
 export type Inset<T = number> = [T, T, T, T];
 
@@ -62,7 +64,7 @@ export interface ImageBackground {
 
 export interface Css {
   classname: string;
-  type: 'desktop' | 'mobile';
+  type: Screen;
   styles: CSSProperties;
   important?: boolean;
 }

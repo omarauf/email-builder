@@ -1,4 +1,5 @@
 import { Extension } from '@tiptap/react';
+import type { Screen } from '@/types';
 
 export interface TextAlignOptions {
   /**
@@ -31,11 +32,11 @@ declare module '@tiptap/react' {
        * @param alignment The alignment
        * @example editor.commands.setTextAlign('left')
        */
-      setTextAlign: (alignment: string, screen?: 'desktop' | 'mobile') => ReturnType;
+      setTextAlign: (alignment: string, screen?: Screen) => ReturnType;
       /**
        * Set the font size based on the screen
        */
-      setTextAlignScreen: (screen: 'desktop' | 'mobile') => ReturnType;
+      setTextAlignScreen: (screen: Screen) => ReturnType;
 
       changeDefaultAlignment: (alignment: string) => ReturnType;
       /**

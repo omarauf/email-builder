@@ -1,6 +1,7 @@
 import html2canvas from 'html2canvas';
+import type { Screen } from '@/types';
 
-export async function emailTemplateThumbnail(type: 'mobile' | 'desktop', html: string) {
+export async function emailTemplateThumbnail(type: Screen, html: string) {
   // Create an iframe element
 
   const iframe = document.createElement('iframe');
