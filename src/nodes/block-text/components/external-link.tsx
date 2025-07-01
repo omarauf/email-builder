@@ -28,6 +28,7 @@ export function ExternalLink({ editor }: { editor: Editor }) {
         <ToggleGroup
           type="single"
           className="gap-0"
+          variant="outline"
           disabled={disabled && !link}
           onValueChange={handleClick}
           value={link ? 'link' : ''}>

@@ -129,6 +129,8 @@ export function TextSetting({ selectedBlock }: Props) {
             }}
           />
 
+          <Separator />
+
           <StyleEditor.TextStyle editor={editor} />
 
           <Separator />
