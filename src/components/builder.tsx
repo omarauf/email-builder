@@ -53,7 +53,7 @@ export function EmailBuilder({ onSubmit, name }: Props) {
 
   useEffect(() => {
     if (wasmLoading === false) return;
-    initWasm(fetch('https://unpkg.com/@css-inline/css-inline-wasm/index_bg.wasm'))
+    initWasm(fetch('https://unpkg.com/@css-inline/css-inline-wasm@0.21.0/index_bg.wasm'))
       .then(() => setWasmLoading(false))
       .catch(() => setWasmLoading(false));
   }, [setWasmLoading, wasmLoading]);
