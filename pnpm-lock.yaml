@@ -12,8 +12,8 @@ importers:
         specifier: ^6.4.9
         version: 6.4.9
       '@css-inline/css-inline-wasm':
-        specifier: ^0.15.0
-        version: 0.15.0
+        specifier: ^0.21.0
+        version: 0.21.0
       '@dnd-kit/core':
         specifier: ^6.3.1
         version: 6.3.1(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -445,8 +445,8 @@ packages:
   '@codemirror/view@6.37.2':
     resolution: {integrity: sha512-XD3LdgQpxQs5jhOOZ2HRVT+Rj59O4Suc7g2ULvZ+Yi8eCkickrkZ5JFuoDhs2ST1mNI5zSsNYgR3NGa4OUrbnw==}
 
-  '@css-inline/css-inline-wasm@0.15.0':
-    resolution: {integrity: sha512-6kS2XI1qKn2RLgiUdEdiaJqJylDu9I+R1GK7H+7A8WBGi5cWmpDoByf6nWJVDFxasZ68/7GT4OM0TSuvt+gM4g==}
+  '@css-inline/css-inline-wasm@0.21.0':
+    resolution: {integrity: sha512-Nu64m556iTOe80sFt9unvRQnPUhjx6s1jjHMtFNGv7q5eneBOax2DHhwc636XmWoAjsWUhQbk12j+kgyuO81Zw==}
     engines: {node: '>= 10'}
 
   '@dnd-kit/accessibility@3.1.1':
@@ -4232,7 +4232,7 @@ snapshots:
       style-mod: 4.1.2
       w3c-keyname: 2.2.8
 
-  '@css-inline/css-inline-wasm@0.15.0': {}
+  '@css-inline/css-inline-wasm@0.21.0': {}
 
   '@dnd-kit/accessibility@3.1.1(react@19.1.0)':
     dependencies:
